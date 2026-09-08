@@ -394,36 +394,102 @@
 </div>
 
             <!-- ===== CRIAR EMBED ===== -->
-            <div id="embed-section" class="content-div">
-                <h1 style="text-align: center;">🎫 Criar Painel de Tickets</h1>
-                <div class="embed-creator-card">
-                    <div style="margin-bottom:15px;">
-                        <label class="form-label">🆔 ID do Canal de Destino</label>
-                        <input type="text" id="emb-canal" class="form-input" placeholder="Ex: 1234567890123456789">
-                        <small style="color:#888; font-size:0.75rem;">Clica com o botão direito no canal Discord → Copiar ID do Canal</small>
+<div id="embed-section" class="content-div">
+    <h1 style="text-align: center;">🎫 Criar Painel de Tickets</h1>
+    <div class="embed-creator-card">
+        <!-- ID do Canal -->
+        <div style="margin-bottom:15px;">
+            <label class="form-label">🆔 ID do Canal de Destino</label>
+            <input type="text" id="emb-canal" class="form-input" placeholder="Ex: 1234567890123456789">
+            <small style="color:#888; font-size:0.75rem;">Clica com o botão direito no canal Discord → Copiar ID do Canal</small>
+        </div>
+
+        <!-- Título -->
+        <div style="margin-bottom:15px;">
+            <label class="form-label">🖊️ Título do Embed</label>
+            <input type="text" id="emb-titulo" class="form-input" placeholder="Ex: Atendimento Jordan Shop">
+        </div>
+
+        <!-- Descrição -->
+        <div style="margin-bottom:15px;">
+            <label class="form-label">📝 Descrição / Mensagem</label>
+            <textarea id="emb-desc" class="form-textarea" placeholder="Ex: Bem-vindo à Jordan Shop!&#10;Clica no menu abaixo para abrir um ticket."></textarea>
+            <small style="color:#888; font-size:0.75rem;">
+                Suporta formatação Discord: <code>##</code> para títulos, <code>**negrito**</code>, <code>*itálico*</code>, <code>__sublinhado__</code>, <code>~~riscado~~</code>, <code>`código`</code> e <code>```bloco```</code>.
+            </small>
+        </div>
+
+        <!-- Emojis Personalizados -->
+        <div style="margin-bottom:15px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border-left: 3px solid #8b0000;">
+            <label class="form-label">🎨 Inserir Emoji Personalizado</label>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                <input type="text" id="emoji-id" class="form-input" style="flex:2; min-width:150px;" placeholder="ID do Emoji (ex: 123456789012345678)">
+                <input type="text" id="emoji-nome" class="form-input" style="flex:1; min-width:100px;" placeholder="Nome (ex: shark)">
+                <select id="emoji-tipo" class="form-input" style="flex:0.5; min-width:80px;">
+                    <option value="normal">Normal</option>
+                    <option value="animado">Animado (GIF)</option>
+                </select>
+                <button onclick="inserirEmoji()" class="btn-add" style="padding: 8px 16px;">➕ Inserir</button>
+            </div>
+            <small style="color:#888; font-size:0.75rem;">
+                Exemplo: ID = <code>123456789</code>, Nome = <code>shark</code> → gera <code>&lt;:shark:123456789&gt;</code> (ou <code>&lt;a:shark:123456789&gt;</code> se for animado).
+                <br>Para emojis Unicode (🦈), basta copiá-los diretamente para a descrição.
+            </small>
+        </div>
+
+        <!-- Imagem (3 opções) -->
+        <div style="margin-bottom:15px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border-left: 3px solid #8b0000;">
+            <label class="form-label">🖼️ Imagens do Embed (opcional)</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div>
+                    <label style="color:#aaa; font-size:0.8rem;">Imagem Principal (grande)</label>
+                    <input type="text" id="emb-imagem" class="form-input" placeholder="https://exemplo.com/imagem.png">
+                </div>
+                <div>
+                    <label style="color:#aaa; font-size:0.8rem;">Thumbnail (miniatura)</label>
+                    <input type="text" id="emb-thumbnail" class="form-input" placeholder="https://exemplo.com/thumb.png">
+                </div>
+                <div style="grid-column: span 2;">
+                    <label style="color:#aaa; font-size:0.8rem;">Rodapé (footer) com ícone</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="emb-footer-texto" class="form-input" style="flex:2;" placeholder="Texto do rodapé (ex: Jordan Shop)">
+                        <input type="text" id="emb-footer-icon" class="form-input" style="flex:1;" placeholder="URL do ícone (opcional)">
                     </div>
-                    <div style="margin-bottom:15px;">
-                        <label class="form-label">🖊️ Título do Embed</label>
-                        <input type="text" id="emb-titulo" class="form-input" placeholder="Ex: Atendimento Jordan Shop">
-                    </div>
-                    <div style="margin-bottom:15px;">
-                        <label class="form-label">📝 Descrição / Mensagem</label>
-                        <textarea id="emb-desc" class="form-textarea" placeholder="Ex: Bem-vindo à Jordan Shop!&#10;Clica no menu abaixo para abrir um ticket."></textarea>
-                    </div>
-                    <div style="margin-bottom:20px;">
-                        <label class="form-label">📦 Produtos / Opções do Menu</label>
-                        <div id="container-produtos"></div>
-                        <button onclick="addInputProduto()" class="btn-add">+ Adicionar Opção</button>
-                    </div>
-                    <div style="margin-bottom:20px;">
-                        <label class="form-label">🌈 Cor do Embed (Hex)</label>
-                        <input type="text" id="emb-cor" class="form-input" style="width:150px;" value="#FF0000">
-                    </div>
-                    <p class="info-text">ℹ️ O bot vai enviar o embed diretamente para o canal que iras escrever no ID do Canal de Destino.</p>
-                    <button id="btn-env-emb" onclick="enviarEmbed()" class="btn-enviar">🚀 ENVIAR VIA BOT</button>
                 </div>
             </div>
+            <small style="color:#888; font-size:0.75rem;">Podes usar imagens de URLs diretos (ex: i.postimg.cc, imgur, etc.)</small>
+        </div>
 
+        <!-- Produtos / Opções do Menu -->
+        <div style="margin-bottom:20px;">
+            <label class="form-label">📦 Produtos / Opções do Menu</label>
+            <div id="container-produtos"></div>
+            <button onclick="addInputProduto()" class="btn-add">+ Adicionar Opção</button>
+        </div>
+
+        <!-- Cor -->
+        <div style="margin-bottom:20px;">
+            <label class="form-label">🌈 Cor do Embed (Hex)</label>
+            <input type="text" id="emb-cor" class="form-input" style="width:150px;" value="#8b0000">
+        </div>
+
+        <!-- Botão de Pré-visualização e Envio -->
+        <div style="display: flex; gap: 15px; margin-top: 10px; flex-wrap: wrap;">
+            <button onclick="previsualizarEmbed()" class="btn-add" style="flex:1; background: #2b2d31; border: 1px solid #8b0000;">👁️ Pré-visualizar</button>
+            <button id="btn-env-emb" onclick="enviarEmbed()" class="btn-enviar" style="flex:2;">🚀 ENVIAR VIA BOT</button>
+        </div>
+        <p class="info-text">ℹ️ O bot vai enviar o embed diretamente para o canal que indicaste.</p>
+
+        <!-- Área de Pré-visualização -->
+        <div id="preview-area" style="margin-top: 25px; display: none; background: #1e1f22; border-radius: 10px; padding: 20px; border: 1px solid #333;">
+            <h3 style="color: #aaa; margin-top: 0;">📋 Pré-visualização do Embed</h3>
+            <div id="preview-content" style="background: #2b2d31; border-radius: 8px; padding: 16px; border-left: 4px solid #8b0000;">
+                <!-- O preview será gerado aqui -->
+            </div>
+            <small style="color:#666; display:block; margin-top:10px;">A pré-visualização é aproximada. O aspeto final pode variar ligeiramente no Discord.</small>
+        </div>
+    </div>
+</div>
             <!-- ===== SITE ONLINE ===== -->
             <div id="bot-status-section" class="content-div">
                 <div class="status-card">
