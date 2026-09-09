@@ -126,8 +126,8 @@
         .log-info strong { display:block; font-size:1rem; color:#fff; }
         .log-info span { color:#bbb; font-size:0.85rem; line-height:1.6; }
         .status-badge { padding:5px 12px; border-radius:4px; font-size:0.75rem; font-weight:bold; white-space:nowrap; }
-        /* ===== CRIAR EMBED ===== */
-        .embed-creator-card { background:rgba(20,20,20,0.95); padding:30px 35px; border-radius:15px; border-top:5px solid var(--primary-red); width:100%; max-width:800px; box-shadow:0 10px 30px rgba(0,0,0,0.5); text-align:left; }
+        /* ===== CRIAR EMBED (COM NOVOS CAMPOS) ===== */
+        .embed-creator-card { background:rgba(20,20,20,0.95); padding:30px 35px; border-radius:15px; border-top:5px solid var(--primary-red); width:100%; max-width:900px; box-shadow:0 10px 30px rgba(0,0,0,0.5); text-align:left; }
         .form-label { display:block; color:#bbb; margin-bottom:5px; font-size:0.9rem; font-weight:bold; }
         .form-input, .form-textarea { width:100%; padding:12px; border-radius:5px; border:none; background:rgba(255,255,255,0.1); color:white; outline:none; border-bottom:2px solid transparent; transition:0.3s; margin-bottom:15px; font-family:'Open Sans', sans-serif; font-size:0.9rem; }
         .form-input:focus, .form-textarea:focus { border-bottom:2px solid var(--primary-red); background:rgba(255,255,255,0.15); }
@@ -143,6 +143,13 @@
         .btn-enviar:hover:not(:disabled) { background:#ff0000; transform:translateY(-2px); box-shadow:0 5px 20px rgba(255,0,0,0.4); }
         .btn-enviar:disabled { opacity:0.6; cursor:not-allowed; }
         .info-text { color:#ff9999; font-size:0.8rem; margin:15px 0; text-align:center; }
+        .row-image-options { display:flex; gap:15px; flex-wrap:wrap; margin-bottom:15px; }
+        .row-image-options > div { flex:1; min-width:150px; }
+        .btn-preview { background:#444; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; font-weight:600; transition:0.3s; margin-top:10px; }
+        .btn-preview:hover { background:#555; }
+        .preview-box { background:rgba(0,0,0,0.5); border-radius:10px; padding:20px; margin-top:20px; border:1px solid #444; display:none; }
+        .preview-box.show { display:block; }
+        .preview-box iframe { width:100%; height:400px; border:none; background:white; border-radius:5px; }
         /* ===== SITE ONLINE ===== */
         #bot-status-section { align-items:flex-start; }
         .status-card { background:rgba(20,20,20,0.95); padding:30px; border-radius:15px; border-left:8px solid #00ff00; text-align:left; width:100%; max-width:500px; box-shadow:0 10px 30px rgba(0,0,0,0.5); }
@@ -212,6 +219,7 @@
             .dashboard-grid { grid-template-columns:1fr 1fr; }
             .dashboard-row { flex-direction:column; }
             .activity-section { flex-direction:column; }
+            .row-image-options { flex-direction:column; }
         }
         @media (max-width: 480px) {
             .logo-link { font-size:0.9rem; }
@@ -267,8 +275,6 @@
             <input type="text" id="search" class="search-box" placeholder="Procurar função..." onkeyup="filtrarMenu()">
             <div class="nav-links">
                 <button class="nav-btn active" onclick="showSection('welcome-section')">INÍCIO</button>
-                <!-- Se quiseres redirecionar para a página separada de transcripts, descomenta a linha abaixo e comenta a linha seguinte -->
-                <!-- <button class="nav-btn" onclick="window.location.href='transcripts.html'">TRANSCRIPTS</button> -->
                 <button class="nav-btn" onclick="showSection('transcripts-section')">TRANSCRIPTS</button>
                 <button class="nav-btn" onclick="showSection('vendas-section')">VENDAS</button>
                 <button class="nav-btn" onclick="showSection('embed-section')">CRIAR EMBED</button>
@@ -346,150 +352,122 @@
             </div>
 
             <!-- ===== VENDAS ===== -->
-<div id="vendas-section" class="content-div">
-    <div style="width:100%; max-width:900px; display:flex; flex-direction:column; align-items:center;">
-        <div class="vendas-header-row">
-            <h1 class="vendas-titulo">📊 Histórico de Vendas</h1>
-            <button class="btn-registrar-venda" onclick="abrirModalVenda()"><span>➕</span> Registrar Venda</button>
-        </div>
-        <div class="vendas-lista-container" id="vendas-lista">
-            <!-- Itens intercalados do primeiro trecho -->
-            <div class="log-item">
-                <div class="log-info">
-                    <strong>🛍️ Comprador: @silvexxx/leo._.1330 | 📅 Data: 27/09/2025</strong>
-                    <span>📦 Produto: 🔥・sp00fer-1click<br>💰 Preço: €25.00<br>🛡️ Staff: @! Jordan @migueldodrip</span>
-                </div>
-                <span class="status-badge" style="background: #00ff00; color: #000;">LIFETIME</span>
-            </div>
-            <div class="log-item">
-                <div class="log-info">
-                    <strong>🛍️ Comprador: @Tonethegoat/tonezz1_ | 📅 Data: 27/09/2025</strong>
-                    <span>📦 Produto: 🦈・shark-menu<br>💰 Preço: €18.00<br>🛡️ Staff: @! Jordan @migueldodrip</span>
-                </div>
-                <span class="status-badge" style="background: #ffcc00; color: #000;">SEMANAL</span>
-            </div>
-            <div class="log-item">
-                <div class="log-info">
-                    <strong>🛍️ Comprador: @silvexxx/leo._.1330 | 📅 Data: 28/09/2025</strong>
-                    <span>📦 Produto: ⭐・rockstar-unban<br>💰 Preço: €0.50<br>🛡️ Staff: @! Jordan</span>
-                </div>
-                <span class="status-badge" style="background: #00ff00; color: #000;">INFINITO</span>
-            </div>
-            <div class="log-item">
-                <div class="log-info">
-                    <strong>🛍️ Comprador: @silvexxx/leo._.1330 | 📅 Data: 28/09/2025</strong>
-                    <span>📦 Produto: 🌎・vpn-service<br>💰 Preço: ?<br>🛡️ Staff: @! Jordan</span>
-                </div>
-                <span class="status-badge" style="background: #00ff00; color: #000;">INFINITO</span>
-            </div>
-            <div class="log-item">
-                <div class="log-info">
-                    <strong>🛍️ Comprador: @silvexxx/leo._.1330 | 📅 Data: 19/10/2025</strong>
-                    <span>📦 Produto: 🦈・shark-menu<br>💰 Preço: €63.00<br>🛡️ Staff: @! Jordan</span>
-                </div>
-                <span class="status-badge" style="background: #00ff00; color: #000;">LIFETIME</span>
-            </div>
-        </div>
-    </div>
-</div>
-
-            <!-- ===== CRIAR EMBED ===== -->
-<div id="embed-section" class="content-div">
-    <h1 style="text-align: center;">🎫 Criar Painel de Tickets</h1>
-    <div class="embed-creator-card">
-        <!-- ID do Canal -->
-        <div style="margin-bottom:15px;">
-            <label class="form-label">🆔 ID do Canal de Destino</label>
-            <input type="text" id="emb-canal" class="form-input" placeholder="Ex: 1234567890123456789">
-            <small style="color:#888; font-size:0.75rem;">Clica com o botão direito no canal Discord → Copiar ID do Canal</small>
-        </div>
-
-        <!-- Título -->
-        <div style="margin-bottom:15px;">
-            <label class="form-label">🖊️ Título do Embed</label>
-            <input type="text" id="emb-titulo" class="form-input" placeholder="Ex: Atendimento Jordan Shop">
-        </div>
-
-        <!-- Descrição -->
-        <div style="margin-bottom:15px;">
-            <label class="form-label">📝 Descrição / Mensagem</label>
-            <textarea id="emb-desc" class="form-textarea" placeholder="Ex: Bem-vindo à Jordan Shop!&#10;Clica no menu abaixo para abrir um ticket."></textarea>
-            <small style="color:#888; font-size:0.75rem;">
-                Suporta formatação Discord: <code>##</code> para títulos, <code>**negrito**</code>, <code>*itálico*</code>, <code>__sublinhado__</code>, <code>~~riscado~~</code>, <code>`código`</code> e <code>```bloco```</code>.
-            </small>
-        </div>
-
-        <!-- Emojis Personalizados -->
-        <div style="margin-bottom:15px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border-left: 3px solid #8b0000;">
-            <label class="form-label">🎨 Inserir Emoji Personalizado</label>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-                <input type="text" id="emoji-id" class="form-input" style="flex:2; min-width:150px;" placeholder="ID do Emoji (ex: 123456789012345678)">
-                <input type="text" id="emoji-nome" class="form-input" style="flex:1; min-width:100px;" placeholder="Nome (ex: shark)">
-                <select id="emoji-tipo" class="form-input" style="flex:0.5; min-width:80px;">
-                    <option value="normal">Normal</option>
-                    <option value="animado">Animado (GIF)</option>
-                </select>
-                <button onclick="inserirEmoji()" class="btn-add" style="padding: 8px 16px;">➕ Inserir</button>
-            </div>
-            <small style="color:#888; font-size:0.75rem;">
-                Exemplo: ID = <code>123456789</code>, Nome = <code>shark</code> → gera <code>&lt;:shark:123456789&gt;</code> (ou <code>&lt;a:shark:123456789&gt;</code> se for animado).
-                <br>Para emojis Unicode (🦈), basta copiá-los diretamente para a descrição.
-            </small>
-        </div>
-
-        <!-- Imagem (3 opções) -->
-        <div style="margin-bottom:15px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border-left: 3px solid #8b0000;">
-            <label class="form-label">🖼️ Imagens do Embed (opcional)</label>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <div>
-                    <label style="color:#aaa; font-size:0.8rem;">Imagem Principal (grande)</label>
-                    <input type="text" id="emb-imagem" class="form-input" placeholder="https://exemplo.com/imagem.png">
-                </div>
-                <div>
-                    <label style="color:#aaa; font-size:0.8rem;">Thumbnail (miniatura)</label>
-                    <input type="text" id="emb-thumbnail" class="form-input" placeholder="https://exemplo.com/thumb.png">
-                </div>
-                <div style="grid-column: span 2;">
-                    <label style="color:#aaa; font-size:0.8rem;">Rodapé (footer) com ícone</label>
-                    <div style="display: flex; gap: 10px;">
-                        <input type="text" id="emb-footer-texto" class="form-input" style="flex:2;" placeholder="Texto do rodapé (ex: Jordan Shop)">
-                        <input type="text" id="emb-footer-icon" class="form-input" style="flex:1;" placeholder="URL do ícone (opcional)">
+            <div id="vendas-section" class="content-div">
+                <div style="width:100%; max-width:900px; display:flex; flex-direction:column; align-items:center;">
+                    <div class="vendas-header-row">
+                        <h1 class="vendas-titulo">📊 Histórico de Vendas</h1>
+                        <button class="btn-registrar-venda" onclick="abrirModalVenda()"><span>➕</span> Registrar Venda</button>
+                    </div>
+                    <div class="vendas-lista-container" id="vendas-lista">
+                        <!-- Itens intercalados do primeiro trecho -->
+                        <div class="log-item">
+                            <div class="log-info">
+                                <strong>🛍️ Comprador: @silvexxx/leo._.1330 | 📅 Data: 27/09/2025</strong>
+                                <span>📦 Produto: 🔥・sp00fer-1click<br>💰 Preço: €25.00<br>🛡️ Staff: @! Jordan @migueldodrip</span>
+                            </div>
+                            <span class="status-badge" style="background: #00ff00; color: #000;">LIFETIME</span>
+                        </div>
+                        <div class="log-item">
+                            <div class="log-info">
+                                <strong>🛍️ Comprador: @Tonethegoat/tonezz1_ | 📅 Data: 27/09/2025</strong>
+                                <span>📦 Produto: 🦈・shark-menu<br>💰 Preço: €18.00<br>🛡️ Staff: @! Jordan @migueldodrip</span>
+                            </div>
+                            <span class="status-badge" style="background: #ffcc00; color: #000;">SEMANAL</span>
+                        </div>
+                        <div class="log-item">
+                            <div class="log-info">
+                                <strong>🛍️ Comprador: @silvexxx/leo._.1330 | 📅 Data: 28/09/2025</strong>
+                                <span>📦 Produto: ⭐・rockstar-unban<br>💰 Preço: €0.50<br>🛡️ Staff: @! Jordan</span>
+                            </div>
+                            <span class="status-badge" style="background: #00ff00; color: #000;">INFINITO</span>
+                        </div>
+                        <div class="log-item">
+                            <div class="log-info">
+                                <strong>🛍️ Comprador: @silvexxx/leo._.1330 | 📅 Data: 28/09/2025</strong>
+                                <span>📦 Produto: 🌎・vpn-service<br>💰 Preço: ?<br>🛡️ Staff: @! Jordan</span>
+                            </div>
+                            <span class="status-badge" style="background: #00ff00; color: #000;">INFINITO</span>
+                        </div>
+                        <div class="log-item">
+                            <div class="log-info">
+                                <strong>🛍️ Comprador: @silvexxx/leo._.1330 | 📅 Data: 19/10/2025</strong>
+                                <span>📦 Produto: 🦈・shark-menu<br>💰 Preço: €63.00<br>🛡️ Staff: @! Jordan</span>
+                            </div>
+                            <span class="status-badge" style="background: #00ff00; color: #000;">LIFETIME</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <small style="color:#888; font-size:0.75rem;">Podes usar imagens de URLs diretos (ex: i.postimg.cc, imgur, etc.)</small>
-        </div>
 
-        <!-- Produtos / Opções do Menu -->
-        <div style="margin-bottom:20px;">
-            <label class="form-label">📦 Produtos / Opções do Menu</label>
-            <div id="container-produtos"></div>
-            <button onclick="addInputProduto()" class="btn-add">+ Adicionar Opção</button>
-        </div>
-
-        <!-- Cor -->
-        <div style="margin-bottom:20px;">
-            <label class="form-label">🌈 Cor do Embed (Hex)</label>
-            <input type="text" id="emb-cor" class="form-input" style="width:150px;" value="#8b0000">
-        </div>
-
-        <!-- Botão de Pré-visualização e Envio -->
-        <div style="display: flex; gap: 15px; margin-top: 10px; flex-wrap: wrap;">
-            <button onclick="previsualizarEmbed()" class="btn-add" style="flex:1; background: #2b2d31; border: 1px solid #8b0000;">👁️ Pré-visualizar</button>
-            <button id="btn-env-emb" onclick="enviarEmbed()" class="btn-enviar" style="flex:2;">🚀 ENVIAR VIA BOT</button>
-        </div>
-        <p class="info-text">ℹ️ O bot vai enviar o embed diretamente para o canal que indicaste.</p>
-
-        <!-- Área de Pré-visualização -->
-        <div id="preview-area" style="margin-top: 25px; display: none; background: #1e1f22; border-radius: 10px; padding: 20px; border: 1px solid #333;">
-            <h3 style="color: #aaa; margin-top: 0;">📋 Pré-visualização do Embed</h3>
-            <div id="preview-content" style="background: #2b2d31; border-radius: 8px; padding: 16px; border-left: 4px solid #8b0000;">
-                <!-- O preview será gerado aqui -->
+            <!-- ===== CRIAR EMBED (ATUALIZADO) ===== -->
+            <div id="embed-section" class="content-div">
+                <h1 style="text-align: center;">🎫 Criar Painel de Tickets</h1>
+                <div class="embed-creator-card">
+                    <!-- ID do Canal -->
+                    <div style="margin-bottom:15px;">
+                        <label class="form-label">🆔 ID do Canal de Destino</label>
+                        <input type="text" id="emb-canal" class="form-input" placeholder="Ex: 1234567890123456789">
+                        <small style="color:#888; font-size:0.75rem;">Clica com o botão direito no canal Discord → Copiar ID do Canal</small>
+                    </div>
+                    <!-- Título -->
+                    <div style="margin-bottom:15px;">
+                        <label class="form-label">🖊️ Título do Embed</label>
+                        <input type="text" id="emb-titulo" class="form-input" placeholder="Ex: Atendimento Jordan Shop">
+                    </div>
+                    <!-- Descrição -->
+                    <div style="margin-bottom:15px;">
+                        <label class="form-label">📝 Descrição / Mensagem</label>
+                        <textarea id="emb-desc" class="form-textarea" placeholder="Ex: Bem-vindo à Jordan Shop!&#10;Clica no menu abaixo para abrir um ticket."></textarea>
+                        <small style="color:#888; font-size:0.75rem;">
+                            <strong>Formatação:</strong> 
+                            <code>**negrito**</code>, <code>*itálico*</code>, <code>__sublinhado__</code>, <code>~~riscado~~</code>, 
+                            <code># Título</code>, <code>## Subtítulo</code>, <code>### Sub-subtítulo</code>.<br>
+                            <strong>Emojis personalizados:</strong> usa o formato <code>&lt;:nome:id&gt;</code> (ex: <code>&lt;:shark:123456789&gt;</code>).<br>
+                            <strong>Emojis Unicode</strong> (🦈) funcionam normalmente.
+                        </small>
+                    </div>
+                    <!-- Imagem - tipo e URL -->
+                    <div style="margin-bottom:15px;">
+                        <label class="form-label">🖼️ Imagem (opcional)</label>
+                        <div class="row-image-options">
+                            <div>
+                                <select id="emb-tipo-imagem" class="form-input" style="margin-bottom:0;">
+                                    <option value="normal">Normal (imagem grande)</option>
+                                    <option value="thumbnail">Thumbnail (miniatura)</option>
+                                    <option value="footer">Rodapé (ícone no footer)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <input type="text" id="emb-imagem" class="form-input" placeholder="URL da imagem" style="margin-bottom:0;">
+                            </div>
+                        </div>
+                        <small style="color:#888; font-size:0.75rem;">Escolhe o tipo e insere o URL da imagem (ex: https://exemplo.com/imagem.png).</small>
+                    </div>
+                    <!-- Produtos -->
+                    <div style="margin-bottom:20px;">
+                        <label class="form-label">📦 Produtos / Opções do Menu</label>
+                        <div id="container-produtos"></div>
+                        <button onclick="addInputProduto()" class="btn-add">+ Adicionar Opção</button>
+                    </div>
+                    <!-- Cor -->
+                    <div style="margin-bottom:20px;">
+                        <label class="form-label">🌈 Cor do Embed (Hex)</label>
+                        <input type="text" id="emb-cor" class="form-input" style="width:150px;" value="#FF0000">
+                    </div>
+                    <!-- Botões de Pré-visualização e Envio -->
+                    <div style="display:flex; gap:10px; margin-top:10px;">
+                        <button onclick="previsualizarEmbed()" class="btn-preview" style="flex:1;">👁️ Pré-visualizar</button>
+                        <button id="btn-env-emb" onclick="enviarEmbed()" class="btn-enviar" style="flex:2;">🚀 ENVIAR VIA BOT</button>
+                    </div>
+                    <!-- Área de pré-visualização -->
+                    <div id="preview-box" class="preview-box">
+                        <h4 style="color:#ddd; margin-bottom:10px;">📋 Pré-visualização do Embed</h4>
+                        <iframe id="preview-iframe" srcdoc="<html><body style='background:#313338;color:#fff;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100%;margin:0;'><p style='color:#888;'>Preenche os campos e clica em 'Pré-visualizar'</p></body></html>"></iframe>
+                    </div>
+                    <p class="info-text">ℹ️ O bot vai enviar o embed diretamente para o canal indicado.</p>
+                </div>
             </div>
-            <small style="color:#666; display:block; margin-top:10px;">A pré-visualização é aproximada. O aspeto final pode variar ligeiramente no Discord.</small>
-        </div>
-    </div>
-</div>
+
             <!-- ===== SITE ONLINE ===== -->
             <div id="bot-status-section" class="content-div">
                 <div class="status-card">
@@ -902,7 +880,7 @@
         }
 
         // =============================================================
-        // 5. CRIAR EMBED
+        // 5. CRIAR EMBED (COM PRÉ-VISUALIZAÇÃO E NOVOS CAMPOS)
         // =============================================================
         function addInputProduto() {
             const container = document.getElementById('container-produtos');
@@ -927,11 +905,110 @@
             }
         });
 
+        // ===== PRÉ-VISUALIZAÇÃO =====
+        function previsualizarEmbed() {
+            const titulo = document.getElementById('emb-titulo').value.trim() || 'Título do Embed';
+            const desc = document.getElementById('emb-desc').value.trim() || 'Descrição do embed...';
+            const cor = document.getElementById('emb-cor').value || '#FF0000';
+            const tipoImagem = document.getElementById('emb-tipo-imagem').value;
+            const urlImagem = document.getElementById('emb-imagem').value.trim();
+
+            const produtos = [];
+            document.querySelectorAll('.p-nome').forEach((n, i) => {
+                if (n.value.trim()) {
+                    const preco = document.querySelectorAll('.p-preco')[i]?.value.trim() || 'N/A';
+                    produtos.push({ nome: n.value.trim(), preco });
+                }
+            });
+
+            // Construir HTML da pré-visualização
+            let html = `
+                <html>
+                <head><style>
+                    body { background: #313338; color: #fff; font-family: sans-serif; padding: 20px; margin:0; }
+                    .embed { background: #2b2d31; border-left: 4px solid ${cor}; padding: 12px; border-radius: 4px; max-width: 600px; margin: auto; }
+                    .embed-title { font-weight: bold; font-size: 1.2em; margin-bottom: 6px; }
+                    .embed-desc { white-space: pre-wrap; }
+                    .embed-field { margin-top: 10px; border-top: 1px solid #444; padding-top: 8px; }
+                    .embed-field-name { font-weight: bold; }
+                    .embed-image { max-width: 100%; margin-top: 10px; border-radius: 4px; }
+                    .embed-thumb { float: right; max-width: 80px; margin-left: 10px; border-radius: 4px; }
+                    .embed-footer { margin-top: 10px; font-size: 0.9em; color: #aaa; display: flex; align-items: center; gap: 6px; }
+                    .embed-footer img { width: 20px; height: 20px; border-radius: 50%; }
+                </style></head>
+                <body>
+                <div class="embed">
+            `;
+
+            // Título
+            html += `<div class="embed-title">${escapeHtml(titulo)}</div>`;
+
+            // Imagem (conforme tipo)
+            if (urlImagem) {
+                if (tipoImagem === 'normal') {
+                    html += `<img class="embed-image" src="${escapeHtml(urlImagem)}" alt="Imagem">`;
+                } else if (tipoImagem === 'thumbnail') {
+                    html += `<img class="embed-thumb" src="${escapeHtml(urlImagem)}" alt="Thumbnail">`;
+                }
+                // Footer será tratado depois
+            }
+
+            // Descrição (com markdown básico)
+            html += `<div class="embed-desc">${formatarMarkdown(desc)}</div>`;
+
+            // Produtos
+            if (produtos.length) {
+                produtos.forEach(p => {
+                    html += `
+                        <div class="embed-field">
+                            <div class="embed-field-name">${escapeHtml(p.nome)}</div>
+                            <div>${escapeHtml(p.preco)}</div>
+                        </div>
+                    `;
+                });
+            }
+
+            // Footer com imagem (se for footer)
+            if (urlImagem && tipoImagem === 'footer') {
+                html += `<div class="embed-footer"><img src="${escapeHtml(urlImagem)}" alt="footer"> Rodapé</div>`;
+            }
+
+            html += `</div></body></html>`;
+
+            const iframe = document.getElementById('preview-iframe');
+            iframe.srcdoc = html;
+            document.getElementById('preview-box').classList.add('show');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatarMarkdown(text) {
+            // Converter markdown para HTML (básico)
+            let html = escapeHtml(text);
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+            html = html.replace(/__(.+?)__/g, '<u>$1</u>');
+            html = html.replace(/~~(.+?)~~/g, '<s>$1</s>');
+            html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+            // Quebras de linha
+            html = html.replace(/\n/g, '<br>');
+            return html;
+        }
+
+        // ===== ENVIAR EMBED =====
         async function enviarEmbed() {
             const canalId = document.getElementById('emb-canal').value.trim();
             const titulo = document.getElementById('emb-titulo').value.trim();
             const desc = document.getElementById('emb-desc').value.trim();
             const cor = document.getElementById('emb-cor').value;
+            const tipoImagem = document.getElementById('emb-tipo-imagem').value;
+            const urlImagem = document.getElementById('emb-imagem').value.trim();
             const btn = document.getElementById('btn-env-emb');
 
             if (!canalId) {
@@ -967,7 +1044,9 @@
                         desc,
                         cor,
                         canalId,
-                        produtos
+                        produtos,
+                        imagem: urlImagem || '',
+                        tipoImagem: urlImagem ? tipoImagem : 'none' // 'normal', 'thumbnail', 'footer'
                     })
                 });
 
@@ -977,8 +1056,10 @@
                     document.getElementById('emb-canal').value = '';
                     document.getElementById('emb-titulo').value = '';
                     document.getElementById('emb-desc').value = '';
+                    document.getElementById('emb-imagem').value = '';
                     document.getElementById('container-produtos').innerHTML = '';
                     addInputProduto();
+                    document.getElementById('preview-box').classList.remove('show');
                 } else {
                     const errorMsg = await response.text();
                     throw new Error(errorMsg);
@@ -1036,7 +1117,7 @@
             return new Date(dataStr).toLocaleDateString('pt-PT');
         }
 
-        function escapeHtml(texto) {
+        function escapeHtml2(texto) {
             if (!texto) return '';
             const div = document.createElement('div');
             div.textContent = texto;
@@ -1147,10 +1228,10 @@
             div.style.animation = 'fadeIn 0.5s ease';
             div.innerHTML = `
                 <div class="log-info">
-                    <strong>🛍️ Comprador: ${escapeHtml(venda.comprador)} | 📅 Data: ${formatarData(venda.data)}</strong>
-                    <span>📦 Produto: ${escapeHtml(venda.produto)}<br>💰 Preço: ${escapeHtml(venda.preco)}<br>🛡️ Staff: ${escapeHtml(venda.staff)}</span>
+                    <strong>🛍️ Comprador: ${escapeHtml2(venda.comprador)} | 📅 Data: ${formatarData(venda.data)}</strong>
+                    <span>📦 Produto: ${escapeHtml2(venda.produto)}<br>💰 Preço: ${escapeHtml2(venda.preco)}<br>🛡️ Staff: ${escapeHtml2(venda.staff)}</span>
                 </div>
-                <span class="status-badge" style="${badgeStyle}">${escapeHtml(venda.duracao.toUpperCase())}</span>
+                <span class="status-badge" style="${badgeStyle}">${escapeHtml2(venda.duracao.toUpperCase())}</span>
             `;
             container.insertBefore(div, container.firstChild);
         }
