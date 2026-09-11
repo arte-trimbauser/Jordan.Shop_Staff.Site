@@ -25,6 +25,34 @@
         .btn-discord { background:#fff; color:#5865F2; text-decoration:none; padding:14px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:bold; transition:.3s; border:1px solid #5865F2; cursor:pointer; }
         .btn-discord:hover { background:#f0f0f0; transform:translateY(-2px); }
         .discord-logo { width:20px; height:20px; object-fit:contain; margin-right:12px; }
+
+        /* ===== Recuperar Password ===== */
+        .recuperar-link { display:block; color:#ff9999; font-size:.85rem; margin-top:12px; text-decoration:none; cursor:pointer; transition:color .3s; }
+        .recuperar-link:hover { color:#ff4444; text-decoration:underline; }
+
+        .modal-rec { display:none; position:fixed; inset:0; background:rgba(0,0,0,.92); backdrop-filter:blur(10px); z-index:9999; justify-content:center; align-items:center; padding:20px; }
+        .modal-rec.active { display:flex; }
+        .modal-rec-card { position:relative; background:rgba(15,5,5,.98); border:2px solid #8b0000; border-radius:20px; padding:35px 25px; max-width:400px; width:100%; text-align:center; box-shadow:0 25px 50px rgba(0,0,0,.8); animation:fadeInModal .3s ease; }
+        @keyframes fadeInModal { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+        .modal-rec-card h2 { color:#fff; margin-bottom:15px; font-size:1.3rem; }
+        .modal-rec-card p { color:#aaa; font-size:.85rem; margin-bottom:20px; line-height:1.5; }
+        .modal-close-rec { position:absolute; top:12px; right:18px; background:none; border:none; color:#888; font-size:1.8rem; cursor:pointer; line-height:1; }
+        .modal-close-rec:hover { color:#ff4444; }
+        .codigo-info { color:#ff9999; font-size:.8rem; margin-top:10px; }
+        .codigo-info strong { color:#fff; }
+        .rec-msg { margin-top:15px; font-size:.85rem; padding:10px; border-radius:6px; display:none; }
+        .rec-msg.error { background:rgba(220,0,0,.2); color:#ff8888; border:1px solid #ff4444; display:block; }
+        .rec-msg.success { background:rgba(0,180,0,.2); color:#88ff88; border:1px solid #44ff44; display:block; }
+        .rec-password-box { background:rgba(139,0,0,.2); border:1px solid #8b0000; padding:15px; border-radius:8px; margin-top:15px; }
+        .rec-password-box .label { color:#aaa; font-size:.75rem; text-transform:uppercase; margin-bottom:5px; }
+        .rec-password-box .pass { color:#fff; font-size:1.2rem; font-weight:700; font-family:monospace; letter-spacing:1px; word-break:break-all; }
+        .rec-actions { display:flex; gap:10px; margin-top:20px; }
+        .rec-btn { flex:1; padding:12px; border-radius:8px; border:none; font-weight:700; cursor:pointer; transition:.3s; font-size:.9rem; }
+        .rec-btn-primary { background:#8b0000; color:#fff; }
+        .rec-btn-primary:hover { background:#ff0000; }
+        .rec-btn-secondary { background:#333; color:#fff; }
+        .rec-btn-secondary:hover { background:#555; }
+        .rec-btn:disabled { opacity:.6; cursor:not-allowed; }
     </style>
 </head>
 <body>
@@ -35,11 +63,60 @@
             <div class="input-group"><input type="text" id="user" placeholder="Nome do Utilizador" autocomplete="username"><span style="opacity:.6">👤</span></div>
             <div class="input-group"><input type="password" id="pass" placeholder="Password" autocomplete="current-password"><img src="/olho_fechado.jpg" class="toggle-btn" id="eye-icon" alt="Mostrar password"></div>
             <button class="btn-entrar" id="loginBtn" type="button">ENTRAR</button>
+            <a href="#" id="linkRecuperar" class="recuperar-link">🔑 Esqueci-me da password</a>
             <div class="divider">OU</div>
             <a href="#" id="discordLogin" class="btn-discord"><img src="/Discord-logo-icon.jpg" class="discord-logo" alt="Discord">Login Discord</a>
         </div>
     </div>
+
+    <!-- ===== MODAL RECUPERAR PASSWORD ===== -->
+    <div class="modal-rec" id="modalRecuperar">
+        <div class="modal-rec-card">
+            <button class="modal-close-rec" onclick="fecharModalRec()">×</button>
+            <h2>🔐 Recuperar Password</h2>
+
+            <div id="recPasso1">
+                <p>Insere o teu nome de utilizador. Vais receber um código no Discord válido por <strong>5 minutos</strong>.</p>
+                <div class="input-group">
+                    <input type="text" id="recUsername" placeholder="Nome do Utilizador" autocomplete="username">
+                    <span style="opacity:.6">👤</span>
+                </div>
+                <div class="rec-actions">
+                    <button class="rec-btn rec-btn-secondary" onclick="fecharModalRec()">Cancelar</button>
+                    <button class="rec-btn rec-btn-primary" id="btnPedirCodigo" onclick="pedirCodigo()">Enviar Código</button>
+                </div>
+                <div class="rec-msg" id="recMsg1"></div>
+            </div>
+
+            <div id="recPasso2" style="display:none;">
+                <p>Introduz o código de 6 dígitos que recebeste no Discord.</p>
+                <div class="input-group">
+                    <input type="text" id="recCodigo" placeholder="000000" maxlength="6" inputmode="numeric" style="text-align:center; letter-spacing:8px; font-size:1.3rem;">
+                </div>
+                <div class="codigo-info">⏰ Expira em <strong id="recTimer">05:00</strong></div>
+                <div class="rec-actions">
+                    <button class="rec-btn rec-btn-secondary" onclick="voltarPasso1()">Voltar</button>
+                    <button class="rec-btn rec-btn-primary" id="btnVerificarCodigo" onclick="verificarCodigo()">Verificar</button>
+                </div>
+                <div class="rec-msg" id="recMsg2"></div>
+            </div>
+
+            <div id="recPasso3" style="display:none;">
+                <p>✅ Código validado! Aqui está a tua password:</p>
+                <div class="rec-password-box">
+                    <div class="label">Password</div>
+                    <div class="pass" id="recPasswordMostrar">—</div>
+                </div>
+                <div class="rec-actions">
+                    <button class="rec-btn rec-btn-primary" onclick="copiarPassword(event)">📋 Copiar</button>
+                    <button class="rec-btn rec-btn-secondary" onclick="fecharModalRec()">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <script>
+    // ===== LOGIN NORMAL =====
     const DISCORD_CLIENT_ID = '1424479855466123284';
     const DISCORD_REDIRECT_URI = 'https://jordan-shop-bot-site.vercel.app/api/callback';
 
@@ -86,10 +163,148 @@
         icon.src = visible ? '/olho_aberto.jpg' : '/olho_fechado.jpg';
     }
 
+    // ===== RECUPERAÇÃO DE PASSWORD =====
+    let recToken = null;
+    let recTimerInterval = null;
+    let recUsernameGuardado = '';
+
+    function abrirModalRec() {
+        document.getElementById('modalRecuperar').classList.add('active');
+        document.getElementById('recPasso1').style.display = 'block';
+        document.getElementById('recPasso2').style.display = 'none';
+        document.getElementById('recPasso3').style.display = 'none';
+        document.getElementById('recMsg1').className = 'rec-msg';
+        document.getElementById('recMsg1').textContent = '';
+        document.getElementById('recMsg2').className = 'rec-msg';
+        document.getElementById('recMsg2').textContent = '';
+        document.getElementById('recUsername').value = document.getElementById('user').value || '';
+        document.getElementById('recCodigo').value = '';
+        document.getElementById('recTimer').style.color = '#fff';
+        document.getElementById('recUsername').focus();
+    }
+
+    function fecharModalRec() {
+        document.getElementById('modalRecuperar').classList.remove('active');
+        if (recTimerInterval) clearInterval(recTimerInterval);
+        recToken = null;
+        recUsernameGuardado = '';
+    }
+
+    function mostrarMsgRec(id, texto, tipo) {
+        const el = document.getElementById(id);
+        el.textContent = texto;
+        el.className = 'rec-msg ' + tipo;
+    }
+
+    async function pedirCodigo() {
+        const username = document.getElementById('recUsername').value.trim();
+        const btn = document.getElementById('btnPedirCodigo');
+        if (!username) return mostrarMsgRec('recMsg1', '❌ Insere o teu nome de utilizador.', 'error');
+
+        btn.disabled = true;
+        btn.textContent = 'A enviar...';
+
+        try {
+            const resp = await fetch('/api/recuperar-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username })
+            });
+            const data = await resp.json().catch(() => ({}));
+            if (!resp.ok || !data.success) throw new Error(data.error || 'Erro ao enviar o código');
+
+            recToken = data.token;
+            recUsernameGuardado = username;
+
+            document.getElementById('recPasso1').style.display = 'none';
+            document.getElementById('recPasso2').style.display = 'block';
+            document.getElementById('recCodigo').focus();
+            iniciarTimerRec(5 * 60);
+        } catch (err) {
+            mostrarMsgRec('recMsg1', '❌ ' + err.message, 'error');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Enviar Código';
+        }
+    }
+
+    function iniciarTimerRec(segundos) {
+        if (recTimerInterval) clearInterval(recTimerInterval);
+        const el = document.getElementById('recTimer');
+        el.style.color = '#fff';
+        function atualizar() {
+            const m = Math.floor(segundos / 60);
+            const s = segundos % 60;
+            el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            if (segundos <= 0) {
+                clearInterval(recTimerInterval);
+                el.textContent = 'EXPIRADO';
+                el.style.color = '#ff4444';
+            }
+            segundos--;
+        }
+        atualizar();
+        recTimerInterval = setInterval(atualizar, 1000);
+    }
+
+    function voltarPasso1() {
+        document.getElementById('recPasso2').style.display = 'none';
+        document.getElementById('recPasso1').style.display = 'block';
+        document.getElementById('recMsg1').className = 'rec-msg';
+        if (recTimerInterval) clearInterval(recTimerInterval);
+    }
+
+    async function verificarCodigo() {
+        const codigo = document.getElementById('recCodigo').value.trim();
+        const btn = document.getElementById('btnVerificarCodigo');
+        if (!codigo || codigo.length !== 6) return mostrarMsgRec('recMsg2', '❌ Insere o código de 6 dígitos.', 'error');
+        if (!recToken) return mostrarMsgRec('recMsg2', '❌ Sessão expirada. Recomeça.', 'error');
+
+        btn.disabled = true;
+        btn.textContent = 'A verificar...';
+
+        try {
+            const resp = await fetch('/api/verificar-codigo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: recUsernameGuardado, codigo, token: recToken })
+            });
+            const data = await resp.json().catch(() => ({}));
+            if (!resp.ok || !data.success) throw new Error(data.error || 'Código inválido');
+
+            document.getElementById('recPasso2').style.display = 'none';
+            document.getElementById('recPasso3').style.display = 'block';
+            document.getElementById('recPasswordMostrar').textContent = data.password;
+            if (recTimerInterval) clearInterval(recTimerInterval);
+        } catch (err) {
+            mostrarMsgRec('recMsg2', '❌ ' + err.message, 'error');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Verificar';
+        }
+    }
+
+    function copiarPassword(ev) {
+        const pass = document.getElementById('recPasswordMostrar').textContent;
+        const btn = ev?.target || document.querySelector('#recPasso3 .rec-btn-primary');
+        const orig = btn.textContent;
+        navigator.clipboard.writeText(pass).then(() => {
+            btn.textContent = '✅ Copiado!';
+            setTimeout(() => btn.textContent = orig, 1500);
+        }).catch(() => {
+            btn.textContent = '❌ Erro';
+            setTimeout(() => btn.textContent = orig, 1500);
+        });
+    }
+
+    // ===== EVENTOS =====
     document.getElementById('loginBtn').addEventListener('click', validarLogin);
     document.getElementById('discordLogin').addEventListener('click', e => { e.preventDefault(); loginDiscord(); });
     document.getElementById('eye-icon').addEventListener('click', togglePass);
-    document.addEventListener('keydown', e => { if (e.key === 'Enter') validarLogin(); });
+    document.getElementById('linkRecuperar').addEventListener('click', e => { e.preventDefault(); abrirModalRec(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Enter' && !document.getElementById('modalRecuperar').classList.contains('active')) validarLogin(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { const m = document.getElementById('modalRecuperar'); if (m.classList.contains('active')) fecharModalRec(); } });
+    document.getElementById('modalRecuperar').addEventListener('click', e => { if (e.target.id === 'modalRecuperar') fecharModalRec(); });
 
     window.addEventListener('load', () => {
         const params = new URLSearchParams(window.location.search);
