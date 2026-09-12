@@ -26,7 +26,6 @@
         .btn-discord:hover { background:#f0f0f0; transform:translateY(-2px); }
         .discord-logo { width:20px; height:20px; object-fit:contain; margin-right:12px; }
 
-        /* ===== Recuperar Password ===== */
         .recuperar-link { display:block; color:#ff9999; font-size:.85rem; margin-top:12px; text-decoration:none; cursor:pointer; transition:color .3s; }
         .recuperar-link:hover { color:#ff4444; text-decoration:underline; }
 
@@ -116,7 +115,6 @@
     </div>
 
 <script>
-    // ===== LOGIN NORMAL =====
     const DISCORD_CLIENT_ID = '1424479855466123284';
     const DISCORD_REDIRECT_URI = 'https://jordan-shop-bot-site.vercel.app/api/callback';
 
@@ -163,7 +161,7 @@
         icon.src = visible ? '/olho_aberto.jpg' : '/olho_fechado.jpg';
     }
 
-    // ===== RECUPERAÇÃO DE PASSWORD =====
+    // ===== RECUPERAÇÃO =====
     let recToken = null;
     let recTimerInterval = null;
     let recUsernameGuardado = '';
@@ -297,13 +295,14 @@
         });
     }
 
-    // ===== EVENTOS =====
     document.getElementById('loginBtn').addEventListener('click', validarLogin);
     document.getElementById('discordLogin').addEventListener('click', e => { e.preventDefault(); loginDiscord(); });
     document.getElementById('eye-icon').addEventListener('click', togglePass);
     document.getElementById('linkRecuperar').addEventListener('click', e => { e.preventDefault(); abrirModalRec(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Enter' && !document.getElementById('modalRecuperar').classList.contains('active')) validarLogin(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') { const m = document.getElementById('modalRecuperar'); if (m.classList.contains('active')) fecharModalRec(); } });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && !document.getElementById('modalRecuperar').classList.contains('active')) validarLogin();
+        if (e.key === 'Escape') { const m = document.getElementById('modalRecuperar'); if (m.classList.contains('active')) fecharModalRec(); }
+    });
     document.getElementById('modalRecuperar').addEventListener('click', e => { if (e.target.id === 'modalRecuperar') fecharModalRec(); });
 
     window.addEventListener('load', () => {
