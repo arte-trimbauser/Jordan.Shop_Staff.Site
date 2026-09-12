@@ -9,17 +9,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
     <style>
-        /* (mantém o mesmo estilo que já tens – não alterei) */
-        :root {
-            --primary-red: #8b0000;
-            --overlay-dark: rgba(0, 0, 0, 0.85);
-            --transition-speed: 0.4s;
-        }
+        :root { --primary-red: #8b0000; --overlay-dark: rgba(0, 0, 0, 0.85); --transition-speed: 0.4s; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body, html { width: 100%; height: 100%; font-family: 'Open Sans', sans-serif; color: white; overflow: hidden; }
         .bg-full { position: fixed; top:0; left:0; width:100%; height:100%; background: url('menu.png') no-repeat center center; background-size: cover; z-index:-2; }
         .overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--overlay-dark); z-index:-1; }
-        /* ===== TELA DE BLOQUEIO ===== */
         #block-screen { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(12px); display: none; justify-content: center; align-items: center; z-index:99999; flex-direction: column; padding:30px; text-align:center; }
         #block-screen.active { display: flex; }
         .block-card { background: rgba(20,20,20,0.9); border: 2px solid var(--primary-red); border-radius: 20px; padding: 50px 40px; max-width: 500px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.8); animation: fadeIn 0.6s ease; }
@@ -27,7 +21,6 @@
         .block-card p { font-size: 1.1rem; color: #ccc; margin-bottom: 30px; line-height: 1.6; }
         .block-card .btn-login { background: var(--primary-red); color: white; border: none; padding: 16px 40px; border-radius: 10px; font-weight: 700; font-size: 1.2rem; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-block; }
         .block-card .btn-login:hover { background: #ff0000; transform: scale(1.05); box-shadow: 0 0 25px rgba(255,0,0,0.5); }
-        /* ===== HEADER ===== */
         header { background: var(--primary-red); height:60px; display:flex; justify-content:space-between; align-items:center; padding:0 30px; box-shadow:0 4px 15px rgba(0,0,0,0.5); z-index:10; position:relative; }
         .logo-link { background:none; border:none; color:white; font-weight:800; font-size:1.3rem; cursor:pointer; transition: all 0.3s ease; font-family:inherit; }
         .logo-link:hover { transform: scale(1.05); text-shadow: 0 0 10px rgba(255,255,255,0.5); }
@@ -38,9 +31,7 @@
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .user-tag { background: rgba(0,0,0,0.4); padding:8px 15px; border-radius:5px; font-weight:600; display:flex; align-items:center; gap:10px; }
         .user-avatar { width:25px; height:25px; border-radius:50%; border:1px solid white; }
-        /* ===== CONTAINER ===== */
         .container { display: flex; flex-direction: row; height: calc(100vh - 60px); }
-        /* ===== ASIDE ===== */
         aside { width:260px; background: rgba(0,0,0,0.5); backdrop-filter: blur(15px); padding:20px; display:flex; flex-direction:column; border-right:1px solid rgba(255,255,255,0.1); flex-shrink:0; }
         .nav-links { display:flex; flex-direction:column; gap:12px; flex-grow:1; }
         .search-box { width:100%; padding:12px; border-radius:5px; border:none; background:rgba(255,255,255,0.1); color:white; outline:none; border-bottom:2px solid transparent; transition:0.3s; margin-bottom:20px; font-size:0.9rem; }
@@ -51,11 +42,9 @@
         .nav-btn.active { background: #ff0000; box-shadow: 0 0 15px rgba(255,0,0,0.4); }
         .logout-btn { background: #b30000; color:white; padding:12px; border-radius:6px; text-decoration:none; font-weight:bold; display:flex; align-items:center; justify-content:center; gap:10px; transition:0.3s; margin-top:auto; border:none; cursor:pointer; font-size:0.9rem; width:100%; }
         .logout-btn:hover { background: #ff0000; transform: scale(1.02); }
-        /* ===== MAIN ===== */
         main { flex:1; display:flex; flex-direction:column; align-items:center; padding:40px 20px; overflow-y:auto; width:100%; }
         .content-div { width:100%; max-width:1100px; display:none; flex-direction:column; align-items:center; animation: fadeIn 0.4s ease; }
         .content-div.active { display: flex; }
-        /* ===== DASHBOARD ===== */
         #welcome-section { width:100%; max-width:1100px; }
         .dashboard-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:20px; width:100%; margin-bottom:30px; }
         .kpi-card { background: rgba(20,20,20,0.9); border-radius:12px; padding:20px; border-left:4px solid var(--primary-red); box-shadow:0 4px 15px rgba(0,0,0,0.4); transition: transform 0.2s ease; }
@@ -87,7 +76,6 @@
         .notif-item { padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:0.85rem; color:#bbb; }
         .notif-item:last-child { border-bottom:none; }
         .notif-item .notif-tag { color:var(--primary-red); font-weight:700; margin-right:6px; }
-        /* ===== TRANSCRIPTS ===== */
         #transcripts-section h1 { font-size:2rem; font-weight:800; text-shadow:2px 2px 8px rgba(0,0,0,0.8); margin-bottom:5px; }
         .subtitulo { color:#aaa; font-size:0.9rem; margin-bottom:20px; }
         .search-transcripts { width:100%; max-width:900px; padding:12px 15px; border-radius:8px; border:none; background:rgba(255,255,255,0.08); color:white; outline:none; border:1px solid rgba(255,255,255,0.1); font-size:0.95rem; margin-bottom:20px; transition:0.3s; }
@@ -115,7 +103,6 @@
         .preview-error { padding:30px; text-align:center; color:#ff6666; font-size:0.9rem; }
         .preview-error button { margin-top:10px; background:var(--primary-red); color:white; border:none; padding:8px 16px; border-radius:5px; cursor:pointer; }
         .sem-resultados { color:#666; text-align:center; padding:60px 20px; font-size:1rem; }
-        /* ===== VENDAS ===== */
         .vendas-header-row { display:flex; justify-content:space-between; align-items:center; width:100%; max-width:900px; margin-bottom:25px; flex-wrap:wrap; gap:15px; }
         .vendas-titulo { font-size:1.8rem; font-weight:800; color:white; text-shadow:2px 2px 4px rgba(0,0,0,0.5); }
         .btn-registrar-venda { background:linear-gradient(135deg, #00aa00 0%, #00cc00 100%); color:white; border:none; padding:12px 24px; border-radius:8px; font-weight:700; font-size:0.95rem; cursor:pointer; transition:all 0.3s ease; display:flex; align-items:center; gap:8px; box-shadow:0 4px 15px rgba(0,200,0,0.3); }
@@ -126,7 +113,6 @@
         .log-info strong { display:block; font-size:1rem; color:#fff; }
         .log-info span { color:#bbb; font-size:0.85rem; line-height:1.6; }
         .status-badge { padding:5px 12px; border-radius:4px; font-size:0.75rem; font-weight:bold; white-space:nowrap; }
-        /* ===== CRIAR EMBED (COM NOVOS CAMPOS) ===== */
         .embed-creator-card { background:rgba(20,20,20,0.95); padding:30px 35px; border-radius:15px; border-top:5px solid var(--primary-red); width:100%; max-width:900px; box-shadow:0 10px 30px rgba(0,0,0,0.5); text-align:left; }
         .form-label { display:block; color:#bbb; margin-bottom:5px; font-size:0.9rem; font-weight:bold; }
         .form-input, .form-textarea { width:100%; padding:12px; border-radius:5px; border:none; background:rgba(255,255,255,0.1); color:white; outline:none; border-bottom:2px solid transparent; transition:0.3s; margin-bottom:15px; font-family:'Open Sans', sans-serif; font-size:0.9rem; }
@@ -149,14 +135,12 @@
         .btn-preview:hover { background:#555; }
         .preview-box { background:rgba(0,0,0,0.5); border-radius:10px; padding:20px; margin-top:20px; border:1px solid #444; display:none; }
         .preview-box.show { display:block; }
-        .preview-box iframe { width:100%; height:400px; border:none; background:white; border-radius:5px; }
-        /* ===== SITE ONLINE ===== */
+        .preview-box iframe { width:100%; height:420px; border:none; background:white; border-radius:5px; }
         #bot-status-section { align-items:flex-start; }
         .status-card { background:rgba(20,20,20,0.95); padding:30px; border-radius:15px; border-left:8px solid #00ff00; text-align:left; width:100%; max-width:500px; box-shadow:0 10px 30px rgba(0,0,0,0.5); }
         .status-card h2 { margin:0 0 10px 0; color:#00ff00; }
         .status-card p { margin:8px 0; }
         .success-img { width:100%; border-radius:10px; margin-top:20px; border:1px solid #444; }
-        /* ===== MODAL VENDAS ===== */
         .modal-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.9); backdrop-filter:blur(10px); z-index:9999; justify-content:center; align-items:center; padding:20px; }
         .modal-overlay.active { display:flex; }
         .modal-venda { background:linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); border:2px solid var(--primary-red); border-radius:20px; padding:35px; max-width:500px; width:100%; max-height:90vh; overflow-y:auto; box-shadow:0 25px 50px rgba(0,0,0,0.8); animation: modalSlideIn 0.3s ease; text-align:left; }
@@ -179,18 +163,13 @@
         .btn-confirmar { flex:2; background:var(--primary-red); color:white; border:none; padding:14px; border-radius:8px; font-weight:700; cursor:pointer; transition:all 0.3s ease; display:flex; align-items:center; justify-content:center; gap:8px; }
         .btn-confirmar:hover:not(:disabled) { background:#ff0000; transform:translateY(-2px); box-shadow:0 5px 20px rgba(255,0,0,0.4); }
         .btn-confirmar:disabled { opacity:0.6; cursor:not-allowed; }
-        .registrado-por { font-size:0.75rem; color:#888; margin-top:8px; padding-top:8px; border-top:1px solid #444; }
-        .registrado-por strong { color:#ff9999; }
         .spinner { display:inline-block; width:18px; height:18px; border:3px solid rgba(255,255,255,0.3); border-radius:50%; border-top-color:white; animation: spin 1s ease-in-out infinite; }
-        /* ===== TOAST ===== */
         .toast { position:fixed; bottom:30px; right:30px; background:var(--primary-red); color:white; padding:16px 24px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.5); display:flex; align-items:center; gap:12px; transform:translateX(500px); transition:transform 0.3s ease; z-index:10000; font-weight:600; font-size:0.95rem; }
         .toast.show { transform:translateX(0); }
         .toast.success { background:#00aa00; }
         .toast.error { background:#cc0000; }
-        /* ===== ANIMAÇÕES ===== */
         @keyframes fadeIn { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
         @keyframes pulse { 0%, 100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(1.1); } }
-        /* ===== RESPONSIVIDADE ===== */
         @media (max-width: 768px) {
             header { height:50px; padding:0 15px; }
             .logo-link { font-size:1rem; }
@@ -234,14 +213,11 @@
             .dashboard-grid { grid-template-columns:1fr; }
         }
 
-        /* ===== PREVIEW DISCORD REALISTA ===== */
+        /* ===== PREVIEW DISCORD ===== */
         .discord-preview-wrap { background:#313338; border-radius:8px; padding:16px; font-family:'gg sans','Noto Sans',Helvetica,Arial,sans-serif; }
         .dc-embed { background:#2b2d31; border-left:4px solid #ff0000; border-radius:4px; padding:8px 16px 16px 12px; max-width:520px; color:#dbdee1; font-size:14px; line-height:1.375; display:grid; grid-template-columns:auto 1fr; column-gap:12px; }
         .dc-embed-inner { grid-column:1 / -1; min-width:0; }
         .dc-embed-inner.has-thumb { grid-column:1 / 2; }
-        .dc-author { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
-        .dc-author img { width:24px; height:24px; border-radius:50%; }
-        .dc-author span { color:#f2f3f5; font-size:14px; font-weight:600; }
         .dc-title { color:#f2f3f5; font-size:16px; font-weight:600; margin-bottom:4px; }
         .dc-desc { color:#dbdee1; font-size:14px; white-space:pre-wrap; word-wrap:break-word; }
         .dc-desc h1 { font-size:1.5em; margin:8px 0 4px; color:#f2f3f5; }
@@ -251,17 +227,21 @@
         .dc-desc code { background:#1e1f22; padding:1px 4px; border-radius:3px; font-family:'Consolas',monospace; font-size:.85em; }
         .dc-desc pre { background:#1e1f22; padding:8px; border-radius:4px; border:1px solid #232428; overflow-x:auto; margin:6px 0; }
         .dc-desc blockquote { border-left:4px solid #4f545c; padding-left:12px; margin:6px 0; color:#dbdee1; }
-        .dc-fields { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:8px; }
-        .dc-field { min-width:0; }
-        .dc-field.inline-false { grid-column:1 / -1; }
-        .dc-field-name { color:#f2f3f5; font-weight:600; font-size:14px; margin-bottom:2px; }
-        .dc-field-value { color:#dbdee1; font-size:14px; white-space:pre-wrap; word-wrap:break-word; }
         .dc-image { max-width:100%; border-radius:4px; margin-top:8px; display:block; }
         .dc-thumb { width:80px; height:80px; border-radius:4px; grid-column:2 / 3; grid-row:1 / 2; object-fit:cover; }
-        .dc-footer { margin-top:8px; display:flex; align-items:center; gap:8px; color:#949ba4; font-size:12px; font-weight:500; }
-        .dc-footer img { width:20px; height:20px; border-radius:50%; }
         .dc-emoji { width:20px; height:20px; vertical-align:-4px; }
         .dc-mention { background:rgba(88,101,242,.3); color:#c9cdfb; padding:0 2px; border-radius:3px; font-weight:500; }
+
+        /* ===== SELECT MENU ESTILO DISCORD ===== */
+        .dc-select { margin-top: 10px; background: #1e1f22; border-radius: 4px; cursor: pointer; position: relative; user-select: none; }
+        .dc-select-placeholder { padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; color: #949ba4; font-size: 14px; gap: 8px; }
+        .dc-select-arrow { transition: transform .2s; font-size: 10px; color: #b5bac1; }
+        .dc-select.open .dc-select-arrow { transform: rotate(180deg); }
+        .dc-select-menu { display: none; position: absolute; bottom: 100%; left: 0; right: 0; background: #2b2d31; border-radius: 4px; padding: 8px; margin-bottom: 4px; box-shadow: 0 8px 16px rgba(0,0,0,0.4); max-height: 220px; overflow-y: auto; border: 1px solid #1e1f22; z-index: 5; }
+        .dc-select.open .dc-select-menu { display: block; }
+        .dc-select-option { padding: 8px 10px; border-radius: 3px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 8px; color: #dbdee1; font-size: 14px; transition: background .1s; }
+        .dc-select-option:hover { background: #35373c; }
+        .dc-select-option-desc { color: #949ba4; font-size: 12px; white-space: nowrap; }
 
         /* ===== EMOJI PICKER ===== */
         #emoji-picker-box { display:none; position:absolute; z-index:100; top:100%; left:0; right:0; background:#2b2d31; border:1px solid #444; border-radius:8px; padding:12px; max-height:280px; overflow-y:auto; box-shadow:0 10px 30px rgba(0,0,0,.6); }
@@ -311,9 +291,6 @@
         .dc-embed { background:#2b2d31; border-left:4px solid #ff0000; border-radius:4px; padding:8px 16px 16px 12px; max-width:520px; color:#dbdee1; font-size:14px; line-height:1.375; display:grid; grid-template-columns:auto 1fr; column-gap:12px; }
         .dc-embed-inner { grid-column:1 / -1; min-width:0; }
         .dc-embed-inner.has-thumb { grid-column:1 / 2; }
-        .dc-author { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
-        .dc-author img { width:24px; height:24px; border-radius:50%; }
-        .dc-author span { color:#f2f3f5; font-size:14px; font-weight:600; }
         .dc-title { color:#f2f3f5; font-size:16px; font-weight:600; margin-bottom:4px; }
         .dc-desc { color:#dbdee1; font-size:14px; white-space:pre-wrap; word-wrap:break-word; }
         .dc-desc h1 { font-size:1.5em; margin:8px 0 4px; color:#f2f3f5; }
@@ -323,17 +300,20 @@
         .dc-desc code { background:#1e1f22; padding:1px 4px; border-radius:3px; font-family:'Consolas',monospace; font-size:.85em; }
         .dc-desc pre { background:#1e1f22; padding:8px; border-radius:4px; border:1px solid #232428; overflow-x:auto; margin:6px 0; }
         .dc-desc blockquote { border-left:4px solid #4f545c; padding-left:12px; margin:6px 0; color:#dbdee1; }
-        .dc-fields { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:8px; }
-        .dc-field { min-width:0; }
-        .dc-field.inline-false { grid-column:1 / -1; }
-        .dc-field-name { color:#f2f3f5; font-weight:600; font-size:14px; margin-bottom:2px; }
-        .dc-field-value { color:#dbdee1; font-size:14px; white-space:pre-wrap; word-wrap:break-word; }
         .dc-image { max-width:100%; border-radius:4px; margin-top:8px; display:block; }
         .dc-thumb { width:80px; height:80px; border-radius:4px; grid-column:2 / 3; grid-row:1 / 2; object-fit:cover; }
-        .dc-footer { margin-top:8px; display:flex; align-items:center; gap:8px; color:#949ba4; font-size:12px; font-weight:500; }
-        .dc-footer img { width:20px; height:20px; border-radius:50%; }
         .dc-emoji { width:20px; height:20px; vertical-align:-4px; }
         .dc-mention { background:rgba(88,101,242,.3); color:#c9cdfb; padding:0 2px; border-radius:3px; font-weight:500; }
+
+        .dc-select { margin-top: 10px; background: #1e1f22; border-radius: 4px; cursor: pointer; position: relative; user-select: none; }
+        .dc-select-placeholder { padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; color: #949ba4; font-size: 14px; gap: 8px; }
+        .dc-select-arrow { transition: transform .2s; font-size: 10px; color: #b5bac1; }
+        .dc-select.open .dc-select-arrow { transform: rotate(180deg); }
+        .dc-select-menu { display: none; position: absolute; bottom: 100%; left: 0; right: 0; background: #2b2d31; border-radius: 4px; padding: 8px; margin-bottom: 4px; box-shadow: 0 8px 16px rgba(0,0,0,0.4); max-height: 220px; overflow-y: auto; border: 1px solid #1e1f22; z-index: 5; }
+        .dc-select.open .dc-select-menu { display: block; }
+        .dc-select-option { padding: 8px 10px; border-radius: 3px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 8px; color: #dbdee1; font-size: 14px; transition: background .1s; }
+        .dc-select-option:hover { background: #35373c; }
+        .dc-select-option-desc { color: #949ba4; font-size: 12px; white-space: nowrap; }
     </style>
 
     <!-- ===== TELA DE BLOQUEIO ===== -->
@@ -346,45 +326,40 @@
         </div>
     </div>
 
-    <!-- ===== FUNDO ===== -->
     <div class="bg-full"></div>
     <div class="overlay"></div>
 
-    <!-- ===== HEADER ===== -->
     <header>
-        <button onclick="location.reload()" class="logo-link">Jordan Shop | Staff</button>
+        <button type="button" onclick="location.reload()" class="logo-link">Jordan Shop | Staff</button>
         <div class="refresh-container">
-            <button class="refresh-btn" onclick="atualizarPagina()" title="Atualizar página">
+            <button type="button" class="refresh-btn" onclick="atualizarPagina()" title="Atualizar página">
                 <span id="refreshIcon">🔄</span> Atualizar
             </button>
             <div class="user-tag">
                 <img src="logo.png" class="user-avatar" alt="Logo">
-                Olá, <span id="nav-username">Staff</span>
+                <span id="nav-username">Olá, Staff</span>
             </div>
         </div>
     </header>
 
-    <!-- ===== CONTAINER PRINCIPAL ===== -->
     <div class="container">
 
-        <!-- ASIDE -->
         <aside>
             <input type="text" id="search" class="search-box" placeholder="Procurar função..." onkeyup="filtrarMenu()">
             <div class="nav-links">
-                <button class="nav-btn active" onclick="showSection('welcome-section')">INÍCIO</button>
-                <button class="nav-btn" onclick="showSection('transcripts-section')">TRANSCRIPTS</button>
-                <button class="nav-btn" onclick="showSection('vendas-section')">VENDAS</button>
-                <button class="nav-btn" onclick="showSection('embed-section')">CRIAR EMBED</button>
-                <button class="nav-btn" onclick="showSection('menus-section')">EDITAR MENUS</button>
-                <button class="nav-btn" onclick="showSection('bot-status-section')">SITE ONLINE</button>
+                <button type="button" class="nav-btn active" onclick="showSection('welcome-section')">INÍCIO</button>
+                <button type="button" class="nav-btn" onclick="showSection('transcripts-section')">TRANSCRIPTS</button>
+                <button type="button" class="nav-btn" onclick="showSection('vendas-section')">VENDAS</button>
+                <button type="button" class="nav-btn" onclick="showSection('embed-section')">CRIAR EMBED</button>
+                <button type="button" class="nav-btn" onclick="showSection('menus-section')">EDITAR MENUS</button>
+                <button type="button" class="nav-btn" onclick="showSection('bot-status-section')">SITE ONLINE</button>
             </div>
-            <button class="logout-btn" onclick="logout()">SAIR 🚪</button>
+            <button type="button" class="logout-btn" onclick="logout()">SAIR 🚪</button>
         </aside>
 
-        <!-- MAIN -->
         <main>
 
-            <!-- ===== DASHBOARD (INÍCIO) ===== -->
+            <!-- ===== DASHBOARD ===== -->
             <div id="welcome-section" class="content-div active">
                 <h1 id="main-welcome" style="font-size:2rem; margin-bottom:20px; text-align:center;">Bem-Vindo</h1>
 
@@ -406,9 +381,7 @@
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-label">📡 Status do Bot</div>
-                        <div class="kpi-value" id="kpiStatusBot">
-                            <span class="status-dot online"></span> Online
-                        </div>
+                        <div class="kpi-value" id="kpiStatusBot"><span class="status-dot online"></span> Online</div>
                         <div class="kpi-sub">API funcionando</div>
                     </div>
                 </div>
@@ -420,10 +393,10 @@
                     </div>
                     <div class="quick-actions">
                         <h3>⚡ Atalhos Rápidos</h3>
-                        <button class="quick-btn" onclick="showSection('embed-section')"><i>🎫</i> Criar Novo Embed</button>
-                        <button class="quick-btn" onclick="abrirModalVenda()"><i>➕</i> Registrar Venda</button>
-                        <button class="quick-btn" onclick="showSection('transcripts-section')"><i>📄</i> Ver Último Transcript</button>
-                        <button class="quick-btn" onclick="location.reload()"><i>🔄</i> Atualizar Dados</button>
+                        <button type="button" class="quick-btn" onclick="showSection('embed-section')"><i>🎫</i> Criar Novo Embed</button>
+                        <button type="button" class="quick-btn" onclick="abrirModalVenda()"><i>➕</i> Registrar Venda</button>
+                        <button type="button" class="quick-btn" onclick="showSection('transcripts-section')"><i>📄</i> Ver Último Transcript</button>
+                        <button type="button" class="quick-btn" onclick="location.reload()"><i>🔄</i> Atualizar Dados</button>
                     </div>
                 </div>
 
@@ -454,10 +427,9 @@
                 <div style="width:100%; max-width:900px; display:flex; flex-direction:column; align-items:center;">
                     <div class="vendas-header-row">
                         <h1 class="vendas-titulo">📊 Histórico de Vendas</h1>
-                        <button class="btn-registrar-venda" onclick="abrirModalVenda()"><span>➕</span> Registrar Venda</button>
+                        <button type="button" class="btn-registrar-venda" onclick="abrirModalVenda()"><span>➕</span> Registrar Venda</button>
                     </div>
                     <div class="vendas-lista-container" id="vendas-lista">
-                        <!-- Itens intercalados do primeiro trecho -->
                         <div class="log-item">
                             <div class="log-info">
                                 <strong>🛍️ Comprador: @silvexxx/leo._.1330 | 📅 Data: 27/09/2025</strong>
@@ -472,59 +444,33 @@
                             </div>
                             <span class="status-badge" style="background: #ffcc00; color: #000;">SEMANAL</span>
                         </div>
-                        <div class="log-item">
-                            <div class="log-info">
-                                <strong>🛍️ Comprador: @silvexxx/leo._.1330 | 📅 Data: 28/09/2025</strong>
-                                <span>📦 Produto: ⭐・rockstar-unban<br>💰 Preço: €0.50<br>🛡️ Staff: @! Jordan</span>
-                            </div>
-                            <span class="status-badge" style="background: #00ff00; color: #000;">INFINITO</span>
-                        </div>
-                        <div class="log-item">
-                            <div class="log-info">
-                                <strong>🛍️ Comprador: @silvexxx/leo._.1330 | 📅 Data: 28/09/2025</strong>
-                                <span>📦 Produto: 🌎・vpn-service<br>💰 Preço: ?<br>🛡️ Staff: @! Jordan</span>
-                            </div>
-                            <span class="status-badge" style="background: #00ff00; color: #000;">INFINITO</span>
-                        </div>
-                        <div class="log-item">
-                            <div class="log-info">
-                                <strong>🛍️ Comprador: @silvexxx/leo._.1330 | 📅 Data: 19/10/2025</strong>
-                                <span>📦 Produto: 🦈・shark-menu<br>💰 Preço: €63.00<br>🛡️ Staff: @! Jordan</span>
-                            </div>
-                            <span class="status-badge" style="background: #00ff00; color: #000;">LIFETIME</span>
-                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- ===== CRIAR EMBED (ATUALIZADO) ===== -->
+            <!-- ===== CRIAR EMBED ===== -->
             <div id="embed-section" class="content-div">
                 <h1 style="text-align: center;">🎫 Criar Painel de Tickets</h1>
                 <div class="embed-creator-card">
-                    <!-- ID do Canal -->
                     <div style="margin-bottom:15px;">
                         <label class="form-label">🆔 ID do Canal de Destino</label>
                         <input type="text" id="emb-canal" class="form-input" placeholder="Ex: 1234567890123456789">
                         <small style="color:#888; font-size:0.75rem;">Clica com o botão direito no canal Discord → Copiar ID do Canal</small>
                     </div>
-                    <!-- Título -->
                     <div style="margin-bottom:15px;">
                         <label class="form-label">🖊️ Título do Embed</label>
                         <input type="text" id="emb-titulo" class="form-input" placeholder="Ex: Atendimento Jordan Shop">
                     </div>
-                    <!-- Descrição -->
                     <div style="margin-bottom:15px;">
                         <label class="form-label">📝 Descrição / Mensagem</label>
                         <textarea id="emb-desc" class="form-textarea" placeholder="Ex: Bem-vindo à Jordan Shop!&#10;Clica no menu abaixo para abrir um ticket."></textarea>
                         <small style="color:#888; font-size:0.75rem;">
-                            <strong>Formatação:</strong> 
-                            <code>**negrito**</code>, <code>*itálico*</code>, <code>__sublinhado__</code>, <code>~~riscado~~</code>, 
+                            <strong>Formatação:</strong>
+                            <code>**negrito**</code>, <code>*itálico*</code>, <code>__sublinhado__</code>, <code>~~riscado~~</code>,
                             <code># Título</code>, <code>## Subtítulo</code>, <code>### Sub-subtítulo</code>.<br>
-                            <strong>Emojis personalizados:</strong> usa o formato <code>&lt;:nome:id&gt;</code> (ex: <code>&lt;:shark:123456789&gt;</code>).<br>
-                            <strong>Emojis Unicode</strong> (🦈) funcionam normalmente.
+                            <strong>Emojis personalizados:</strong> usa o formato <code>&lt;:nome:id&gt;</code> (ex: <code>&lt;:shark:123456789&gt;</code>).
                         </small>
                     </div>
-                    <!-- Imagem - tipo e URL -->
                     <div style="margin-bottom:15px;">
                         <label class="form-label">🖼️ Imagem (opcional)</label>
                         <div class="row-image-options">
@@ -532,38 +478,13 @@
                                 <select id="emb-tipo-imagem" class="form-input" style="margin-bottom:0;">
                                     <option value="normal">Normal (imagem grande)</option>
                                     <option value="thumbnail">Thumbnail (miniatura)</option>
-                                    <option value="footer">Rodapé (ícone no footer)</option>
                                 </select>
                             </div>
                             <div>
                                 <input type="text" id="emb-imagem" class="form-input" placeholder="URL da imagem" style="margin-bottom:0;">
                             </div>
                         </div>
-                        <small style="color:#888; font-size:0.75rem;">Escolhe o tipo e insere o URL da imagem (ex: https://exemplo.com/imagem.png).</small>
                     </div>
-
-                    <!-- Autor -->
-                    <div style="margin-bottom:15px;">
-                        <label class="form-label">👤 Autor (opcional)</label>
-                        <div class="row-image-options">
-                            <input type="text" id="emb-autor-nome" class="form-input" placeholder="Nome do autor" style="margin-bottom:0;">
-                            <input type="text" id="emb-autor-icon" class="form-input" placeholder="URL do ícone do autor" style="margin-bottom:0;">
-                        </div>
-                    </div>
-
-                    <!-- Rodapé -->
-                    <div style="margin-bottom:15px;">
-                        <label class="form-label">📎 Rodapé (opcional)</label>
-                        <div class="row-image-options">
-                            <input type="text" id="emb-footer-texto" class="form-input" placeholder="Texto do rodapé" style="margin-bottom:0;">
-                            <input type="text" id="emb-footer-icon" class="form-input" placeholder="URL do ícone do rodapé" style="margin-bottom:0;">
-                        </div>
-                    </div>
-
-                    <label style="display:flex; align-items:center; gap:8px; color:#bbb; margin-bottom:15px;">
-                        <input type="checkbox" id="emb-timestamp" checked>
-                        Mostrar timestamp (hora atual)
-                    </label>
 
                     <!-- Emoji Picker -->
                     <div style="position:relative; margin-bottom:15px;">
@@ -580,20 +501,23 @@
                     <!-- Produtos -->
                     <div style="margin-bottom:20px;">
                         <label class="form-label">📦 Produtos / Opções do Menu</label>
+                        <small style="color:#888; font-size:0.75rem; display:block; margin-bottom:8px;">
+                            Estes produtos aparecem no preview como um <strong>Select Menu do Discord</strong> (clicável).
+                        </small>
                         <div id="container-produtos"></div>
-                        <button onclick="addInputProduto()" class="btn-add">+ Adicionar Opção</button>
+                        <button type="button" onclick="addInputProduto()" class="btn-add">+ Adicionar Opção</button>
                     </div>
-                    <!-- Cor -->
+
                     <div style="margin-bottom:20px;">
                         <label class="form-label">🌈 Cor do Embed (Hex)</label>
                         <input type="text" id="emb-cor" class="form-input" style="width:150px;" value="#FF0000">
                     </div>
-                    <!-- Botões de Pré-visualização e Envio -->
+
                     <div style="display:flex; gap:10px; margin-top:10px;">
-                        <button onclick="previsualizarEmbed()" class="btn-preview" style="flex:1;">👁️ Pré-visualizar</button>
-                        <button id="btn-env-emb" onclick="enviarEmbed()" class="btn-enviar" style="flex:2;">🚀 ENVIAR VIA BOT</button>
+                        <button type="button" onclick="previsualizarEmbed()" class="btn-preview" style="flex:1;">👁️ Pré-visualizar</button>
+                        <button type="button" id="btn-env-emb" onclick="enviarEmbed()" class="btn-enviar" style="flex:2;">🚀 ENVIAR VIA BOT</button>
                     </div>
-                    <!-- Área de pré-visualização -->
+
                     <div id="preview-box" class="preview-box">
                         <h4 style="color:#ddd; margin-bottom:10px;">📋 Pré-visualização do Embed</h4>
                         <iframe id="preview-iframe" srcdoc="<html><body style='background:#313338;color:#fff;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100%;margin:0;'><p style='color:#888;'>Preenche os campos e clica em 'Pré-visualizar'</p></body></html>"></iframe>
@@ -607,9 +531,9 @@
                 <h1>📝 Editar Menus</h1>
                 <p class="subtitulo">Altera títulos, descrições, preços, imagens e opções. Aplica no bot em segundos.</p>
                 <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
-                    <button class="refresh-btn" onclick="carregarMenus()">🔄 Recarregar</button>
-                    <button class="refresh-btn" onclick="expandirTodos()">⬇️ Expandir Todos</button>
-                    <button class="refresh-btn" onclick="recolherTodos()">⬆️ Recolher Todos</button>
+                    <button type="button" class="refresh-btn" onclick="carregarMenus()">🔄 Recarregar</button>
+                    <button type="button" class="refresh-btn" onclick="expandirTodos()">⬇️ Expandir Todos</button>
+                    <button type="button" class="refresh-btn" onclick="recolherTodos()">⬆️ Recolher Todos</button>
                 </div>
                 <div id="menus-lista" style="width:100%; max-width:1100px;">
                     <div class="sem-resultados">A carregar menus...</div>
@@ -634,7 +558,7 @@
         <div class="modal-venda">
             <div class="modal-header">
                 <h2 class="modal-titulo"><span>📝</span> Registrar Nova Venda</h2>
-                <button class="modal-close" onclick="fecharModalVenda()">×</button>
+                <button type="button" class="modal-close" onclick="fecharModalVenda()">×</button>
             </div>
             <form id="formVenda" onsubmit="registrarVenda(event)">
                 <div class="form-group">
@@ -647,7 +571,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label-modal">📦 Produto</label>
-                    <input type="text" class="form-input-modal" id="vendaProduto" placeholder="Ex: 🦈・shark-menu (mete o nome do menu e a opção)" required>
+                    <input type="text" class="form-input-modal" id="vendaProduto" placeholder="Ex: 🦈・shark-menu" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label-modal">💰 Preço</label>
@@ -673,17 +597,14 @@
         </div>
     </div>
 
-    <!-- ===== TOAST ===== -->
     <div class="toast" id="toastVenda">
         <span id="toastIcon">✅</span>
         <span id="toastMsg">Venda registrada com sucesso!</span>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- ===== SCRIPTS ===== -->
     <script>
         // =============================================================
-        // 1. VERIFICAÇÃO DE SESSÃO + SAUDAÇÃO DINÂMICA
+        // 1. SESSÃO + SAUDAÇÃO DINÂMICA
         // =============================================================
         (function verificarSessao() {
             const params = new URLSearchParams(window.location.search);
@@ -706,9 +627,8 @@
                 block.classList.remove('active');
                 document.querySelector('header').style.display = 'flex';
                 document.querySelector('.container').style.display = 'flex';
-                document.getElementById('nav-username').innerText = sessao;
-                atualizarSaudacao();
                 document.getElementById('main-welcome').innerText = "Bem-Vindo, " + sessao;
+                atualizarSaudacao();
             }
         })();
 
@@ -743,9 +663,8 @@
                 }
             });
 
-            if (id === 'transcripts-section') {
-                fetchLogs();
-            }
+            if (id === 'transcripts-section') fetchLogs();
+            if (id === 'menus-section') carregarMenus();
         }
 
         function atualizarPagina() {
@@ -767,9 +686,7 @@
             if (relogio) {
                 relogio.innerText = new Date().toLocaleTimeString('pt-PT', {
                     timeZone: 'Europe/Lisbon',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit'
+                    hour: '2-digit', minute: '2-digit', second: '2-digit'
                 });
             }
         }
@@ -777,72 +694,33 @@
         atualizarRelogio();
 
         // =============================================================
-        // 3. DASHBOARD (MOCK) – PODE SER SUBSTITUÍDO POR DADOS REAIS
+        // 3. DASHBOARD (MOCK)
         // =============================================================
         function gerarDadosDashboard() {
             const vendasHoje = Math.floor(Math.random() * 500) + 50;
             const qtdVendas = Math.floor(Math.random() * 20) + 1;
             document.getElementById('kpiVendasHoje').textContent = '€' + vendasHoje.toFixed(2).replace('.', ',');
             document.getElementById('kpiVendasCount').textContent = qtdVendas + ' venda' + (qtdVendas > 1 ? 's' : '');
-
-            const tickets = Math.floor(Math.random() * 15);
-            document.getElementById('kpiTickets').textContent = tickets;
-
-            const clientes = Math.floor(Math.random() * 200) + 50;
-            document.getElementById('kpiClientes').textContent = clientes;
-
-            const statusEl = document.getElementById('kpiStatusBot');
-            statusEl.innerHTML = '<span class="status-dot online"></span> Online';
+            document.getElementById('kpiTickets').textContent = Math.floor(Math.random() * 15);
+            document.getElementById('kpiClientes').textContent = Math.floor(Math.random() * 200) + 50;
+            document.getElementById('kpiStatusBot').innerHTML = '<span class="status-dot online"></span> Online';
         }
 
         let chartInstance = null;
         function gerarGraficoVendas() {
             const ctx = document.getElementById('vendasChart').getContext('2d');
             if (chartInstance) chartInstance.destroy();
-
-            const labels = [];
-            const valores = [];
+            const labels = [], valores = [];
             for (let i = 6; i >= 0; i--) {
                 const d = new Date();
                 d.setDate(d.getDate() - i);
                 labels.push(d.toLocaleDateString('pt-PT', { day: '2-digit', month: 'short' }));
                 valores.push(Math.floor(Math.random() * 180) + 20);
             }
-
             chartInstance = new Chart(ctx, {
                 type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Vendas (€)',
-                        data: valores,
-                        borderColor: '#8b0000',
-                        backgroundColor: 'rgba(139,0,0,0.2)',
-                        tension: 0.3,
-                        pointBackgroundColor: '#ff0000',
-                        pointBorderColor: '#fff',
-                        borderWidth: 2,
-                        fill: true,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { labels: { color: '#ccc', font: { size: 11 } } }
-                    },
-                    scales: {
-                        x: {
-                            ticks: { color: '#aaa', font: { size: 10 } },
-                            grid: { color: 'rgba(255,255,255,0.05)' }
-                        },
-                        y: {
-                            ticks: { color: '#aaa', font: { size: 10 } },
-                            grid: { color: 'rgba(255,255,255,0.05)' },
-                            beginAtZero: true
-                        }
-                    }
-                }
+                data: { labels, datasets: [{ label: 'Vendas (€)', data: valores, borderColor: '#8b0000', backgroundColor: 'rgba(139,0,0,0.2)', tension: 0.3, pointBackgroundColor: '#ff0000', pointBorderColor: '#fff', borderWidth: 2, fill: true }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#ccc', font: { size: 11 } } } }, scales: { x: { ticks: { color: '#aaa', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } }, y: { ticks: { color: '#aaa', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true } } }
             });
         }
 
@@ -851,19 +729,13 @@
                 { icon: '🛒', text: 'Cliente @silvexxx comprou sp00fer-1click', time: 'há 5 min' },
                 { icon: '📄', text: 'Transcript #104 guardado por Jordan', time: 'há 18 min' },
                 { icon: '💰', text: 'Venda de shark-menu registada (€18,00)', time: 'há 1 hora' },
-                { icon: '🎫', text: 'Embed de tickets enviado para #suporte', time: 'há 2 horas' },
-                { icon: '🔄', text: 'Sistema atualizado – versão 2.1', time: 'há 3 horas' },
             ];
             const container = document.getElementById('activityList');
             container.innerHTML = '';
             actividades.forEach(act => {
                 const div = document.createElement('div');
                 div.className = 'activity-item';
-                div.innerHTML = `
-                    <span class="act-icon">${act.icon}</span>
-                    <span class="act-text">${act.text}</span>
-                    <span class="act-time">${act.time}</span>
-                `;
+                div.innerHTML = `<span class="act-icon">${act.icon}</span><span class="act-text">${act.text}</span><span class="act-time">${act.time}</span>`;
                 container.appendChild(div);
             });
         }
@@ -873,7 +745,6 @@
                 { tag: '⚠️', text: 'Manutenção no servidor agendada para as 22h' },
                 { tag: '📢', text: 'Novo produto: "Unban Tool" disponível!' },
                 { tag: '✅', text: 'Bot do Discord reiniciado com sucesso' },
-                { tag: '💬', text: 'Responde ao ticket #42 do cliente @tony' },
             ];
             const container = document.getElementById('notificationsList');
             container.innerHTML = '';
@@ -911,12 +782,7 @@
             } catch (e) {
                 console.error(e);
                 subtitulo.innerText = 'Erro ao carregar';
-                container.innerHTML = `
-                    <div class="sem-resultados">
-                        ❌ Erro ao ligar à API.<br>
-                        <small>Verifica se o servidor está online.</small>
-                    </div>
-                `;
+                container.innerHTML = `<div class="sem-resultados">❌ Erro ao ligar à API.<br><small>Verifica se o servidor está online.</small></div>`;
             }
         }
 
@@ -926,19 +792,15 @@
                 container.innerHTML = "<p class='sem-resultados'>📭 Nenhum transcript encontrado.</p>";
                 return;
             }
-
             container.innerHTML = '';
             lista.forEach((file, index) => {
                 const nomeCompleto = file.name.replace('.html', '');
                 let produto = 'Produto';
                 const partes = nomeCompleto.split('-');
-                if (partes.length >= 2) {
-                    produto = partes.slice(1, partes.length - 1).join(' ') || 'Produto';
-                }
+                if (partes.length >= 2) produto = partes.slice(1, partes.length - 1).join(' ') || 'Produto';
                 const cliente = partes[partes.length - 1]?.toUpperCase() || 'CLIENTE';
                 const data = file.created_at ? new Date(file.created_at).toLocaleString('pt-PT') : 'Data desconhecida';
                 const id = `transcript-${index}`;
-
                 const item = document.createElement('div');
                 item.className = 'transcript-item';
                 item.innerHTML = `
@@ -948,10 +810,8 @@
                             <div class="transcript-meta">🕒 ${data}</div>
                         </div>
                         <div class="transcript-btns">
-                            <a href="/transcripts/${nomeCompleto}" target="_blank" class="btn-html" onclick="event.stopPropagation()">
-                                🔗 ABRIR
-                            </a>
-                            <button class="btn-expandir" id="btn-exp-${id}">▼</button>
+                            <a href="/transcripts/${nomeCompleto}" target="_blank" class="btn-html" onclick="event.stopPropagation()">🔗 ABRIR</a>
+                            <button type="button" class="btn-expandir" id="btn-exp-${id}">▼</button>
                         </div>
                     </div>
                     <div class="transcript-preview" id="preview-${id}"></div>
@@ -961,9 +821,7 @@
         }
 
         function pesquisarTranscripts(valor) {
-            const filtrados = todosTranscripts.filter(f =>
-                f.name.toLowerCase().includes(valor.toLowerCase())
-            );
+            const filtrados = todosTranscripts.filter(f => f.name.toLowerCase().includes(valor.toLowerCase()));
             renderTranscripts(filtrados);
         }
 
@@ -971,157 +829,51 @@
             const preview = document.getElementById(`preview-${id}`);
             const btn = document.getElementById(`btn-exp-${id}`);
             const aberto = preview.classList.contains('aberto');
-
             if (aberto) {
                 preview.classList.remove('aberto');
                 btn.classList.remove('aberto');
                 btn.innerText = '▼';
                 return;
             }
-
             preview.classList.add('aberto');
             btn.classList.add('aberto');
             btn.innerText = '▲';
-
             const transcriptId = nome.replace('.html', '');
-
             if (transcriptsCarregados[transcriptId]) return;
-
             preview.innerHTML = '<div class="preview-loading">A carregar transcript...</div>';
-
             try {
                 const response = await fetch(`/transcripts/${transcriptId}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const html = await response.text();
-
                 const iframe = document.createElement('iframe');
                 iframe.style.width = '100%';
                 iframe.style.height = '400px';
                 iframe.style.border = 'none';
                 iframe.style.background = 'white';
                 iframe.sandbox = 'allow-same-origin allow-scripts allow-popups';
-
-                iframe.onload = () => {
-                    transcriptsCarregados[transcriptId] = true;
-                };
-
+                iframe.onload = () => { transcriptsCarregados[transcriptId] = true; };
                 preview.innerHTML = '';
                 preview.appendChild(iframe);
                 iframe.srcdoc = html;
-
             } catch (error) {
                 console.error('Erro ao carregar:', error);
-                preview.innerHTML = `
-                    <div class="preview-error">
-                        ❌ Erro ao carregar transcript.<br>
-                        <small>${error.message}</small><br><br>
-                        <a href="/transcripts/${transcriptId}" target="_blank" class="btn-html" style="display:inline-block;">
-                            🔗 Abrir em Nova Aba
-                        </a>
-                        <br><br>
-                        <small style="color:#888;">Se o problema persistir, verifica se o arquivo existe em:<br>/transcripts/${transcriptId}</small>
-                    </div>
-                `;
+                preview.innerHTML = `<div class="preview-error">❌ Erro ao carregar transcript.<br><small>${error.message}</small></div>`;
             }
         }
 
         // =============================================================
-        // 5. CRIAR EMBED (COM PRÉ-VISUALIZAÇÃO E NOVOS CAMPOS)
+        // 5. CRIAR EMBED
         // =============================================================
         function addInputProduto() {
             const container = document.getElementById('container-produtos');
             const div = document.createElement('div');
             div.className = 'produto-row';
             div.innerHTML = `
-                <input type="text" class="form-input p-nome" placeholder="Nome do Produto" style="flex:2;">
-                <input type="text" class="form-input p-preco" placeholder="Preço" style="flex:1;">
-                <button onclick="this.parentElement.remove()" title="Remover">×</button>
+                <input type="text" class="form-input p-nome" placeholder="Nome do Produto (ex: 7 dias)" style="flex:2;">
+                <input type="text" class="form-input p-preco" placeholder="Preço (ex: 7,50)" style="flex:1;">
+                <button type="button" onclick="this.parentElement.remove()" title="Remover">×</button>
             `;
             container.appendChild(div);
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            if (document.getElementById('container-produtos').children.length === 0) {
-                addInputProduto();
-            }
-            initDashboard();
-
-            if (document.getElementById('transcripts-section').classList.contains('active')) {
-                fetchLogs();
-            }
-        });
-
-        // ===== PRÉ-VISUALIZAÇÃO =====
-        function previsualizarEmbed() {
-            const titulo   = document.getElementById('emb-titulo').value.trim();
-            const desc     = document.getElementById('emb-desc').value;
-            const cor      = document.getElementById('emb-cor').value || '#FF0000';
-            const tipoImg  = document.getElementById('emb-tipo-imagem').value;
-            const urlImg   = document.getElementById('emb-imagem').value.trim();
-            const autorNome= document.getElementById('emb-autor-nome').value.trim();
-            const autorIcon= document.getElementById('emb-autor-icon').value.trim();
-            const footTxt  = document.getElementById('emb-footer-texto').value.trim();
-            const footIcon = document.getElementById('emb-footer-icon').value.trim();
-            const usrTs    = document.getElementById('emb-timestamp').checked;
-
-            const produtos = [];
-            document.querySelectorAll('.p-nome').forEach((n, i) => {
-                if (n.value.trim()) {
-                    produtos.push({
-                        nome: n.value.trim(),
-                        preco: document.querySelectorAll('.p-preco')[i]?.value.trim() || 'N/A'
-                    });
-                }
-            });
-
-            const temThumb = urlImg && tipoImg === 'thumbnail';
-            const temImg   = urlImg && tipoImg === 'normal';
-            const urlFootIcon = footIcon || (tipoImg === 'footer' ? urlImg : '');
-
-            let html = `<div class="discord-preview-wrap"><div class="dc-embed" style="border-left-color:${escapeHtml(cor)};">`;
-            if (temThumb) html += `<img class="dc-thumb" src="${escapeHtml(urlImg)}" alt="">`;
-            html += `<div class="dc-embed-inner${temThumb ? ' has-thumb' : ''}">`;
-
-            if (autorNome) {
-                html += `<div class="dc-author">`;
-                if (autorIcon) html += `<img src="${escapeHtml(autorIcon)}" alt="">`;
-                html += `<span>${escapeHtml(autorNome)}</span></div>`;
-            }
-            if (titulo) html += `<div class="dc-title">${formatarMarkdown(titulo)}</div>`;
-            if (desc)   html += `<div class="dc-desc">${formatarMarkdown(desc)}</div>`;
-
-            if (produtos.length) {
-                html += `<div class="dc-fields">`;
-                produtos.forEach(p => {
-                    html += `<div class="dc-field inline-false">
-                        <div class="dc-field-name">${formatarMarkdown(p.nome)}</div>
-                        <div class="dc-field-value">${formatarMarkdown(p.preco)}</div>
-                    </div>`;
-                });
-                html += `</div>`;
-            }
-            if (temImg) html += `<img class="dc-image" src="${escapeHtml(urlImg)}" alt="">`;
-
-            if (footTxt || urlFootIcon || usrTs) {
-                html += `<div class="dc-footer">`;
-                if (urlFootIcon) html += `<img src="${escapeHtml(urlFootIcon)}" alt="">`;
-                if (footTxt) html += `<span>${escapeHtml(footTxt)}</span>`;
-                if (usrTs) {
-                    const a = new Date();
-                    html += `<span>${footTxt ? ' • ' : ''}${a.toLocaleDateString('pt-PT')} ${a.toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'})}</span>`;
-                }
-                html += `</div>`;
-            }
-            html += `</div></div></div>`;
-
-            const iframe = document.getElementById('preview-iframe');
-            iframe.srcdoc = `<html><head><style>
-                body { margin:0; background:#313338; }
-                ${document.getElementById('dc-preview-style')?.innerHTML || ''}
-            </style></head><body>${html}</body></html>`;
-            document.getElementById('preview-box').classList.add('show');
         }
 
         function escapeHtml(text) {
@@ -1163,6 +915,79 @@
             return html;
         }
 
+        // ===== PRÉ-VISUALIZAÇÃO (com Select Menu interativo) =====
+        function previsualizarEmbed() {
+            const titulo  = document.getElementById('emb-titulo').value.trim();
+            const desc    = document.getElementById('emb-desc').value;
+            const cor     = document.getElementById('emb-cor').value || '#FF0000';
+            const tipoImg = document.getElementById('emb-tipo-imagem').value;
+            const urlImg  = document.getElementById('emb-imagem').value.trim();
+
+            const produtos = [];
+            document.querySelectorAll('.p-nome').forEach((n, i) => {
+                if (n.value.trim()) {
+                    produtos.push({
+                        nome: n.value.trim(),
+                        preco: document.querySelectorAll('.p-preco')[i]?.value.trim() || ''
+                    });
+                }
+            });
+
+            const temThumb = urlImg && tipoImg === 'thumbnail';
+            const temImg   = urlImg && tipoImg === 'normal';
+
+            let html = `<div class="discord-preview-wrap"><div class="dc-embed" style="border-left-color:${escapeHtml(cor)};">`;
+            if (temThumb) html += `<img class="dc-thumb" src="${escapeHtml(urlImg)}" alt="">`;
+            html += `<div class="dc-embed-inner${temThumb ? ' has-thumb' : ''}">`;
+
+            if (titulo) html += `<div class="dc-title">${formatarMarkdown(titulo)}</div>`;
+            if (desc)   html += `<div class="dc-desc">${formatarMarkdown(desc)}</div>`;
+
+            // Select menu estilo Discord
+            if (produtos.length) {
+                html += `<div class="dc-select">
+                    <div class="dc-select-placeholder">
+                        <span>Selecione uma opção</span>
+                        <span class="dc-select-arrow">▼</span>
+                    </div>
+                    <div class="dc-select-menu">
+                        ${produtos.map(p => `
+                            <div class="dc-select-option">
+                                <div>${formatarMarkdown(p.nome)}</div>
+                                <div class="dc-select-option-desc">${formatarMarkdown(p.preco)}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>`;
+            }
+
+            if (temImg) html += `<img class="dc-image" src="${escapeHtml(urlImg)}" alt="">`;
+
+            html += `</div></div></div>`;
+
+            const iframe = document.getElementById('preview-iframe');
+            iframe.srcdoc = `<html><head><style>
+                body { margin:0; background:#313338; }
+                ${document.getElementById('dc-preview-style')?.innerHTML || ''}
+            </style></head><body>${html}
+            <script>
+                document.addEventListener('click', function(e) {
+                    var sel = e.target.closest('.dc-select');
+                    document.querySelectorAll('.dc-select.open').forEach(function(s) {
+                        if (s !== sel) s.classList.remove('open');
+                    });
+                    if (!sel) return;
+                    if (e.target.closest('.dc-select-option')) {
+                        sel.classList.remove('open');
+                        return;
+                    }
+                    sel.classList.toggle('open');
+                });
+            <\/script>
+            </body></html>`;
+            document.getElementById('preview-box').classList.add('show');
+        }
+
         // ===== ENVIAR EMBED =====
         async function enviarEmbed() {
             const canalId = document.getElementById('emb-canal').value.trim();
@@ -1173,25 +998,14 @@
             const urlImagem = document.getElementById('emb-imagem').value.trim();
             const btn = document.getElementById('btn-env-emb');
 
-            if (!canalId) {
-                alert("⚠️ Por favor, insere o ID do canal ou verifica se está correto!");
-                return;
-            }
-            if (!titulo || !desc) {
-                alert("⚠️ Por favor, preenche o título e a descrição!");
-                return;
-            }
+            if (!canalId) { alert("⚠️ Por favor, insere o ID do canal!"); return; }
+            if (!titulo || !desc) { alert("⚠️ Por favor, preenche o título e a descrição!"); return; }
 
             const nomes = document.querySelectorAll('.p-nome');
             const precos = document.querySelectorAll('.p-preco');
             let produtos = [];
             nomes.forEach((n, i) => {
-                if (n.value.trim()) {
-                    produtos.push({
-                        nome: n.value.trim(),
-                        preco: precos[i].value.trim() || "N/A"
-                    });
-                }
+                if (n.value.trim()) produtos.push({ nome: n.value.trim(), preco: precos[i].value.trim() || "N/A" });
             });
 
             btn.innerText = "⏳ A ENVIAR...";
@@ -1202,34 +1016,28 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        titulo,
-                        desc,
-                        cor,
-                        canalId,
-                        produtos,
+                        titulo, desc, cor, canalId, produtos,
                         imagem: urlImagem || '',
-                        tipoImagem: urlImagem ? tipoImagem : 'none' // 'normal', 'thumbnail', 'footer'
+                        tipoImagem: urlImagem ? tipoImagem : 'none'
                     })
                 });
 
-                if (response.ok) {
-                    const msg = await response.text();
-                    alert("✅ " + msg);
-                    document.getElementById('emb-canal').value = '';
-                    document.getElementById('emb-titulo').value = '';
-                    document.getElementById('emb-desc').value = '';
-                    document.getElementById('emb-imagem').value = '';
-                    document.getElementById('container-produtos').innerHTML = '';
-                    addInputProduto();
-                    document.getElementById('preview-box').classList.remove('show');
-                } else {
-                    const errorMsg = await response.text();
-                    throw new Error(errorMsg);
+                const text = await response.text();
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status} — ${text.slice(0, 120)}`);
                 }
+                alert("✅ " + text);
+                document.getElementById('emb-canal').value = '';
+                document.getElementById('emb-titulo').value = '';
+                document.getElementById('emb-desc').value = '';
+                document.getElementById('emb-imagem').value = '';
+                document.getElementById('container-produtos').innerHTML = '';
+                addInputProduto();
+                document.getElementById('preview-box').classList.remove('show');
             } catch (e) {
                 console.error(e);
                 alert("❌ Erro ao enviar: " + e.message +
-                    " | Verifica se: 1. O bot está online | 2. O ID do canal está correto | 3. O bot tem permissões no canal");
+                    "\n\n⚠️ Verifica se o backend tem o endpoint POST /api/enviar-embed publicado.");
             } finally {
                 btn.innerText = "🚀 ENVIAR VIA BOT";
                 btn.disabled = false;
@@ -1242,11 +1050,9 @@
         const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1491444823251751083/Cdbu_D0JbeXbMXikLvm15Ij052NZsJL0FLoMTdpMcM6AiMzT_-pVWSkA91uFcp5DhL2x';
 
         function abrirModalVenda() {
-            const modal = document.getElementById('modalVenda');
-            modal.classList.add('active');
+            document.getElementById('modalVenda').classList.add('active');
             document.body.style.overflow = 'hidden';
-            const hoje = new Date().toISOString().split('T')[0];
-            document.getElementById('vendaData').value = hoje;
+            document.getElementById('vendaData').value = new Date().toISOString().split('T')[0];
             document.getElementById('vendaComprador').focus();
         }
 
@@ -1275,9 +1081,7 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        function formatarData(dataStr) {
-            return new Date(dataStr).toLocaleDateString('pt-PT');
-        }
+        function formatarData(dataStr) { return new Date(dataStr).toLocaleDateString('pt-PT'); }
 
         function escapeHtml2(texto) {
             if (!texto) return '';
@@ -1303,12 +1107,10 @@
                 registradoPor: localStorage.getItem('staff_sessao') || 'Staff',
                 timestamp: new Date().toISOString()
             };
-
             const enviarDiscord = document.getElementById('vendaEnviarDiscord').checked;
 
             try {
                 adicionarVendaLista(vendaData);
-
                 if (enviarDiscord) {
                     try {
                         await enviarVendaDiscord(vendaData);
@@ -1319,7 +1121,6 @@
                 } else {
                     mostrarToast('Venda registrada com sucesso! ✅', 'success');
                 }
-
                 fecharModalVenda();
             } catch (erro) {
                 mostrarToast('Erro: ' + erro.message, 'error');
@@ -1344,33 +1145,18 @@
                 timestamp: new Date().toISOString(),
                 footer: { text: 'Jordan Shop Logs' }
             };
-
-            const payload = {
-                embeds: [embed],
-                content: '🎉 Nova venda por **' + venda.registradoPor + '**!'
-            };
-
+            const payload = { embeds: [embed], content: '🎉 Nova venda por **' + venda.registradoPor + '**!' };
             try {
-                await fetch(DISCORD_WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload),
-                    mode: 'no-cors'
-                });
+                await fetch(DISCORD_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), mode: 'no-cors' });
                 await new Promise(resolve => setTimeout(resolve, 500));
                 return;
-            } catch (e) {
-                console.warn('Fetch falhou, a tentar com XHR...', e);
-            }
+            } catch (e) { console.warn('Fetch falhou, a tentar com XHR...', e); }
 
             return new Promise((resolve, reject) => {
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', DISCORD_WEBHOOK_URL, true);
                 xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.onload = () => {
-                    if (xhr.status >= 200 && xhr.status < 300) resolve();
-                    else reject(new Error('HTTP ' + xhr.status));
-                };
+                xhr.onload = () => { if (xhr.status >= 200 && xhr.status < 300) resolve(); else reject(new Error('HTTP ' + xhr.status)); };
                 xhr.onerror = () => reject(new Error('Erro de rede'));
                 xhr.send(JSON.stringify(payload));
             });
@@ -1379,7 +1165,6 @@
         function adicionarVendaLista(venda) {
             const container = document.getElementById('vendas-lista');
             if (!container) return;
-
             let badgeStyle = 'background: #00ff00; color: #000;';
             const duracaoUpper = venda.duracao.toUpperCase();
             if (duracaoUpper.includes('SEMANAL')) badgeStyle = 'background: #ffcc00; color: #000;';
@@ -1397,14 +1182,6 @@
             `;
             container.insertBefore(div, container.firstChild);
         }
-
-        // Inicialização: garantir que a secção ativa seja INÍCIO
-        window.addEventListener('DOMContentLoaded', () => {
-            const active = document.querySelector('.content-div.active');
-            if (!active) {
-                showSection('welcome-section');
-            }
-        });
 
         // =============================================================
         // 7. EMOJI PICKER
@@ -1498,13 +1275,11 @@
                 container.innerHTML = '<div class="sem-resultados">📭 Nenhum menu encontrado.</div>';
                 return;
             }
-
             container.innerHTML = menusCache.map((m, idx) => {
                 const aberto = menusExpandidos.has(m.id);
                 const opcoes = m.options || [];
                 const thumbUrl = m.embed_thumbnail || '';
                 const imgUrl = m.embed_image || '';
-
                 return `
                 <div class="menu-editor-item" data-id="${m.id}">
                     <div class="menu-editor-header" onclick="toggleMenuEditor('${m.id}')">
@@ -1512,7 +1287,7 @@
                             <div class="titulo">${escapeHtml(m.title || '(sem título)')}</div>
                             <div class="id">ID: ${m.id} • ${opcoes.length} opções</div>
                         </div>
-                        <button class="expand-btn" type="button">${aberto ? '▲' : '▼'}</button>
+                        <button type="button" class="expand-btn">${aberto ? '▲' : '▼'}</button>
                     </div>
                     <div class="menu-editor-body ${aberto ? 'aberto' : ''}" id="body-${m.id}">
                         <div class="preview-mini">
@@ -1524,12 +1299,10 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="menu-editor-field">
                             <label>📝 Descrição (Markdown do Discord)</label>
                             <textarea data-campo="embed_desc">${escapeHtml(m.embed_desc || '')}</textarea>
                         </div>
-
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
                             <div class="menu-editor-field">
                                 <label>🔗 URL da Imagem principal</label>
@@ -1540,7 +1313,6 @@
                                 <input type="text" data-campo="embed_thumbnail" value="${escapeHtml(thumbUrl)}">
                             </div>
                         </div>
-
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
                             <div class="menu-editor-field">
                                 <label>🎨 Cor (hex, opcional)</label>
@@ -1551,7 +1323,6 @@
                                 <input type="number" data-campo="ordem" value="${m.ordem ?? idx}">
                             </div>
                         </div>
-
                         <div class="menu-editor-field">
                             <label>📦 Opções (Select Menu)</label>
                             <div class="opcoes-lista" id="opcoes-${m.id}">
@@ -1566,9 +1337,8 @@
                             </div>
                             <button type="button" class="btn-add-opcao" onclick="adicionarOpcao('${m.id}')">+ Adicionar Opção</button>
                         </div>
-
                         <div class="menu-editor-actions">
-                            <button class="btn-guardar-menu" onclick="guardarMenuCompleto('${m.id}', this)">💾 Guardar Alterações</button>
+                            <button type="button" class="btn-guardar-menu" onclick="guardarMenuCompleto('${m.id}', this)">💾 Guardar Alterações</button>
                         </div>
                     </div>
                 </div>`;
@@ -1656,16 +1426,7 @@
                 const r = await fetch('/api/menus', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        id: menuId,
-                        title: titulo,
-                        embed_desc: desc,
-                        embed_image: img,
-                        embed_thumbnail: thumb,
-                        color: cor || null,
-                        options: opcoes,
-                        ordem
-                    })
+                    body: JSON.stringify({ id: menuId, title: titulo, embed_desc: desc, embed_image: img, embed_thumbnail: thumb, color: cor || null, options: opcoes, ordem })
                 });
                 const data = await r.json();
                 if (!data.success) throw new Error(data.error);
@@ -1692,12 +1453,16 @@
             }
         }
 
-        // Integrar carregamento de menus na navegação
-        const _showSectionOriginal = showSection;
-        showSection = function(id) {
-            _showSectionOriginal(id);
-            if (id === 'menus-section') carregarMenus();
-        };
+        // =============================================================
+        // 9. INIT
+        // =============================================================
+        window.addEventListener('DOMContentLoaded', () => {
+            if (document.getElementById('container-produtos').children.length === 0) addInputProduto();
+            initDashboard();
+            if (document.getElementById('transcripts-section').classList.contains('active')) fetchLogs();
+            const active = document.querySelector('.content-div.active');
+            if (!active) showSection('welcome-section');
+        });
     </script>
 
 </body>
