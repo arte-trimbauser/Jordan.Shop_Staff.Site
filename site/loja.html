@@ -631,16 +631,15 @@
             }
         })();
 
-        function atualizarSaudacao() {
-            const nome = localStorage.getItem('staff_sessao') || 'Staff';
-            const hora = new Date().getHours();
-            let saudacao = 'Olá';
-            if (hora >= 6 && hora < 13) saudacao = 'Bom dia';
-            else if (hora >= 13 && hora < 19) saudacao = 'Boa tarde';
-            else saudacao = 'Boa noite';
-            document.getElementById('nav-username').innerText = `${saudacao}, ${nome}`;
-            renderAtalhos();
-        }
+function atualizarSaudacao() {
+    const nome = localStorage.getItem('staff_sessao') || 'Staff';
+    const hora = new Date().getHours();
+    let saudacao = 'Olá';
+    if (hora >= 6 && hora < 13) saudacao = 'Bom dia';
+    else if (hora >= 13 && hora < 19) saudacao = 'Boa tarde';
+    else saudacao = 'Boa noite';
+    document.getElementById('nav-username').innerText = `${saudacao}, ${nome}`;
+}
         setInterval(atualizarSaudacao, 60000);
 
         // =============================================================
