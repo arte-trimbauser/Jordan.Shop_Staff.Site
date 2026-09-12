@@ -5,11 +5,11 @@ module.exports = async (req, res) => {
         return res.status(405).json({ error: 'Método não permitido' });
     }
 
-    // URL do teu bot no Render (substitui se necessário)
-    const BOT_URL = process.env.BOT_API_URL || 'https://jordan-shop.onrender.com/api/enviar-embed';
+    // URL base do teu bot no Render (SEM o path)
+    const BOT_URL = process.env.BOT_API_URL || 'https://jordan-shop.onrender.com';
 
     try {
-        const response = await fetch(BOT_URL, {
+        const response = await fetch(`${BOT_URL}/api/enviar-embed`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(req.body)
