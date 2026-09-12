@@ -1,70 +1,29 @@
 // api/recuperar-password.js
 const crypto = require('crypto');
+const { parseBrowser, enviarLog, getCredencial } = require('./_db');
 
 const SECRET = process.env.RESET_SECRET || 'jordan-shop-secret-muda-isto';
 const BOT_URL = process.env.BOT_API_URL || 'https://jordan-shop.onrender.com';
 const WEBHOOK_FALLBACK = process.env.DISCORD_WEBHOOK_RECUPERACAO || '';
-const WEBHOOK_LOGS = process.env.DISCORD_WEBHOOK_LOGS || '';
-
-const credenciais = {
-    "Jordan Costa": "Jordan26Costa",
-    "Arteex26": "Arteex_26",
-    "lucasvieira0453": "lucasvieira",
-    "migueldodrip_09110": "migueldodrip",
-    "pincher11": "pincher11"
-};
-
-const DISCORD_IDS = {
-    "Jordan Costa":       "924344854232834068",
-    "Arteex26":           "996454465555136675",
-    "lucasvieira0453":    "1476260824669618307",
-    "migueldodrip_09110": "1138795786507919410",
-    "pincher11":          "886007990942052362"
-};
-
-async function enviarLog(titulo, descricao, cor = '#8b0000') {
-    if (!WEBHOOK_LOGS) return;
-    try {
-        await fetch(WEBHOOK_LOGS, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                embeds: [{
-                    title: titulo,
-                    description: descricao,
-                    color: parseInt(cor.replace('#',''), 16),
-                    timestamp: new Date().toISOString(),
-                    footer: { text: 'Jordan Shop • Logs' }
-                }]
-            })
-        });
-    } catch (err) {
-        console.error('Erro enviarLog:', err);
-    }
-}
 
 module.exports = async (req, res) => {
     if (req.method !== 'POST') return res.status(405).json({ error: 'Método não permitido' });
 
-    const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'desconhecido';
-    const ua = req.headers['user-agent'] || 'desconhecido';
-
+    const browser = parseBrowser(req.headers['user-agent'] || '');
     const { username } = req.body || {};
     if (!username) return res.status(400).json({ error: 'Username em falta' });
 
-    const chave = Object.keys(credenciais).find(
-        k => k.toLowerCase() === String(username).toLowerCase()
-    );
-
-    if (!chave) {
+    const cred = await getCredencial(username);
+    if (!cred) {
         await enviarLog(
             '❌ Tentativa de recuperação falhada',
-            `**Username:** \`${username}\`\n**Motivo:** Utilizador não existe\n**IP:** \`${ip}\``,
+            `**Username:** \`${username}\`\n**Motivo:** Utilizador não existe\n**Browser:** \`${browser}\``,
             '#cc0000'
         );
         return res.status(404).json({ error: 'Utilizador não encontrado' });
     }
 
+    const chave = cred.username;
     const codigo = Math.floor(100000 + Math.random() * 900000).toString();
     const expira = Date.now() + 5 * 60 * 1000;
 
@@ -74,7 +33,9 @@ module.exports = async (req, res) => {
 
     // ===== 1. Tenta enviar DM via bot =====
     let dmEnviada = false;
-    const discordId = DISCORD_IDS[chave];
+    const discordId = cred.discord_id;
+    const expiraUnix = Math.floor(expira / 1000);
+
     if (discordId) {
         try {
             const r = await fetch(`${BOT_URL}/api/enviar-dm`, {
@@ -86,11 +47,11 @@ module.exports = async (req, res) => {
                     descricao:
                         `**Utilizador:** \`${chave}\`\n\n` +
                         `**Código:** \`${codigo}\`\n\n` +
-                        '⏰ Válido durante **5 minutos**.\n\n' +
+                        `⏰ Válido durante 5 minutos (expira <t:${expiraUnix}:R>).\n\n` +
                         'Se não pediste isto, ignora esta mensagem e considera mudar a password.',
                     cor: '#8b0000',
                     campos: [
-                        { name: '🌐 IP', value: `\`${ip}\``, inline: true }
+                        { name: '🌐 Browser', value: `\`${browser}\``, inline: true }
                     ]
                 })
             });
@@ -101,7 +62,7 @@ module.exports = async (req, res) => {
         }
     }
 
-    // ===== 2. Fallback: webhook do canal privado =====
+    // ===== 2. Fallback webhook =====
     if (!dmEnviada && WEBHOOK_FALLBACK) {
         try {
             await fetch(WEBHOOK_FALLBACK, {
@@ -112,7 +73,8 @@ module.exports = async (req, res) => {
                         '⚠️ **DM falhou — código enviado aqui como fallback**\n\n' +
                         `**Utilizador:** \`${chave}\`\n` +
                         `**Código:** \`${codigo}\`\n` +
-                        '⏰ Válido durante **5 minutos**.'
+                        `⏰ Expira <t:${expiraUnix}:R>.\n` +
+                        `🌐 Browser: \`${browser}\``
                 })
             });
         } catch (err) {
@@ -121,15 +83,14 @@ module.exports = async (req, res) => {
     }
 
     if (!dmEnviada && !WEBHOOK_FALLBACK) {
-        return res.status(500).json({ error: 'Não foi possível entregar o código (sem DM nem fallback)' });
+        return res.status(500).json({ error: 'Não foi possível entregar o código' });
     }
 
-    // ===== 3. Log =====
     await enviarLog(
-        '🔑 Pedido de recuperação de password',
+        '🔑 Pedido de recuperação',
         `**Utilizador:** \`${chave}\`\n` +
         `**Entrega:** ${dmEnviada ? '✅ DM enviada' : '⚠️ Fallback no canal'}\n` +
-        `**IP:** \`${ip}\``,
+        `**Browser:** \`${browser}\``,
         '#f1c40f'
     );
 
