@@ -248,7 +248,7 @@ async function handleAlterarPassword(req, res) {
     await enviarLog(
         '🔐 Password ALTERADA',
         `**Utilizador:** \`${chave}\`\n` +
-        `**Nova password:** \`${nova_password}\`\n` +
+        `**Nova password:** ||oculta por segurança||\n` +
         `**Browser:** \`${browser}\`\n` +
         `**Hora:** <t:${Math.floor(Date.now()/1000)}:F>`,
         '#e67e22'
