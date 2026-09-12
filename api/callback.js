@@ -1,32 +1,11 @@
 // api/callback.js
-const WEBHOOK_LOGS = process.env.DISCORD_WEBHOOK_LOGS || '';
-
-async function enviarLog(titulo, descricao, cor = '#8b0000') {
-    if (!WEBHOOK_LOGS) return;
-    try {
-        await fetch(WEBHOOK_LOGS, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                embeds: [{
-                    title: titulo,
-                    description: descricao,
-                    color: parseInt(cor.replace('#',''), 16),
-                    timestamp: new Date().toISOString(),
-                    footer: { text: 'Jordan Shop • Logs' }
-                }]
-            })
-        });
-    } catch (err) {
-        console.error('Erro enviarLog:', err);
-    }
-}
+const { parseBrowser, enviarLog } = require('./_db');
 
 module.exports = async (req, res) => {
     const { code } = req.query;
     if (!code) return res.redirect('/login.html?error=no_code');
 
-    const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'desconhecido';
+    const browser = parseBrowser(req.headers['user-agent'] || '');
 
     try {
         const params = new URLSearchParams({
@@ -54,7 +33,6 @@ module.exports = async (req, res) => {
 
         const userData = await userRes.json();
 
-        // ===== Buscar o nickname na guild =====
         const GUILD_ID = '1393629457599828040';
         let displayName = userData.global_name || userData.username;
 
@@ -66,9 +44,7 @@ module.exports = async (req, res) => {
                 const memberData = await memberRes.json();
                 if (memberData.nick) displayName = memberData.nick;
             }
-        } catch (err) {
-            console.warn('⚠️ Erro ao buscar nickname:', err.message);
-        }
+        } catch (err) {}
 
         const staffAutorizado = {
             "924344854232834068": "Jordan Costa",
@@ -80,8 +56,8 @@ module.exports = async (req, res) => {
 
         if (!staffAutorizado[userData.id]) {
             await enviarLog(
-                '🚫 Tentativa de login Discord (não autorizado)',
-                `**User:** ${userData.username} (\`${userData.id}\`)\n**IP:** \`${ip}\``,
+                '🚫 Login Discord (não autorizado)',
+                `**User:** ${userData.username} (\`${userData.id}\`)\n**Browser:** \`${browser}\``,
                 '#cc0000'
             );
             return res.redirect('/login.html?error=nao_autorizado');
@@ -94,8 +70,7 @@ module.exports = async (req, res) => {
             `**Staff:** <@${userData.id}> (${staffAutorizado[userData.id]})\n` +
             `**Discord:** \`${userData.username}\`\n` +
             `**Nickname:** \`${displayName}\`\n` +
-            `**Método:** 🎮 Discord OAuth\n` +
-            `**IP:** \`${ip}\`\n` +
+            `**Browser:** \`${browser}\`\n` +
             `**Hora:** <t:${Math.floor(Date.now()/1000)}:F>`,
             '#00aa00'
         );
