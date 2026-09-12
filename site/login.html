@@ -74,6 +74,7 @@
             <button class="modal-close-rec" onclick="fecharModalRec()">×</button>
             <h2>🔐 Recuperar Password</h2>
 
+            <!-- Passo 1 -->
             <div id="recPasso1">
                 <p>Insere o teu nome de utilizador. Vais receber um código no Discord válido por <strong>5 minutos</strong>.</p>
                 <div class="input-group">
@@ -87,6 +88,7 @@
                 <div class="rec-msg" id="recMsg1"></div>
             </div>
 
+            <!-- Passo 2 -->
             <div id="recPasso2" style="display:none;">
                 <p>Introduz o código de 6 dígitos que recebeste no Discord.</p>
                 <div class="input-group">
@@ -100,15 +102,43 @@
                 <div class="rec-msg" id="recMsg2"></div>
             </div>
 
+            <!-- Passo 3 — password + opções -->
             <div id="recPasso3" style="display:none;">
                 <p>✅ Código validado! Aqui está a tua password:</p>
                 <div class="rec-password-box">
-                    <div class="label">Password</div>
+                    <div class="label">Password atual</div>
                     <div class="pass" id="recPasswordMostrar">—</div>
                 </div>
                 <div class="rec-actions">
                     <button class="rec-btn rec-btn-primary" onclick="copiarPassword(event)">📋 Copiar</button>
                     <button class="rec-btn rec-btn-secondary" onclick="fecharModalRec()">Fechar</button>
+                </div>
+                <div class="rec-actions" style="margin-top:10px;">
+                    <button class="rec-btn rec-btn-primary" style="background:#e67e22;" onclick="irParaMudar()">🔑 Mudar Password</button>
+                </div>
+            </div>
+
+            <!-- Passo 4 — mudar password -->
+            <div id="recPasso4" style="display:none;">
+                <p>Insere a nova password. Depois volta a fazer login com ela.</p>
+                <div class="input-group">
+                    <input type="password" id="recNovaPass" placeholder="Nova password" autocomplete="new-password">
+                </div>
+                <div class="input-group">
+                    <input type="password" id="recNovaPass2" placeholder="Repetir nova password" autocomplete="new-password">
+                </div>
+                <div class="rec-actions">
+                    <button class="rec-btn rec-btn-secondary" onclick="voltarPasso3()">Voltar</button>
+                    <button class="rec-btn rec-btn-primary" id="btnMudarPass" onclick="mudarPassword()">Guardar</button>
+                </div>
+                <div class="rec-msg" id="recMsg4"></div>
+            </div>
+
+            <!-- Passo 5 — sucesso -->
+            <div id="recPasso5" style="display:none;">
+                <p>✅ Password alterada com sucesso! Já podes fazer login com a nova.</p>
+                <div class="rec-actions">
+                    <button class="rec-btn rec-btn-primary" onclick="fecharModalRec()">Fechar</button>
                 </div>
             </div>
         </div>
@@ -171,12 +201,18 @@
         document.getElementById('recPasso1').style.display = 'block';
         document.getElementById('recPasso2').style.display = 'none';
         document.getElementById('recPasso3').style.display = 'none';
+        document.getElementById('recPasso4').style.display = 'none';
+        document.getElementById('recPasso5').style.display = 'none';
         document.getElementById('recMsg1').className = 'rec-msg';
         document.getElementById('recMsg1').textContent = '';
         document.getElementById('recMsg2').className = 'rec-msg';
         document.getElementById('recMsg2').textContent = '';
+        document.getElementById('recMsg4').className = 'rec-msg';
+        document.getElementById('recMsg4').textContent = '';
         document.getElementById('recUsername').value = document.getElementById('user').value || '';
         document.getElementById('recCodigo').value = '';
+        document.getElementById('recNovaPass').value = '';
+        document.getElementById('recNovaPass2').value = '';
         document.getElementById('recTimer').style.color = '#fff';
         document.getElementById('recUsername').focus();
     }
@@ -186,6 +222,8 @@
         if (recTimerInterval) clearInterval(recTimerInterval);
         recToken = null;
         recUsernameGuardado = '';
+        recCodigoGuardado = '';
+        recPasswordAtual = '';
     }
 
     function mostrarMsgRec(id, texto, tipo) {
@@ -252,7 +290,25 @@
         if (recTimerInterval) clearInterval(recTimerInterval);
     }
 
-    async function verificarCodigo() {
+    function copiarPassword(ev) {
+        const pass = document.getElementById('recPasswordMostrar').textContent;
+        const btn = ev?.target || document.querySelector('#recPasso3 .rec-btn-primary');
+        const orig = btn.textContent;
+        navigator.clipboard.writeText(pass).then(() => {
+            btn.textContent = '✅ Copiado!';
+            setTimeout(() => btn.textContent = orig, 1500);
+        }).catch(() => {
+            btn.textContent = '❌ Erro';
+            setTimeout(() => btn.textContent = orig, 1500);
+        });
+    }
+
+    // ===== Variáveis extra =====
+    let recCodigoGuardado = '';
+    let recPasswordAtual = '';
+
+    // Guardar código + password no passo 2/3
+    verificarCodigo = async function() {
         const codigo = document.getElementById('recCodigo').value.trim();
         const btn = document.getElementById('btnVerificarCodigo');
         if (!codigo || codigo.length !== 6) return mostrarMsgRec('recMsg2', '❌ Insere o código de 6 dígitos.', 'error');
@@ -270,6 +326,9 @@
             const data = await resp.json().catch(() => ({}));
             if (!resp.ok || !data.success) throw new Error(data.error || 'Código inválido');
 
+            recCodigoGuardado = codigo;
+            recPasswordAtual = data.password;
+
             document.getElementById('recPasso2').style.display = 'none';
             document.getElementById('recPasso3').style.display = 'block';
             document.getElementById('recPasswordMostrar').textContent = data.password;
@@ -280,19 +339,55 @@
             btn.disabled = false;
             btn.textContent = 'Verificar';
         }
+    };
+
+    function irParaMudar() {
+        document.getElementById('recPasso3').style.display = 'none';
+        document.getElementById('recPasso4').style.display = 'block';
+        document.getElementById('recNovaPass').value = '';
+        document.getElementById('recNovaPass2').value = '';
+        document.getElementById('recMsg4').className = 'rec-msg';
+        document.getElementById('recNovaPass').focus();
     }
 
-    function copiarPassword(ev) {
-        const pass = document.getElementById('recPasswordMostrar').textContent;
-        const btn = ev?.target || document.querySelector('#recPasso3 .rec-btn-primary');
-        const orig = btn.textContent;
-        navigator.clipboard.writeText(pass).then(() => {
-            btn.textContent = '✅ Copiado!';
-            setTimeout(() => btn.textContent = orig, 1500);
-        }).catch(() => {
-            btn.textContent = '❌ Erro';
-            setTimeout(() => btn.textContent = orig, 1500);
-        });
+    function voltarPasso3() {
+        document.getElementById('recPasso4').style.display = 'none';
+        document.getElementById('recPasso3').style.display = 'block';
+    }
+
+    async function mudarPassword() {
+        const nova = document.getElementById('recNovaPass').value;
+        const nova2 = document.getElementById('recNovaPass2').value;
+        const btn = document.getElementById('btnMudarPass');
+
+        if (!nova || nova.length < 4) return mostrarMsgRec('recMsg4', '❌ A password deve ter pelo menos 4 caracteres.', 'error');
+        if (nova !== nova2) return mostrarMsgRec('recMsg4', '❌ As passwords não coincidem.', 'error');
+
+        btn.disabled = true;
+        btn.textContent = 'A guardar...';
+
+        try {
+            const resp = await fetch('/api/alterar-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: recUsernameGuardado,
+                    codigo: recCodigoGuardado,
+                    token: recToken,
+                    nova_password: nova
+                })
+            });
+            const data = await resp.json().catch(() => ({}));
+            if (!resp.ok || !data.success) throw new Error(data.error || 'Erro ao alterar');
+
+            document.getElementById('recPasso4').style.display = 'none';
+            document.getElementById('recPasso5').style.display = 'block';
+        } catch (err) {
+            mostrarMsgRec('recMsg4', '❌ ' + err.message, 'error');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Guardar';
+        }
     }
 
     document.getElementById('loginBtn').addEventListener('click', validarLogin);
