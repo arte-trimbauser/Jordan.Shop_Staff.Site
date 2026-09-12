@@ -53,8 +53,8 @@
         .kpi-card .kpi-value { font-size:2rem; font-weight:800; margin-top:6px; color:#fff; }
         .kpi-card .kpi-sub { font-size:0.8rem; color:#888; margin-top:4px; }
         .kpi-card .status-dot { display:inline-block; width:12px; height:12px; border-radius:50%; margin-right:8px; vertical-align:middle; }
-        .status-dot.online { background:#00ff00; box-shadow:0 0 8px #00ff00; }
-        .status-dot.offline { background:#ff4444; box-shadow:0 0 8px #ff4444; }
+        .status-dot.online { background:#00ff00; }
+        .status-dot.offline { background:#ff4444; }
         .dashboard-row { display:flex; flex-wrap:wrap; gap:20px; width:100%; margin-bottom:30px; }
         .dashboard-row .chart-box { flex:2; min-width:280px; background:rgba(20,20,20,0.9); border-radius:12px; padding:20px; box-shadow:0 4px 15px rgba(0,0,0,0.4); }
         .dashboard-row .chart-box h3 { margin-bottom:15px; font-size:1.1rem; color:#ddd; }
@@ -70,7 +70,7 @@
         .activity-item:last-child { border-bottom:none; }
         .activity-item .act-icon { font-size:1.3rem; width:32px; text-align:center; }
         .activity-item .act-text { flex:1; font-size:0.9rem; color:#ccc; }
-        .activity-item .act-time { font-size:0.75rem; color:#666; white-space:nowrap; }
+        .activity-item .act-time { font-size:0.75rem; color:#666; }
         .activity-section .notifications-box { flex:1; min-width:200px; background:rgba(20,20,20,0.9); border-radius:12px; padding:20px; box-shadow:0 4px 15px rgba(0,0,0,0.4); }
         .notifications-box h3 { font-size:1.1rem; color:#ddd; margin-bottom:15px; }
         .notif-item { padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:0.85rem; color:#bbb; }
@@ -279,10 +279,6 @@
         .preview-mini { display:grid; grid-template-columns:100px 1fr; gap:15px; margin-bottom:15px; align-items:start; }
         .preview-mini img { max-width:100px; border-radius:6px; border:1px solid #333; }
         @media (max-width: 768px) { .opcao-row { grid-template-columns:1fr; } .preview-mini { grid-template-columns:1fr; } }
-
-        /* ===== WELCOME HEADER ===== */
-        .welcome-h1 { font-size: 2rem; text-align: center; margin-bottom: 20px; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); }
-        .welcome-sub { display:block; font-size:.85rem; color:#888; font-weight:400; text-transform:capitalize; margin-top:4px; }
     </style>
 
     <base target="_blank">
@@ -319,7 +315,6 @@
         .dc-select-option-desc { color: #949ba4; font-size: 12px; white-space: nowrap; }
     </style>
 
-    <!-- ===== TELA DE BLOQUEIO ===== -->
     <div id="block-screen">
         <div class="block-card">
             <h1>🔒 Acesso Restrito</h1>
@@ -335,7 +330,7 @@
     <header>
         <button type="button" onclick="location.reload()" class="logo-link">Jordan Shop | Staff</button>
         <div class="refresh-container">
-            <button type="button" class="refresh-btn" onclick="atualizarPagina()" title="Atualizar secção atual">
+            <button type="button" class="refresh-btn" onclick="atualizarPagina()" title="Atualizar página">
                 <span id="refreshIcon">🔄</span> Atualizar
             </button>
             <div class="user-tag">
@@ -346,7 +341,6 @@
     </header>
 
     <div class="container">
-
         <aside>
             <input type="text" id="search" class="search-box" placeholder="Procurar função..." onkeyup="filtrarMenu()">
             <div class="nav-links">
@@ -361,26 +355,25 @@
         </aside>
 
         <main>
-
             <!-- ===== DASHBOARD ===== -->
             <div id="welcome-section" class="content-div active">
-                <h1 id="main-welcome" class="welcome-h1">Bem-Vindo</h1>
+                <h1 id="main-welcome" style="font-size:2rem; margin-bottom:20px; text-align:center;">Bem-Vindo</h1>
 
                 <div class="dashboard-grid">
                     <div class="kpi-card">
-                        <div class="kpi-label">💶 Vendas Hoje</div>
-                        <div class="kpi-value" id="kpiVendasHoje">—</div>
+                        <div class="kpi-label">💶 Vendas (Este Mês)</div>
+                        <div class="kpi-value" id="kpiVendasMes">—</div>
                         <div class="kpi-sub" id="kpiVendasCount">a carregar…</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-label">📄 Tickets Pendentes</div>
-                        <div class="kpi-value" id="kpiTickets">—</div>
-                        <div class="kpi-sub">para rever</div>
+                        <div class="kpi-label">📄 Transcripts (Este Mês)</div>
+                        <div class="kpi-value" id="kpiTranscriptsMes">—</div>
+                        <div class="kpi-sub">guardados no mês</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-label">👥 Clientes Registados</div>
-                        <div class="kpi-value" id="kpiClientes">—</div>
-                        <div class="kpi-sub">total</div>
+                        <div class="kpi-label">📅 Último Transcript</div>
+                        <div class="kpi-value" id="kpiUltimoTranscript" style="font-size:1.1rem;line-height:1.3;">—</div>
+                        <div class="kpi-sub" id="kpiUltimoTranscriptSub">—</div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-label">📡 Status do Bot</div>
@@ -391,22 +384,18 @@
 
                 <div class="dashboard-row">
                     <div class="chart-box">
-                        <h3>📈 Volume de Vendas (últimos 7 dias)</h3>
+                        <h3>📈 Volume de Vendas (últimos 30 dias)</h3>
                         <canvas id="vendasChart"></canvas>
                     </div>
-                    <div class="quick-actions">
+                    <div class="quick-actions" id="quickActions">
                         <h3>⚡ Atalhos Rápidos</h3>
-                        <button type="button" class="quick-btn" onclick="showSection('embed-section')"><i>🎫</i> Criar Novo Embed</button>
-                        <button type="button" class="quick-btn" onclick="abrirModalVenda()"><i>➕</i> Registrar Venda</button>
-                        <button type="button" class="quick-btn" onclick="showSection('transcripts-section')"><i>📄</i> Ver Último Transcript</button>
-                        <button type="button" class="quick-btn" onclick="atualizarPagina()"><i>🔄</i> Atualizar Dados</button>
                     </div>
                 </div>
 
                 <div class="activity-section">
                     <div class="recent-activity">
                         <h3>🕒 Atividade Recente</h3>
-                        <div id="activityList"><div style="color:#666;padding:15px;text-align:center;">A carregar…</div></div>
+                        <div id="activityList"></div>
                     </div>
                     <div class="notifications-box">
                         <h3>📢 Info do Sistema</h3>
@@ -432,14 +421,12 @@
                         <h1 class="vendas-titulo">📊 Histórico de Vendas</h1>
                         <button type="button" class="btn-registrar-venda" onclick="abrirModalVenda()"><span>➕</span> Registrar Venda</button>
                     </div>
+                    <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; width:100%; max-width:900px;">
+                        <input type="text" id="filtro-vendas" class="search-transcripts" placeholder="🔍 Pesquisar por comprador, produto ou staff..." oninput="filtrarVendas(this.value)" style="margin-bottom:0;">
+                        <button type="button" class="refresh-btn" onclick="carregarVendas()">🔄 Recarregar</button>
+                    </div>
                     <div class="vendas-lista-container" id="vendas-lista">
-                        <div class="log-item">
-                            <div class="log-info">
-                                <strong>🛍️ Comprador: @silvexxx/leo._.1330 | 📅 Data: 27/09/2025</strong>
-                                <span>📦 Produto: 🔥・sp00fer-1click<br>💰 Preço: €25.00<br>🛡️ Staff: @! Jordan @migueldodrip</span>
-                            </div>
-                            <span class="status-badge" style="background: #00ff00; color: #000;">LIFETIME</span>
-                        </div>
+                        <div class="sem-resultados">A carregar vendas...</div>
                     </div>
                 </div>
             </div>
@@ -543,7 +530,6 @@
                     <img src="success.png" class="success-img" alt="Sucesso">
                 </div>
             </div>
-
         </main>
     </div>
 
@@ -593,7 +579,7 @@
 
     <div class="toast" id="toastVenda">
         <span id="toastIcon">✅</span>
-        <span id="toastMsg">Venda registrada com sucesso!</span>
+        <span id="toastMsg">Venda registada!</span>
     </div>
 
     <script>
@@ -640,6 +626,7 @@
                 block.classList.remove('active');
                 document.querySelector('header').style.display = 'flex';
                 document.querySelector('.container').style.display = 'flex';
+                document.getElementById('main-welcome').innerText = "Bem-Vindo, " + sessao;
                 atualizarSaudacao();
             }
         })();
@@ -647,21 +634,12 @@
         function atualizarSaudacao() {
             const nome = localStorage.getItem('staff_sessao') || 'Staff';
             const hora = new Date().getHours();
-            let saudacao = 'Boa noite';
+            let saudacao = 'Olá';
             if (hora >= 6 && hora < 13) saudacao = 'Bom dia';
             else if (hora >= 13 && hora < 19) saudacao = 'Boa tarde';
-
+            else saudacao = 'Boa noite';
             document.getElementById('nav-username').innerText = `${saudacao}, ${nome}`;
-
-            const mainWelcome = document.getElementById('main-welcome');
-            if (mainWelcome) {
-                const dataStr = new Date().toLocaleDateString('pt-PT', {
-                    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-                });
-                mainWelcome.innerHTML =
-                    `${saudacao}, <span style="color:#ff5555;">${escapeHtml(nome)}</span> 👋` +
-                    `<span class="welcome-sub">${escapeHtml(dataStr)}</span>`;
-            }
+            renderAtalhos();
         }
         setInterval(atualizarSaudacao, 60000);
 
@@ -688,35 +666,14 @@
             if (id === 'welcome-section') initDashboard();
             if (id === 'transcripts-section') fetchLogs();
             if (id === 'menus-section') carregarMenus();
+            if (id === 'vendas-section') carregarVendas();
         }
 
-        // ✅ ATUALIZA APENAS A SECÇÃO ATIVA (não volta ao início)
-        async function atualizarPagina() {
+        function atualizarPagina() {
             const btn = document.querySelector('.refresh-btn');
             btn.classList.add('spinning');
             btn.disabled = true;
-
-            const active = document.querySelector('.content-div.active');
-            const id = active?.id;
-            const nomeSeccao = active?.querySelector('h1')?.innerText?.split('\n')[0]?.trim() || 'Secção';
-
-            try {
-                if (id === 'welcome-section')      await initDashboard();
-                else if (id === 'transcripts-section') await fetchLogs();
-                else if (id === 'menus-section')       await carregarMenus();
-                else if (id === 'vendas-section')      carregarInfoSistema(); // nada pesado, só refresca avisos
-                else if (id === 'bot-status-section')  atualizarRelogio();
-                // embed-section não tem dados remotos
-                mostrarToast(`✅ ${nomeSeccao} atualizado!`, 'success');
-            } catch (err) {
-                console.error(err);
-                mostrarToast('❌ Erro ao atualizar', 'error');
-            } finally {
-                setTimeout(() => {
-                    btn.classList.remove('spinning');
-                    btn.disabled = false;
-                }, 500);
-            }
+            setTimeout(() => window.location.reload(), 800);
         }
 
         function filtrarMenu() {
@@ -744,45 +701,66 @@
         let chartInstance = null;
 
         async function carregarDashboard() {
-            const kpiVendasHoje = document.getElementById('kpiVendasHoje');
-            const kpiVendasCount = document.getElementById('kpiVendasCount');
-            const kpiTickets     = document.getElementById('kpiTickets');
-            const kpiClientes    = document.getElementById('kpiClientes');
-            const kpiStatusBot   = document.getElementById('kpiStatusBot');
+            const kpiVendasMes    = document.getElementById('kpiVendasMes');
+            const kpiVendasCount  = document.getElementById('kpiVendasCount');
+            const kpiTransMes     = document.getElementById('kpiTranscriptsMes');
+            const kpiUltTrans     = document.getElementById('kpiUltimoTranscript');
+            const kpiUltTransSub  = document.getElementById('kpiUltimoTranscriptSub');
+            const kpiStatusBot    = document.getElementById('kpiStatusBot');
 
-            // --- Status do bot (latência real) ---
-            const t0 = performance.now();
             let botOnline = false;
             try {
                 const r = await fetch('/api/stats', { cache: 'no-store' });
                 botOnline = r.ok;
             } catch {}
-            const latencia = Math.round(performance.now() - t0);
             kpiStatusBot.innerHTML = botOnline
-                ? `<span class="status-dot online"></span> Online <small style="font-size:.6rem;color:#888;font-weight:400;">${latencia}ms</small>`
+                ? `<span class="status-dot online"></span> Online`
                 : `<span class="status-dot offline"></span> Offline`;
 
-            // --- KPIs reais ---
             try {
-                const [stats, vendas] = await Promise.all([
-                    fetch('/api/stats',  { cache: 'no-store' }).then(r => r.json()).catch(() => ({})),
-                    fetch('/api/vendas', { cache: 'no-store' }).then(r => r.json()).catch(() => ({}))
-                ]);
+                const vendas = await fetch('/api/vendas?periodo=mensal', { cache: 'no-store' })
+                    .then(r => r.json()).catch(() => ({}));
 
-                const totalHoje = Number(vendas.totalHoje || 0);
-                const countHoje = Number(vendas.countHoje || 0);
-                kpiVendasHoje.textContent = '€' + totalHoje.toFixed(2).replace('.', ',');
-                kpiVendasCount.textContent = countHoje + ' venda' + (countHoje === 1 ? '' : 's');
-
-                kpiTickets.textContent  = Number(stats.tickets  || 0);
-                kpiClientes.textContent = Number(stats.clientes || 0);
+                const total = Number(vendas.totalPeriodo || 0);
+                const count = Number(vendas.countPeriodo || 0);
+                kpiVendasMes.textContent = '€' + total.toFixed(2).replace('.', ',');
+                kpiVendasCount.textContent = count + ' venda' + (count === 1 ? '' : 's');
 
                 desenharGraficoVendas(vendas.dias || [], vendas.valores || []);
             } catch (err) {
-                console.error('Erro dashboard:', err);
-                kpiVendasHoje.textContent = '—';
-                kpiTickets.textContent    = '—';
-                kpiClientes.textContent   = '—';
+                console.error('Erro vendas:', err);
+                kpiVendasMes.textContent = '—';
+                kpiVendasCount.textContent = 'sem dados';
+            }
+
+            try {
+                const logs = await fetch('/api/list-transcripts', { cache: 'no-store' })
+                    .then(r => r.json());
+
+                const lista = Array.isArray(logs) ? logs : [];
+                const agora = new Date();
+                const doMes = lista.filter(l => {
+                    if (!l.created_at) return false;
+                    const d = new Date(l.created_at);
+                    return d.getMonth() === agora.getMonth() && d.getFullYear() === agora.getFullYear();
+                });
+                kpiTransMes.textContent = doMes.length;
+
+                if (lista.length) {
+                    const ult = lista[0];
+                    const nomeCompleto = String(ult.name || '').replace('.html', '');
+                    const partes = nomeCompleto.split('-');
+                    const cliente = (partes[partes.length - 1] || '—').toUpperCase();
+                    const produto = partes.slice(1, -1).join(' ') || 'Produto';
+                    kpiUltTrans.textContent = cliente;
+                    kpiUltTransSub.textContent = produto;
+                } else {
+                    kpiUltTrans.textContent = '—';
+                    kpiUltTransSub.textContent = 'sem transcripts';
+                }
+            } catch (err) {
+                console.error('Erro transcripts:', err);
+                kpiTransMes.textContent = '—';
             }
         }
 
@@ -872,7 +850,6 @@
             const itens = [
                 { tag: online ? '🟢' : '🔴', text: online ? 'Ligação à internet ativa' : 'Sem ligação à internet' },
                 { tag: '🌐', text: 'Site: jordan-shop-bot-site.vercel.app' },
-                { tag: '🤖', text: 'Bot API: jordan-shop.onrender.com' },
                 { tag: '👤', text: `Staff: ${staff}` },
                 { tag: '🕒', text: 'Sessão: ' + agora.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }) }
             ];
@@ -882,7 +859,50 @@
             ).join('');
         }
 
+        // =============================================================
+        // 3b. ATALHOS RÁPIDOS POR CARGO
+        // =============================================================
+        const STAFF_ROLES = {
+            'Jordan Costa':   ['admin'],
+            'Arteex26':       ['admin'],
+            'lucasvieira':    ['staff'],
+            'migueldodrip':   ['staff'],
+            'pincher11':      ['staff']
+        };
+
+        const QUICK_ACTIONS = [
+            { icon: '🎫', label: 'Criar Novo Embed', action: "showSection('embed-section')",       roles: ['admin','staff'] },
+            { icon: '➕', label: 'Registrar Venda',  action: 'abrirModalVenda()',                    roles: ['admin','staff'] },
+            { icon: '📄', label: 'Ver Transcripts',  action: "showSection('transcripts-section')",  roles: ['admin','staff'] },
+            { icon: '📝', label: 'Editar Menus',     action: "showSection('menus-section')",        roles: ['admin'] },
+            { icon: '📊', label: 'Ver Vendas',       action: "showSection('vendas-section')",       roles: ['admin'] },
+            { icon: '🔄', label: 'Atualizar Dados',  action: 'atualizarPagina()',                    roles: ['admin','staff'] }
+        ];
+
+        function renderAtalhos() {
+            const container = document.getElementById('quickActions');
+            if (!container) return;
+
+            const nome = localStorage.getItem('staff_sessao') || '';
+            const roles = STAFF_ROLES[nome] || ['staff'];
+
+            const h3 = container.querySelector('h3');
+            container.innerHTML = '';
+            if (h3) container.appendChild(h3);
+
+            QUICK_ACTIONS.forEach(a => {
+                if (!a.roles.some(r => roles.includes(r))) return;
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'quick-btn';
+                btn.innerHTML = `<i>${a.icon}</i> ${escapeHtml(a.label)}`;
+                btn.setAttribute('onclick', a.action);
+                container.appendChild(btn);
+            });
+        }
+
         async function initDashboard() {
+            renderAtalhos();
             await Promise.all([carregarDashboard(), carregarAtividadeRecente()]);
             carregarInfoSistema();
         }
@@ -1056,7 +1076,6 @@
             let html = `<div class="discord-preview-wrap"><div class="dc-embed" style="border-left-color:${escapeHtml(cor)};">`;
             if (temThumb) html += `<img class="dc-thumb" src="${escapeHtml(urlImg)}" alt="">`;
             html += `<div class="dc-embed-inner${temThumb ? ' has-thumb' : ''}">`;
-
             if (titulo) html += `<div class="dc-title">${formatarMarkdown(titulo)}</div>`;
             if (desc)   html += `<div class="dc-desc">${formatarMarkdown(desc)}</div>`;
 
@@ -1078,7 +1097,6 @@
             }
 
             if (temImg) html += `<img class="dc-image" src="${escapeHtml(urlImg)}" alt="">`;
-
             html += `</div></div></div>`;
 
             const iframe = document.getElementById('preview-iframe');
@@ -1136,11 +1154,8 @@
                         tipoImagem: urlImagem ? tipoImagem : 'none'
                     })
                 });
-
                 const text = await response.text();
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status} — ${text.slice(0, 120)}`);
-                }
+                if (!response.ok) throw new Error(`HTTP ${response.status} — ${text.slice(0, 120)}`);
                 alert("✅ " + text);
                 document.getElementById('emb-canal').value = '';
                 document.getElementById('emb-titulo').value = '';
@@ -1151,8 +1166,7 @@
                 document.getElementById('preview-box').classList.remove('show');
             } catch (e) {
                 console.error(e);
-                alert("❌ Erro ao enviar: " + e.message +
-                    "\n\n⚠️ Verifica se o backend tem o endpoint POST /api/enviar-embed publicado.");
+                alert("❌ Erro ao enviar: " + e.message);
             } finally {
                 btn.innerText = "🚀 ENVIAR VIA BOT";
                 btn.disabled = false;
@@ -1163,6 +1177,64 @@
         // 6. VENDAS
         // =============================================================
         const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1491444823251751083/Cdbu_D0JbeXbMXikLvm15Ij052NZsJL0FLoMTdpMcM6AiMzT_-pVWSkA91uFcp5DhL2x';
+        let todasVendas = [];
+
+        async function carregarVendas() {
+            const container = document.getElementById('vendas-lista');
+            container.innerHTML = '<div class="sem-resultados">⏳ A carregar vendas...</div>';
+            try {
+                const r = await fetch('/api/vendas');
+                const data = await r.json();
+                if (!data.success) throw new Error(data.error || 'Erro ao carregar');
+                todasVendas = data.vendas || [];
+                renderVendas(todasVendas);
+            } catch (err) {
+                container.innerHTML = `<div class="sem-resultados">❌ ${err.message}<br><small style="color:#888;">O bot pode estar offline.</small></div>`;
+            }
+        }
+
+        function renderVendas(lista) {
+            const container = document.getElementById('vendas-lista');
+            if (!lista.length) {
+                container.innerHTML = '<div class="sem-resultados">📭 Nenhuma venda registada.</div>';
+                return;
+            }
+            container.innerHTML = lista.map(v => {
+                const badgeStyle = getBadgeStyle(v.duracao);
+                return `
+                <div class="log-item">
+                    <div class="log-info">
+                        <strong>🛍️ Comprador: ${escapeHtml(v.comprador)} | 📅 Data: ${formatarData(v.data)}</strong>
+                        <span>
+                            📦 Produto: ${escapeHtml(v.produto)}<br>
+                            💰 Preço: ${escapeHtml(v.preco)}<br>
+                            🛡️ Staff: ${escapeHtml(v.staff)}
+                            ${v.registrado_por || v.registradoPor ? `<br><small style="color:#666;">Registado por: ${escapeHtml(v.registrado_por || v.registradoPor)}</small>` : ''}
+                        </span>
+                    </div>
+                    <span class="status-badge" style="${badgeStyle}">${escapeHtml((v.duracao || 'N/A').toUpperCase())}</span>
+                </div>`;
+            }).join('');
+        }
+
+        function getBadgeStyle(duracao) {
+            const d = (duracao || '').toUpperCase();
+            if (d.includes('SEMANAL')) return 'background: #ffcc00; color: #000;';
+            if (d.includes('MENSAL')) return 'background: #ff6600; color: #fff;';
+            if (d.includes('LIFETIME') || d.includes('INFINITO')) return 'background: #00ff00; color: #000;';
+            return 'background: #555; color: #fff;';
+        }
+
+        function filtrarVendas(valor) {
+            const q = valor.toLowerCase();
+            const filtradas = todasVendas.filter(v =>
+                (v.comprador || '').toLowerCase().includes(q) ||
+                (v.produto || '').toLowerCase().includes(q) ||
+                (v.staff || '').toLowerCase().includes(q) ||
+                (v.preco || '').toLowerCase().includes(q)
+            );
+            renderVendas(filtradas);
+        }
 
         function abrirModalVenda() {
             document.getElementById('modalVenda').classList.add('active');
@@ -1187,7 +1259,11 @@
             }
         });
 
-        function formatarData(dataStr) { return new Date(dataStr).toLocaleDateString('pt-PT'); }
+        function formatarData(dataStr) {
+            if (!dataStr) return '—';
+            try { return new Date(dataStr).toLocaleDateString('pt-PT'); }
+            catch { return dataStr; }
+        }
 
         async function registrarVenda(event) {
             event.preventDefault();
@@ -1209,16 +1285,30 @@
             const enviarDiscord = document.getElementById('vendaEnviarDiscord').checked;
 
             try {
-                adicionarVendaLista(vendaData);
+                try {
+                    const r = await fetch('/api/vendas', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(vendaData)
+                    });
+                    const data = await r.json();
+                    if (!data.success) console.warn('Backend não guardou:', data.error);
+                } catch (err) {
+                    console.warn('Erro ao guardar no backend:', err);
+                }
+
+                todasVendas.unshift(vendaData);
+                renderVendas(todasVendas);
+
                 if (enviarDiscord) {
                     try {
                         await enviarVendaDiscord(vendaData);
-                        mostrarToast('Venda registrada e enviada ao Discord! ✅', 'success');
+                        mostrarToast('Venda registada e enviada ao Discord! ✅', 'success');
                     } catch (discordError) {
-                        mostrarToast('Venda registrada! ⚠️ Discord: ' + discordError.message, 'success');
+                        mostrarToast('Venda registada! ⚠️ Discord: ' + discordError.message, 'success');
                     }
                 } else {
-                    mostrarToast('Venda registrada com sucesso! ✅', 'success');
+                    mostrarToast('Venda registada com sucesso! ✅', 'success');
                 }
                 fecharModalVenda();
             } catch (erro) {
@@ -1231,7 +1321,7 @@
 
         async function enviarVendaDiscord(venda) {
             const embed = {
-                title: '🛒 Nova Venda Registrada',
+                title: '🛒 Nova Venda Registada',
                 color: 0x8b0000,
                 fields: [
                     { name: '👤 Comprador', value: venda.comprador, inline: true },
@@ -1259,27 +1349,6 @@
                 xhr.onerror = () => reject(new Error('Erro de rede'));
                 xhr.send(JSON.stringify(payload));
             });
-        }
-
-        function adicionarVendaLista(venda) {
-            const container = document.getElementById('vendas-lista');
-            if (!container) return;
-            let badgeStyle = 'background: #00ff00; color: #000;';
-            const duracaoUpper = (venda.duracao || '').toUpperCase();
-            if (duracaoUpper.includes('SEMANAL')) badgeStyle = 'background: #ffcc00; color: #000;';
-            else if (duracaoUpper.includes('MENSAL')) badgeStyle = 'background: #ff6600; color: #fff;';
-
-            const div = document.createElement('div');
-            div.className = 'log-item';
-            div.style.animation = 'fadeIn 0.5s ease';
-            div.innerHTML = `
-                <div class="log-info">
-                    <strong>🛍️ Comprador: ${escapeHtml(venda.comprador)} | 📅 Data: ${formatarData(venda.data)}</strong>
-                    <span>📦 Produto: ${escapeHtml(venda.produto)}<br>💰 Preço: ${escapeHtml(venda.preco)}<br>🛡️ Staff: ${escapeHtml(venda.staff)}</span>
-                </div>
-                <span class="status-badge" style="${badgeStyle}">${escapeHtml(duracaoUpper)}</span>
-            `;
-            container.insertBefore(div, container.firstChild);
         }
 
         // =============================================================
@@ -1358,7 +1427,7 @@
             const container = document.getElementById('menus-lista');
             container.innerHTML = '<div class="sem-resultados">⏳ A carregar menus...</div>';
             try {
-                const r = await fetch('/api/menus', { cache: 'no-store' });
+                const r = await fetch('/api/menus');
                 const data = await r.json();
                 if (!data.success) throw new Error(data.error);
                 menusCache = data.menus || [];
@@ -1557,8 +1626,8 @@
         // =============================================================
         window.addEventListener('DOMContentLoaded', () => {
             if (document.getElementById('container-produtos').children.length === 0) addInputProduto();
-            // Se a sessão existe → carrega dashboard
-            if (localStorage.getItem('staff_sessao')) initDashboard();
+            initDashboard();
+            if (document.getElementById('transcripts-section').classList.contains('active')) fetchLogs();
             const active = document.querySelector('.content-div.active');
             if (!active) showSection('welcome-section');
         });
