@@ -310,6 +310,7 @@
                 <button type="button" class="nav-btn active" onclick="showSection('welcome-section')">INÍCIO</button>
                 <button type="button" class="nav-btn" onclick="showSection('transcripts-section')">TRANSCRIPTS</button>
                 <button type="button" class="nav-btn" onclick="showSection('vendas-section')">VENDAS</button>
+                <button type="button" class="nav-btn" onclick="showSection('tickets-section')">TICKETS</button>
                 <button type="button" class="nav-btn" onclick="showSection('embed-section')">CRIAR EMBED</button>
                 <button type="button" class="nav-btn" onclick="showSection('menus-section')">EDITAR MENUS</button>
                 <button type="button" class="nav-btn" onclick="showSection('bot-status-section')">SITE ONLINE</button>
@@ -388,6 +389,42 @@
                     <div class="vendas-lista-container" id="vendas-lista">
                         <div class="sem-resultados">A carregar vendas...</div>
                     </div>
+                </div>
+            </div>
+
+            <!-- ===== TICKETS ===== -->
+            <div id="tickets-section" class="content-div">
+                <h1>🎫 Tickets</h1>
+                <p class="subtitulo" id="tickets-subtitulo">A carregar...</p>
+
+                <div class="dashboard-grid" style="max-width:900px; margin-bottom:25px;">
+                    <div class="kpi-card">
+                        <div class="kpi-label">🟢 Abertos</div>
+                        <div class="kpi-value" id="tkAbertos">—</div>
+                        <div class="kpi-sub">à espera de staff</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">🟡 Assumidos</div>
+                        <div class="kpi-value" id="tkAssumidos">—</div>
+                        <div class="kpi-sub">em atendimento</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">⚫ Fechados</div>
+                        <div class="kpi-value" id="tkFechados">—</div>
+                        <div class="kpi-sub">últimos 50</div>
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; justify-content:center;">
+                    <button type="button" class="refresh-btn" onclick="carregarTickets()">🔄 Recarregar</button>
+                    <button type="button" class="refresh-btn" onclick="mostrarFiltro('aberto')" id="filtroBtn-aberto">🟢 Abertos</button>
+                    <button type="button" class="refresh-btn" onclick="mostrarFiltro('assumido')" id="filtroBtn-assumido">🟡 Assumidos</button>
+                    <button type="button" class="refresh-btn" onclick="mostrarFiltro('fechado')" id="filtroBtn-fechado">⚫ Fechados</button>
+                    <button type="button" class="refresh-btn" onclick="mostrarFiltro('todos')" id="filtroBtn-todos">📋 Todos</button>
+                </div>
+
+                <div class="transcripts-lista" id="tickets-lista" style="max-width:900px;">
+                    <div class="sem-resultados">A carregar tickets...</div>
                 </div>
             </div>
 
@@ -619,6 +656,7 @@
             if (id === 'transcripts-section') fetchLogs();
             if (id === 'menus-section') carregarMenus();
             if (id === 'vendas-section') carregarVendas();
+            if (id === 'tickets-section') carregarTickets();
         }
 
         // ✅ REFRESH = reload completo com cache bust
@@ -1580,6 +1618,102 @@
                 btn.disabled = false;
                 btn.textContent = orig;
             }
+        }
+
+        // =============================================================
+        // 8b. TICKETS
+        // =============================================================
+        let todosTickets = [];
+        let filtroTickets = 'aberto';
+
+        async function carregarTickets() {
+            const container = document.getElementById('tickets-lista');
+            const subtitulo = document.getElementById('tickets-subtitulo');
+            container.innerHTML = '<div class="sem-resultados">⏳ A carregar tickets...</div>';
+
+            try {
+                const r = await fetch('/api/tickets?t=' + Date.now(), { cache: 'no-store' });
+                const data = await r.json();
+                if (!data.success) throw new Error(data.error);
+
+                todosTickets = data.tickets || [];
+                document.getElementById('tkAbertos').textContent   = data.stats?.abertos || 0;
+                document.getElementById('tkAssumidos').textContent = data.stats?.assumidos || 0;
+                document.getElementById('tkFechados').textContent  = data.stats?.fechados || 0;
+
+                subtitulo.innerText = `${todosTickets.length} ticket(s) no total`;
+                renderTickets();
+            } catch (err) {
+                container.innerHTML = `<div class="sem-resultados">❌ ${escapeHtml(err.message)}</div>`;
+            }
+        }
+
+        function mostrarFiltro(filtro) {
+            filtroTickets = filtro;
+            document.querySelectorAll('[id^="filtroBtn-"]').forEach(b => b.style.filter = '');
+            const btn = document.getElementById('filtroBtn-' + filtro);
+            if (btn) btn.style.filter = 'brightness(1.4)';
+            renderTickets();
+        }
+
+        function renderTickets() {
+            const container = document.getElementById('tickets-lista');
+            let lista = todosTickets;
+            if (filtroTickets !== 'todos') {
+                lista = todosTickets.filter(t => t.status === filtroTickets);
+            }
+
+            if (!lista.length) {
+                container.innerHTML = '<div class="sem-resultados">📭 Nenhum ticket nesta categoria.</div>';
+                return;
+            }
+
+            container.innerHTML = lista.map(t => {
+                const badge = t.status === 'aberto'
+                    ? 'background:#00ff00; color:#000;'
+                    : t.status === 'assumido'
+                        ? 'background:#ffcc00; color:#000;'
+                        : 'background:#555; color:#fff;';
+
+                const statusTexto = t.status === 'aberto' ? '🟢 ABERTO'
+                                  : t.status === 'assumido' ? '🟡 ASSUMIDO'
+                                  : '⚫ FECHADO';
+
+                const cliente = t.cliente_nome || 'Cliente';
+                const produto = t.produto || 'Produto';
+                const metodo = t.metodo || '—';
+
+                let extra = '';
+                if (t.status === 'assumido' && t.assumido_por) {
+                    extra = `<br>🛡️ Assumido por: <strong>${escapeHtml(t.assumido_por)}</strong>`;
+                    if (t.assumido_em) extra += ` (${formatarData2(t.assumido_em)})`;
+                }
+                if (t.status === 'fechado' && t.fechado_por) {
+                    extra = `<br>🔒 Fechado por: <strong>${escapeHtml(t.fechado_por)}</strong>`;
+                    if (t.fechado_em) extra += ` (${formatarData2(t.fechado_em)})`;
+                }
+
+                return `
+                <div class="log-item" style="border-left-color:${t.status === 'aberto' ? '#00ff00' : t.status === 'assumido' ? '#ffcc00' : '#555'}; border-left-width:5px;">
+                    <div class="log-info">
+                        <strong>👤 ${escapeHtml(cliente)} — 📦 ${escapeHtml(produto)}</strong>
+                        <span>
+                            💳 Método: ${escapeHtml(metodo)}<br>
+                            🕒 Criado: ${formatarData2(t.criado_em)}${extra}
+                        </span>
+                    </div>
+                    <span class="status-badge" style="${badge}">${statusTexto}</span>
+                </div>`;
+            }).join('');
+        }
+
+        function formatarData2(dataStr) {
+            if (!dataStr) return '—';
+            try {
+                return new Date(dataStr).toLocaleString('pt-PT', {
+                    day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
+                });
+            } catch { return dataStr; }
         }
 
         // =============================================================
