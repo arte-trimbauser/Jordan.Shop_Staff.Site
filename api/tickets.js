@@ -53,7 +53,9 @@ module.exports = async (req, res) => {
                     cliente_nome: body.cliente_nome || '',
                     produto: body.produto || '',
                     metodo: body.metodo || '',
-                    status: 'aberto'
+                    status: 'aberto',
+                    termos_aceitos: body.termos_aceitos === true,
+                    termos_aceitos_em: body.termos_aceitos_em || null
                 }], { onConflict: 'canal_id' });
                 if (error) throw error;
                 return res.json({ success: true });
