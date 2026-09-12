@@ -46,6 +46,8 @@ module.exports = async (req, res) => {
         }
 
         res.json({
+            success: true,
+            vendas: vendas || [],
             periodo,
             dias,
             valores,
