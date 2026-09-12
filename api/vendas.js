@@ -1,3 +1,4 @@
+// api/vendas.js
 const { createClient } = require('@supabase/supabase-js');
 
 const supabase = createClient(
@@ -7,15 +8,18 @@ const supabase = createClient(
 
 module.exports = async (req, res) => {
     try {
-        // Buscar vendas dos últimos 7 dias
+        const periodo = (req.query.periodo || 'semanal').toLowerCase();
+        const numDias = periodo === 'mensal' ? 30 : 7;
+
         const hoje = new Date();
-        const seteDiasAtras = new Date();
-        seteDiasAtras.setDate(hoje.getDate() - 7);
+        const inicio = new Date();
+        inicio.setDate(hoje.getDate() - (numDias - 1));
+        inicio.setHours(0, 0, 0, 0);
 
         const { data: vendas, error } = await supabase
             .from('vendas')
             .select('*')
-            .gte('data', seteDiasAtras.toISOString())
+            .gte('data', inicio.toISOString())
             .order('data', { ascending: true });
 
         if (error) {
@@ -23,31 +27,34 @@ module.exports = async (req, res) => {
             return res.status(500).json({ error: error.message });
         }
 
-        // Processar dados para o gráfico
         const dias = [];
         const valores = [];
-        const hojeStr = hoje.toISOString().split('T')[0];
-        let totalHoje = 0;
-        let countHoje = 0;
+        let totalPeriodo = 0;
+        let countPeriodo = 0;
 
-        for (let i = 6; i >= 0; i--) {
+        for (let i = numDias - 1; i >= 0; i--) {
             const d = new Date();
             d.setDate(d.getDate() - i);
             const diaStr = d.toISOString().split('T')[0];
             dias.push(diaStr);
-            const total = vendas.filter(v => v.data.startsWith(diaStr)).reduce((acc, v) => acc + parseFloat(v.preco), 0);
+
+            const doDia = (vendas || []).filter(v => String(v.data || '').startsWith(diaStr));
+            const total = doDia.reduce((acc, v) => acc + parseFloat(v.preco || 0), 0);
             valores.push(total);
-            if (diaStr === hojeStr) {
-                totalHoje = total;
-                countHoje = vendas.filter(v => v.data.startsWith(diaStr)).length;
-            }
+            totalPeriodo += total;
+            countPeriodo += doDia.length;
         }
 
         res.json({
+            periodo,
             dias,
             valores,
-            totalHoje,
-            countHoje
+            totalPeriodo,
+            countPeriodo,
+            totalHoje: valores[valores.length - 1] || 0,
+            countHoje: (vendas || []).filter(v =>
+                String(v.data || '').startsWith(hoje.toISOString().split('T')[0])
+            ).length
         });
     } catch (err) {
         console.error('Erro:', err);
