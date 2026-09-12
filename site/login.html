@@ -164,7 +164,8 @@
         btn.textContent = 'A VALIDAR...';
         btn.disabled = true;
         try {
-            const response = await fetch('/api/login-manual', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:u,password:p}) });
+            // ✅ SUBSTITUIÇÃO 1
+            const response = await fetch('/api/auth?action=login-manual', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:u,password:p}) });
             let data;
             try { data = await response.json(); } catch { throw new Error('Resposta inválida da API'); }
             if (!response.ok || !data.success) { mostrarErro('❌ Dados incorretos!'); btn.textContent='ENTRAR'; btn.disabled=false; return; }
@@ -241,7 +242,8 @@
         btn.textContent = 'A enviar...';
 
         try {
-            const resp = await fetch('/api/recuperar-password', {
+            // ✅ SUBSTITUIÇÃO 2
+            const resp = await fetch('/api/auth?action=recuperar-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username })
@@ -318,7 +320,8 @@
         btn.textContent = 'A verificar...';
 
         try {
-            const resp = await fetch('/api/verificar-codigo', {
+            // ✅ SUBSTITUIÇÃO 3
+            const resp = await fetch('/api/auth?action=verificar-codigo', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username: recUsernameGuardado, codigo, token: recToken })
@@ -367,7 +370,8 @@
         btn.textContent = 'A guardar...';
 
         try {
-            const resp = await fetch('/api/alterar-password', {
+            // ✅ SUBSTITUIÇÃO 4
+            const resp = await fetch('/api/auth?action=alterar-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
