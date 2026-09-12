@@ -233,11 +233,108 @@
             .transcript-preview iframe { height:250px; }
             .dashboard-grid { grid-template-columns:1fr; }
         }
+
+        /* ===== PREVIEW DISCORD REALISTA ===== */
+        .discord-preview-wrap { background:#313338; border-radius:8px; padding:16px; font-family:'gg sans','Noto Sans',Helvetica,Arial,sans-serif; }
+        .dc-embed { background:#2b2d31; border-left:4px solid #ff0000; border-radius:4px; padding:8px 16px 16px 12px; max-width:520px; color:#dbdee1; font-size:14px; line-height:1.375; display:grid; grid-template-columns:auto 1fr; column-gap:12px; }
+        .dc-embed-inner { grid-column:1 / -1; min-width:0; }
+        .dc-embed-inner.has-thumb { grid-column:1 / 2; }
+        .dc-author { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+        .dc-author img { width:24px; height:24px; border-radius:50%; }
+        .dc-author span { color:#f2f3f5; font-size:14px; font-weight:600; }
+        .dc-title { color:#f2f3f5; font-size:16px; font-weight:600; margin-bottom:4px; }
+        .dc-desc { color:#dbdee1; font-size:14px; white-space:pre-wrap; word-wrap:break-word; }
+        .dc-desc h1 { font-size:1.5em; margin:8px 0 4px; color:#f2f3f5; }
+        .dc-desc h2 { font-size:1.25em; margin:8px 0 4px; color:#f2f3f5; }
+        .dc-desc h3 { font-size:1.1em; margin:8px 0 4px; color:#f2f3f5; }
+        .dc-desc a { color:#00a8fc; text-decoration:none; }
+        .dc-desc code { background:#1e1f22; padding:1px 4px; border-radius:3px; font-family:'Consolas',monospace; font-size:.85em; }
+        .dc-desc pre { background:#1e1f22; padding:8px; border-radius:4px; border:1px solid #232428; overflow-x:auto; margin:6px 0; }
+        .dc-desc blockquote { border-left:4px solid #4f545c; padding-left:12px; margin:6px 0; color:#dbdee1; }
+        .dc-fields { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:8px; }
+        .dc-field { min-width:0; }
+        .dc-field.inline-false { grid-column:1 / -1; }
+        .dc-field-name { color:#f2f3f5; font-weight:600; font-size:14px; margin-bottom:2px; }
+        .dc-field-value { color:#dbdee1; font-size:14px; white-space:pre-wrap; word-wrap:break-word; }
+        .dc-image { max-width:100%; border-radius:4px; margin-top:8px; display:block; }
+        .dc-thumb { width:80px; height:80px; border-radius:4px; grid-column:2 / 3; grid-row:1 / 2; object-fit:cover; }
+        .dc-footer { margin-top:8px; display:flex; align-items:center; gap:8px; color:#949ba4; font-size:12px; font-weight:500; }
+        .dc-footer img { width:20px; height:20px; border-radius:50%; }
+        .dc-emoji { width:20px; height:20px; vertical-align:-4px; }
+        .dc-mention { background:rgba(88,101,242,.3); color:#c9cdfb; padding:0 2px; border-radius:3px; font-weight:500; }
+
+        /* ===== EMOJI PICKER ===== */
+        #emoji-picker-box { display:none; position:absolute; z-index:100; top:100%; left:0; right:0; background:#2b2d31; border:1px solid #444; border-radius:8px; padding:12px; max-height:280px; overflow-y:auto; box-shadow:0 10px 30px rgba(0,0,0,.6); }
+        #emoji-grid { display:grid; grid-template-columns:repeat(8,1fr); gap:6px; }
+        .emoji-btn { background:#1e1f22; border:1px solid #333; border-radius:6px; padding:6px; cursor:pointer; transition:.15s; }
+        .emoji-btn:hover { background:#8b0000; }
+        .emoji-btn img { width:100%; height:auto; display:block; }
+
+        /* ===== EDITOR DE MENUS ===== */
+        .menu-editor-item { background:rgba(20,20,20,.95); border-radius:12px; margin-bottom:14px; border-left:5px solid var(--primary-red); overflow:hidden; transition:.3s; }
+        .menu-editor-item:hover { box-shadow:0 4px 20px rgba(139,0,0,.3); }
+        .menu-editor-header { display:flex; justify-content:space-between; align-items:center; padding:15px 20px; cursor:pointer; gap:15px; }
+        .menu-editor-header:hover { background:rgba(255,255,255,.03); }
+        .menu-editor-header .titulo { font-weight:700; font-size:1rem; color:#fff; flex:1; }
+        .menu-editor-header .id { font-size:.75rem; color:#888; font-family:monospace; margin-top:3px; }
+        .menu-editor-header .expand-btn { background:rgba(255,255,255,.1); color:#fff; border:none; padding:6px 12px; border-radius:5px; cursor:pointer; font-weight:700; transition:.3s; }
+        .menu-editor-body { display:none; padding:20px; border-top:1px solid rgba(255,255,255,.08); background:rgba(15,15,15,.6); }
+        .menu-editor-body.aberto { display:block; }
+        .menu-editor-field { margin-bottom:15px; }
+        .menu-editor-field label { display:block; color:#bbb; margin-bottom:5px; font-size:.85rem; font-weight:700; }
+        .menu-editor-field input, .menu-editor-field textarea { width:100%; padding:10px 12px; border-radius:6px; border:1px solid #333; background:rgba(255,255,255,.05); color:#fff; font-family:inherit; font-size:.9rem; transition:.3s; }
+        .menu-editor-field input:focus, .menu-editor-field textarea:focus { outline:none; border-color:var(--primary-red); background:rgba(255,255,255,.1); }
+        .menu-editor-field textarea { min-height:160px; resize:vertical; font-family:'Consolas',monospace; }
+        .opcoes-lista { display:flex; flex-direction:column; gap:8px; }
+        .opcao-row { display:grid; grid-template-columns:1fr 1fr 1fr auto; gap:8px; align-items:center; }
+        .opcao-row input { font-size:.85rem; padding:8px 10px; }
+        .opcao-row .btn-remover { background:#cc0000; color:#fff; border:none; width:32px; height:32px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:1rem; }
+        .opcao-row .btn-remover:hover { background:#ff0000; transform:scale(1.1); }
+        .btn-add-opcao { background:#333; color:#fff; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; font-weight:600; font-size:.85rem; margin-top:8px; }
+        .btn-add-opcao:hover { background:#444; }
+        .menu-editor-actions { display:flex; gap:10px; margin-top:20px; padding-top:15px; border-top:1px solid rgba(255,255,255,.08); }
+        .btn-guardar-menu { flex:2; background:linear-gradient(135deg,#00aa00,#00cc00); color:#fff; border:none; padding:12px; border-radius:8px; font-weight:700; cursor:pointer; transition:.3s; }
+        .btn-guardar-menu:hover { transform:translateY(-2px); box-shadow:0 5px 20px rgba(0,200,0,.4); }
+        .btn-guardar-menu:disabled { opacity:.6; cursor:not-allowed; }
+        .preview-mini { display:grid; grid-template-columns:100px 1fr; gap:15px; margin-bottom:15px; align-items:start; }
+        .preview-mini img { max-width:100px; border-radius:6px; border:1px solid #333; }
+        @media (max-width: 768px) { .opcao-row { grid-template-columns:1fr; } .preview-mini { grid-template-columns:1fr; } }
     </style>
 
     <base target="_blank">
 </head>
 <body>
+
+    <!-- ===== STYLE DUPLICADO PARA O IFRAME DO PREVIEW ===== -->
+    <style id="dc-preview-style">
+        .discord-preview-wrap { background:#313338; border-radius:8px; padding:16px; font-family:'gg sans','Noto Sans',Helvetica,Arial,sans-serif; }
+        .dc-embed { background:#2b2d31; border-left:4px solid #ff0000; border-radius:4px; padding:8px 16px 16px 12px; max-width:520px; color:#dbdee1; font-size:14px; line-height:1.375; display:grid; grid-template-columns:auto 1fr; column-gap:12px; }
+        .dc-embed-inner { grid-column:1 / -1; min-width:0; }
+        .dc-embed-inner.has-thumb { grid-column:1 / 2; }
+        .dc-author { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+        .dc-author img { width:24px; height:24px; border-radius:50%; }
+        .dc-author span { color:#f2f3f5; font-size:14px; font-weight:600; }
+        .dc-title { color:#f2f3f5; font-size:16px; font-weight:600; margin-bottom:4px; }
+        .dc-desc { color:#dbdee1; font-size:14px; white-space:pre-wrap; word-wrap:break-word; }
+        .dc-desc h1 { font-size:1.5em; margin:8px 0 4px; color:#f2f3f5; }
+        .dc-desc h2 { font-size:1.25em; margin:8px 0 4px; color:#f2f3f5; }
+        .dc-desc h3 { font-size:1.1em; margin:8px 0 4px; color:#f2f3f5; }
+        .dc-desc a { color:#00a8fc; text-decoration:none; }
+        .dc-desc code { background:#1e1f22; padding:1px 4px; border-radius:3px; font-family:'Consolas',monospace; font-size:.85em; }
+        .dc-desc pre { background:#1e1f22; padding:8px; border-radius:4px; border:1px solid #232428; overflow-x:auto; margin:6px 0; }
+        .dc-desc blockquote { border-left:4px solid #4f545c; padding-left:12px; margin:6px 0; color:#dbdee1; }
+        .dc-fields { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:8px; }
+        .dc-field { min-width:0; }
+        .dc-field.inline-false { grid-column:1 / -1; }
+        .dc-field-name { color:#f2f3f5; font-weight:600; font-size:14px; margin-bottom:2px; }
+        .dc-field-value { color:#dbdee1; font-size:14px; white-space:pre-wrap; word-wrap:break-word; }
+        .dc-image { max-width:100%; border-radius:4px; margin-top:8px; display:block; }
+        .dc-thumb { width:80px; height:80px; border-radius:4px; grid-column:2 / 3; grid-row:1 / 2; object-fit:cover; }
+        .dc-footer { margin-top:8px; display:flex; align-items:center; gap:8px; color:#949ba4; font-size:12px; font-weight:500; }
+        .dc-footer img { width:20px; height:20px; border-radius:50%; }
+        .dc-emoji { width:20px; height:20px; vertical-align:-4px; }
+        .dc-mention { background:rgba(88,101,242,.3); color:#c9cdfb; padding:0 2px; border-radius:3px; font-weight:500; }
+    </style>
 
     <!-- ===== TELA DE BLOQUEIO ===== -->
     <div id="block-screen">
@@ -278,6 +375,7 @@
                 <button class="nav-btn" onclick="showSection('transcripts-section')">TRANSCRIPTS</button>
                 <button class="nav-btn" onclick="showSection('vendas-section')">VENDAS</button>
                 <button class="nav-btn" onclick="showSection('embed-section')">CRIAR EMBED</button>
+                <button class="nav-btn" onclick="showSection('menus-section')">EDITAR MENUS</button>
                 <button class="nav-btn" onclick="showSection('bot-status-section')">SITE ONLINE</button>
             </div>
             <button class="logout-btn" onclick="logout()">SAIR 🚪</button>
@@ -443,6 +541,42 @@
                         </div>
                         <small style="color:#888; font-size:0.75rem;">Escolhe o tipo e insere o URL da imagem (ex: https://exemplo.com/imagem.png).</small>
                     </div>
+
+                    <!-- Autor -->
+                    <div style="margin-bottom:15px;">
+                        <label class="form-label">👤 Autor (opcional)</label>
+                        <div class="row-image-options">
+                            <input type="text" id="emb-autor-nome" class="form-input" placeholder="Nome do autor" style="margin-bottom:0;">
+                            <input type="text" id="emb-autor-icon" class="form-input" placeholder="URL do ícone do autor" style="margin-bottom:0;">
+                        </div>
+                    </div>
+
+                    <!-- Rodapé -->
+                    <div style="margin-bottom:15px;">
+                        <label class="form-label">📎 Rodapé (opcional)</label>
+                        <div class="row-image-options">
+                            <input type="text" id="emb-footer-texto" class="form-input" placeholder="Texto do rodapé" style="margin-bottom:0;">
+                            <input type="text" id="emb-footer-icon" class="form-input" placeholder="URL do ícone do rodapé" style="margin-bottom:0;">
+                        </div>
+                    </div>
+
+                    <label style="display:flex; align-items:center; gap:8px; color:#bbb; margin-bottom:15px;">
+                        <input type="checkbox" id="emb-timestamp" checked>
+                        Mostrar timestamp (hora atual)
+                    </label>
+
+                    <!-- Emoji Picker -->
+                    <div style="position:relative; margin-bottom:15px;">
+                        <label class="form-label">😀 Emojis do Servidor</label>
+                        <button type="button" onclick="toggleEmojiPicker()" class="btn-preview" style="width:100%; margin-bottom:10px;">😀 Abrir Emojis do Servidor</button>
+                        <div id="emoji-picker-box">
+                            <input type="text" class="form-input" placeholder="🔍 Pesquisar emoji..." oninput="filtrarEmojis(this.value)" style="margin-bottom:10px;">
+                            <div id="emoji-grid">
+                                <div style="grid-column:1/-1; text-align:center; color:#888; padding:20px;">A carregar emojis...</div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Produtos -->
                     <div style="margin-bottom:20px;">
                         <label class="form-label">📦 Produtos / Opções do Menu</label>
@@ -465,6 +599,20 @@
                         <iframe id="preview-iframe" srcdoc="<html><body style='background:#313338;color:#fff;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100%;margin:0;'><p style='color:#888;'>Preenche os campos e clica em 'Pré-visualizar'</p></body></html>"></iframe>
                     </div>
                     <p class="info-text">ℹ️ O bot vai enviar o embed diretamente para o canal indicado.</p>
+                </div>
+            </div>
+
+            <!-- ===== EDITAR MENUS ===== -->
+            <div id="menus-section" class="content-div">
+                <h1>📝 Editar Menus</h1>
+                <p class="subtitulo">Altera títulos, descrições, preços, imagens e opções. Aplica no bot em segundos.</p>
+                <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
+                    <button class="refresh-btn" onclick="carregarMenus()">🔄 Recarregar</button>
+                    <button class="refresh-btn" onclick="expandirTodos()">⬇️ Expandir Todos</button>
+                    <button class="refresh-btn" onclick="recolherTodos()">⬆️ Recolher Todos</button>
+                </div>
+                <div id="menus-lista" style="width:100%; max-width:1100px;">
+                    <div class="sem-resultados">A carregar menus...</div>
                 </div>
             </div>
 
@@ -907,76 +1055,72 @@
 
         // ===== PRÉ-VISUALIZAÇÃO =====
         function previsualizarEmbed() {
-            const titulo = document.getElementById('emb-titulo').value.trim() || 'Título do Embed';
-            const desc = document.getElementById('emb-desc').value.trim() || 'Descrição do embed...';
-            const cor = document.getElementById('emb-cor').value || '#FF0000';
-            const tipoImagem = document.getElementById('emb-tipo-imagem').value;
-            const urlImagem = document.getElementById('emb-imagem').value.trim();
+            const titulo   = document.getElementById('emb-titulo').value.trim();
+            const desc     = document.getElementById('emb-desc').value;
+            const cor      = document.getElementById('emb-cor').value || '#FF0000';
+            const tipoImg  = document.getElementById('emb-tipo-imagem').value;
+            const urlImg   = document.getElementById('emb-imagem').value.trim();
+            const autorNome= document.getElementById('emb-autor-nome').value.trim();
+            const autorIcon= document.getElementById('emb-autor-icon').value.trim();
+            const footTxt  = document.getElementById('emb-footer-texto').value.trim();
+            const footIcon = document.getElementById('emb-footer-icon').value.trim();
+            const usrTs    = document.getElementById('emb-timestamp').checked;
 
             const produtos = [];
             document.querySelectorAll('.p-nome').forEach((n, i) => {
                 if (n.value.trim()) {
-                    const preco = document.querySelectorAll('.p-preco')[i]?.value.trim() || 'N/A';
-                    produtos.push({ nome: n.value.trim(), preco });
+                    produtos.push({
+                        nome: n.value.trim(),
+                        preco: document.querySelectorAll('.p-preco')[i]?.value.trim() || 'N/A'
+                    });
                 }
             });
 
-            // Construir HTML da pré-visualização
-            let html = `
-                <html>
-                <head><style>
-                    body { background: #313338; color: #fff; font-family: sans-serif; padding: 20px; margin:0; }
-                    .embed { background: #2b2d31; border-left: 4px solid ${cor}; padding: 12px; border-radius: 4px; max-width: 600px; margin: auto; }
-                    .embed-title { font-weight: bold; font-size: 1.2em; margin-bottom: 6px; }
-                    .embed-desc { white-space: pre-wrap; }
-                    .embed-field { margin-top: 10px; border-top: 1px solid #444; padding-top: 8px; }
-                    .embed-field-name { font-weight: bold; }
-                    .embed-image { max-width: 100%; margin-top: 10px; border-radius: 4px; }
-                    .embed-thumb { float: right; max-width: 80px; margin-left: 10px; border-radius: 4px; }
-                    .embed-footer { margin-top: 10px; font-size: 0.9em; color: #aaa; display: flex; align-items: center; gap: 6px; }
-                    .embed-footer img { width: 20px; height: 20px; border-radius: 50%; }
-                </style></head>
-                <body>
-                <div class="embed">
-            `;
+            const temThumb = urlImg && tipoImg === 'thumbnail';
+            const temImg   = urlImg && tipoImg === 'normal';
+            const urlFootIcon = footIcon || (tipoImg === 'footer' ? urlImg : '');
 
-            // Título
-            html += `<div class="embed-title">${escapeHtml(titulo)}</div>`;
+            let html = `<div class="discord-preview-wrap"><div class="dc-embed" style="border-left-color:${escapeHtml(cor)};">`;
+            if (temThumb) html += `<img class="dc-thumb" src="${escapeHtml(urlImg)}" alt="">`;
+            html += `<div class="dc-embed-inner${temThumb ? ' has-thumb' : ''}">`;
 
-            // Imagem (conforme tipo)
-            if (urlImagem) {
-                if (tipoImagem === 'normal') {
-                    html += `<img class="embed-image" src="${escapeHtml(urlImagem)}" alt="Imagem">`;
-                } else if (tipoImagem === 'thumbnail') {
-                    html += `<img class="embed-thumb" src="${escapeHtml(urlImagem)}" alt="Thumbnail">`;
-                }
-                // Footer será tratado depois
+            if (autorNome) {
+                html += `<div class="dc-author">`;
+                if (autorIcon) html += `<img src="${escapeHtml(autorIcon)}" alt="">`;
+                html += `<span>${escapeHtml(autorNome)}</span></div>`;
             }
+            if (titulo) html += `<div class="dc-title">${formatarMarkdown(titulo)}</div>`;
+            if (desc)   html += `<div class="dc-desc">${formatarMarkdown(desc)}</div>`;
 
-            // Descrição (com markdown básico)
-            html += `<div class="embed-desc">${formatarMarkdown(desc)}</div>`;
-
-            // Produtos
             if (produtos.length) {
+                html += `<div class="dc-fields">`;
                 produtos.forEach(p => {
-                    html += `
-                        <div class="embed-field">
-                            <div class="embed-field-name">${escapeHtml(p.nome)}</div>
-                            <div>${escapeHtml(p.preco)}</div>
-                        </div>
-                    `;
+                    html += `<div class="dc-field inline-false">
+                        <div class="dc-field-name">${formatarMarkdown(p.nome)}</div>
+                        <div class="dc-field-value">${formatarMarkdown(p.preco)}</div>
+                    </div>`;
                 });
+                html += `</div>`;
             }
+            if (temImg) html += `<img class="dc-image" src="${escapeHtml(urlImg)}" alt="">`;
 
-            // Footer com imagem (se for footer)
-            if (urlImagem && tipoImagem === 'footer') {
-                html += `<div class="embed-footer"><img src="${escapeHtml(urlImagem)}" alt="footer"> Rodapé</div>`;
+            if (footTxt || urlFootIcon || usrTs) {
+                html += `<div class="dc-footer">`;
+                if (urlFootIcon) html += `<img src="${escapeHtml(urlFootIcon)}" alt="">`;
+                if (footTxt) html += `<span>${escapeHtml(footTxt)}</span>`;
+                if (usrTs) {
+                    const a = new Date();
+                    html += `<span>${footTxt ? ' • ' : ''}${a.toLocaleDateString('pt-PT')} ${a.toLocaleTimeString('pt-PT',{hour:'2-digit',minute:'2-digit'})}</span>`;
+                }
+                html += `</div>`;
             }
-
-            html += `</div></body></html>`;
+            html += `</div></div></div>`;
 
             const iframe = document.getElementById('preview-iframe');
-            iframe.srcdoc = html;
+            iframe.srcdoc = `<html><head><style>
+                body { margin:0; background:#313338; }
+                ${document.getElementById('dc-preview-style')?.innerHTML || ''}
+            </style></head><body>${html}</body></html>`;
             document.getElementById('preview-box').classList.add('show');
         }
 
@@ -987,17 +1131,35 @@
         }
 
         function formatarMarkdown(text) {
-            // Converter markdown para HTML (básico)
+            if (!text) return '';
             let html = escapeHtml(text);
-            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
-            html = html.replace(/__(.+?)__/g, '<u>$1</u>');
-            html = html.replace(/~~(.+?)~~/g, '<s>$1</s>');
+
+            html = html.replace(/&lt;(a?):([a-zA-Z0-9_]+):(\d+)&gt;/g, (m, anim, nome, id) => {
+                const ext = anim ? 'gif' : 'png';
+                return `<img class="dc-emoji" src="https://cdn.discordapp.com/emojis/${id}.${ext}" alt=":${nome}:" title=":${nome}:">`;
+            });
+            html = html.replace(/&lt;@!?(\d+)&gt;/g, '<span class="dc-mention">@user</span>');
+            html = html.replace(/&lt;#(\d+)&gt;/g, '<span class="dc-mention">#canal</span>');
+            html = html.replace(/&lt;@&(\d+)&gt;/g, '<span class="dc-mention">@cargo</span>');
+
+            html = html.replace(/```([\s\S]*?)```/g, (m, code) => `<pre><code>${code.trim()}</code></pre>`);
+            html = html.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+
             html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
             html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
             html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
-            // Quebras de linha
-            html = html.replace(/\n/g, '<br>');
+            html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+
+            html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+            html = html.replace(/__(.+?)__/g, '<u>$1</u>');
+            html = html.replace(/_(.+?)_/g, '<em>$1</em>');
+            html = html.replace(/~~(.+?)~~/g, '<s>$1</s>');
+            html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+            const parts = html.split(/(<pre>[\s\S]*?<\/pre>|<blockquote>[\s\S]*?<\/blockquote>)/);
+            html = parts.map(p => /^<(pre|blockquote)>/.test(p) ? p : p.replace(/\n/g, '<br>')).join('');
             return html;
         }
 
@@ -1243,6 +1405,299 @@
                 showSection('welcome-section');
             }
         });
+
+        // =============================================================
+        // 7. EMOJI PICKER
+        // =============================================================
+        let emojisServidor = [];
+        let emojiAlvo = null;
+
+        async function carregarEmojis() {
+            const grid = document.getElementById('emoji-grid');
+            try {
+                const cached = localStorage.getItem('_emojis_cache');
+                const cacheTs = parseInt(localStorage.getItem('_emojis_ts') || '0');
+                if (cached && Date.now() - cacheTs < 10 * 60 * 1000) {
+                    emojisServidor = JSON.parse(cached);
+                    renderEmojis(emojisServidor);
+                    return;
+                }
+                const r = await fetch('/api/emojis');
+                const data = await r.json();
+                if (data.success) {
+                    emojisServidor = data.emojis;
+                    localStorage.setItem('_emojis_cache', JSON.stringify(emojisServidor));
+                    localStorage.setItem('_emojis_ts', String(Date.now()));
+                    renderEmojis(emojisServidor);
+                } else throw new Error(data.error);
+            } catch (err) {
+                grid.innerHTML = `<div style="grid-column:1/-1;color:#f88;text-align:center;padding:20px;">❌ ${err.message}<br><small style="color:#888;">O bot pode estar offline.</small></div>`;
+            }
+        }
+
+        function renderEmojis(lista) {
+            const grid = document.getElementById('emoji-grid');
+            if (!lista.length) {
+                grid.innerHTML = '<div style="grid-column:1/-1;color:#888;text-align:center;padding:20px;">Nenhum emoji.</div>';
+                return;
+            }
+            grid.innerHTML = lista.map(e =>
+                `<button type="button" class="emoji-btn" title=":${e.name}:" onclick='inserirEmoji(${JSON.stringify(e.tag)})'><img src="${e.url}" alt=":${e.name}:"></button>`
+            ).join('');
+        }
+
+        function filtrarEmojis(q) {
+            q = q.toLowerCase();
+            renderEmojis(emojisServidor.filter(e => e.name.toLowerCase().includes(q)));
+        }
+
+        function toggleEmojiPicker() {
+            const p = document.getElementById('emoji-picker-box');
+            const aberto = p.style.display === 'block';
+            p.style.display = aberto ? 'none' : 'block';
+            if (!aberto && !emojisServidor.length) carregarEmojis();
+        }
+
+        function inserirEmoji(tag) {
+            const alvo = emojiAlvo || document.getElementById('emb-desc');
+            const start = alvo.selectionStart ?? alvo.value.length;
+            const end   = alvo.selectionEnd   ?? alvo.value.length;
+            alvo.value = alvo.value.slice(0, start) + tag + alvo.value.slice(end);
+            alvo.focus();
+            alvo.selectionStart = alvo.selectionEnd = start + tag.length;
+            document.getElementById('emoji-picker-box').style.display = 'none';
+        }
+
+        document.addEventListener('focusin', e => {
+            if (e.target.matches('input[type="text"], textarea')) emojiAlvo = e.target;
+        });
+
+        // =============================================================
+        // 8. EDITOR DE MENUS
+        // =============================================================
+        let menusCache = [];
+        let menusExpandidos = new Set();
+
+        async function carregarMenus() {
+            const container = document.getElementById('menus-lista');
+            container.innerHTML = '<div class="sem-resultados">⏳ A carregar menus...</div>';
+            try {
+                const r = await fetch('/api/menus');
+                const data = await r.json();
+                if (!data.success) throw new Error(data.error);
+                menusCache = data.menus || [];
+                renderMenusEditor();
+            } catch (err) {
+                container.innerHTML = `<div class="sem-resultados">❌ ${err.message}<br><small style="color:#888;">O bot pode estar offline.</small></div>`;
+            }
+        }
+
+        function renderMenusEditor() {
+            const container = document.getElementById('menus-lista');
+            if (!menusCache.length) {
+                container.innerHTML = '<div class="sem-resultados">📭 Nenhum menu encontrado.</div>';
+                return;
+            }
+
+            container.innerHTML = menusCache.map((m, idx) => {
+                const aberto = menusExpandidos.has(m.id);
+                const opcoes = m.options || [];
+                const thumbUrl = m.embed_thumbnail || '';
+                const imgUrl = m.embed_image || '';
+
+                return `
+                <div class="menu-editor-item" data-id="${m.id}">
+                    <div class="menu-editor-header" onclick="toggleMenuEditor('${m.id}')">
+                        <div style="flex:1;">
+                            <div class="titulo">${escapeHtml(m.title || '(sem título)')}</div>
+                            <div class="id">ID: ${m.id} • ${opcoes.length} opções</div>
+                        </div>
+                        <button class="expand-btn" type="button">${aberto ? '▲' : '▼'}</button>
+                    </div>
+                    <div class="menu-editor-body ${aberto ? 'aberto' : ''}" id="body-${m.id}">
+                        <div class="preview-mini">
+                            ${thumbUrl ? `<img src="${escapeHtml(thumbUrl)}" onerror="this.style.display='none'">` : `<div style="width:100px;height:60px;background:#222;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#555;font-size:0.75rem;">Sem thumb</div>`}
+                            <div>
+                                <div class="menu-editor-field">
+                                    <label>🖼️ Título do Embed</label>
+                                    <input type="text" data-campo="title" value="${escapeHtml(m.title || '')}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="menu-editor-field">
+                            <label>📝 Descrição (Markdown do Discord)</label>
+                            <textarea data-campo="embed_desc">${escapeHtml(m.embed_desc || '')}</textarea>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                            <div class="menu-editor-field">
+                                <label>🔗 URL da Imagem principal</label>
+                                <input type="text" data-campo="embed_image" value="${escapeHtml(imgUrl)}">
+                            </div>
+                            <div class="menu-editor-field">
+                                <label>🔗 URL da Thumbnail</label>
+                                <input type="text" data-campo="embed_thumbnail" value="${escapeHtml(thumbUrl)}">
+                            </div>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                            <div class="menu-editor-field">
+                                <label>🎨 Cor (hex, opcional)</label>
+                                <input type="text" data-campo="color" value="${escapeHtml(m.color || '')}" placeholder="#FF0000">
+                            </div>
+                            <div class="menu-editor-field">
+                                <label>📊 Ordem</label>
+                                <input type="number" data-campo="ordem" value="${m.ordem ?? idx}">
+                            </div>
+                        </div>
+
+                        <div class="menu-editor-field">
+                            <label>📦 Opções (Select Menu)</label>
+                            <div class="opcoes-lista" id="opcoes-${m.id}">
+                                ${opcoes.map((o, i) => `
+                                    <div class="opcao-row">
+                                        <input type="text" data-opcao="${i}" data-campo-opcao="label" value="${escapeHtml(o.label || '')}" placeholder="Label">
+                                        <input type="text" data-opcao="${i}" data-campo-opcao="description" value="${escapeHtml(o.description || '')}" placeholder="Descrição">
+                                        <input type="text" data-opcao="${i}" data-campo-opcao="value" value="${escapeHtml(o.value || '')}" placeholder="Value">
+                                        <button type="button" class="btn-remover" onclick="removerOpcao('${m.id}', ${i})">×</button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <button type="button" class="btn-add-opcao" onclick="adicionarOpcao('${m.id}')">+ Adicionar Opção</button>
+                        </div>
+
+                        <div class="menu-editor-actions">
+                            <button class="btn-guardar-menu" onclick="guardarMenuCompleto('${m.id}', this)">💾 Guardar Alterações</button>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function toggleMenuEditor(id) {
+            if (menusExpandidos.has(id)) menusExpandidos.delete(id);
+            else menusExpandidos.add(id);
+            const body = document.getElementById(`body-${id}`);
+            if (body) body.classList.toggle('aberto');
+            const item = document.querySelector(`.menu-editor-item[data-id="${id}"]`);
+            if (item) {
+                const btn = item.querySelector('.expand-btn');
+                if (btn) btn.textContent = menusExpandidos.has(id) ? '▲' : '▼';
+            }
+        }
+
+        function expandirTodos() { menusCache.forEach(m => menusExpandidos.add(m.id)); renderMenusEditor(); }
+        function recolherTodos() { menusExpandidos.clear(); renderMenusEditor(); }
+
+        function adicionarOpcao(menuId) {
+            const menu = menusCache.find(m => m.id === menuId);
+            if (!menu) return;
+            if (!menu.options) menu.options = [];
+            menu.options.push({ label: '', description: '', value: '' });
+            const container = document.getElementById(`opcoes-${menuId}`);
+            if (container) {
+                const i = menu.options.length - 1;
+                const div = document.createElement('div');
+                div.className = 'opcao-row';
+                div.innerHTML = `
+                    <input type="text" data-opcao="${i}" data-campo-opcao="label" placeholder="Label">
+                    <input type="text" data-opcao="${i}" data-campo-opcao="description" placeholder="Descrição">
+                    <input type="text" data-opcao="${i}" data-campo-opcao="value" placeholder="Value">
+                    <button type="button" class="btn-remover" onclick="removerOpcao('${menuId}', ${i})">×</button>
+                `;
+                container.appendChild(div);
+            }
+        }
+
+        function removerOpcao(menuId, index) {
+            const menu = menusCache.find(m => m.id === menuId);
+            if (!menu || !menu.options) return;
+            menu.options.splice(index, 1);
+            const container = document.getElementById(`opcoes-${menuId}`);
+            if (container) {
+                container.innerHTML = menu.options.map((o, i) => `
+                    <div class="opcao-row">
+                        <input type="text" data-opcao="${i}" data-campo-opcao="label" value="${escapeHtml(o.label || '')}">
+                        <input type="text" data-opcao="${i}" data-campo-opcao="description" value="${escapeHtml(o.description || '')}">
+                        <input type="text" data-opcao="${i}" data-campo-opcao="value" value="${escapeHtml(o.value || '')}">
+                        <button type="button" class="btn-remover" onclick="removerOpcao('${menuId}', ${i})">×</button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        async function guardarMenuCompleto(menuId, btn) {
+            const menu = menusCache.find(m => m.id === menuId);
+            if (!menu) return;
+            const body = document.getElementById(`body-${menuId}`);
+            if (!body) return;
+
+            const titulo = body.querySelector('[data-campo="title"]').value;
+            const desc = body.querySelector('[data-campo="embed_desc"]').value;
+            const img = body.querySelector('[data-campo="embed_image"]').value;
+            const thumb = body.querySelector('[data-campo="embed_thumbnail"]').value;
+            const cor = body.querySelector('[data-campo="color"]').value;
+            const ordem = parseInt(body.querySelector('[data-campo="ordem"]').value) || 0;
+
+            const opcoes = [];
+            body.querySelectorAll('.opcao-row').forEach(row => {
+                const label = row.querySelector('[data-campo-opcao="label"]').value.trim();
+                const description = row.querySelector('[data-campo-opcao="description"]').value.trim();
+                const value = row.querySelector('[data-campo-opcao="value"]').value.trim();
+                if (label && value) opcoes.push({ label, description, value });
+            });
+
+            const orig = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = '⏳ A guardar...';
+
+            try {
+                const r = await fetch('/api/menus', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        id: menuId,
+                        title: titulo,
+                        embed_desc: desc,
+                        embed_image: img,
+                        embed_thumbnail: thumb,
+                        color: cor || null,
+                        options: opcoes,
+                        ordem
+                    })
+                });
+                const data = await r.json();
+                if (!data.success) throw new Error(data.error);
+
+                menu.title = titulo;
+                menu.embed_desc = desc;
+                menu.embed_image = img;
+                menu.embed_thumbnail = thumb;
+                menu.color = cor || null;
+                menu.options = opcoes;
+                menu.ordem = ordem;
+
+                mostrarToast('✅ Menu guardado!', 'success');
+                const item = document.querySelector(`.menu-editor-item[data-id="${menuId}"]`);
+                if (item) {
+                    const t = item.querySelector('.titulo');
+                    if (t) t.textContent = titulo || '(sem título)';
+                }
+            } catch (err) {
+                mostrarToast('❌ Erro: ' + err.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = orig;
+            }
+        }
+
+        // Integrar carregamento de menus na navegação
+        const _showSectionOriginal = showSection;
+        showSection = function(id) {
+            _showSectionOriginal(id);
+            if (id === 'menus-section') carregarMenus();
+        };
     </script>
 
 </body>
