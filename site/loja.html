@@ -53,8 +53,8 @@
         .kpi-card .kpi-value { font-size:2rem; font-weight:800; margin-top:6px; color:#fff; }
         .kpi-card .kpi-sub { font-size:0.8rem; color:#888; margin-top:4px; }
         .kpi-card .status-dot { display:inline-block; width:12px; height:12px; border-radius:50%; margin-right:8px; vertical-align:middle; }
-        .status-dot.online { background:#00ff00; }
-        .status-dot.offline { background:#ff4444; }
+        .status-dot.online { background:#00ff00; box-shadow:0 0 8px #00ff00; }
+        .status-dot.offline { background:#ff4444; box-shadow:0 0 8px #ff4444; }
         .dashboard-row { display:flex; flex-wrap:wrap; gap:20px; width:100%; margin-bottom:30px; }
         .dashboard-row .chart-box { flex:2; min-width:280px; background:rgba(20,20,20,0.9); border-radius:12px; padding:20px; box-shadow:0 4px 15px rgba(0,0,0,0.4); }
         .dashboard-row .chart-box h3 { margin-bottom:15px; font-size:1.1rem; color:#ddd; }
@@ -70,7 +70,7 @@
         .activity-item:last-child { border-bottom:none; }
         .activity-item .act-icon { font-size:1.3rem; width:32px; text-align:center; }
         .activity-item .act-text { flex:1; font-size:0.9rem; color:#ccc; }
-        .activity-item .act-time { font-size:0.75rem; color:#666; }
+        .activity-item .act-time { font-size:0.75rem; color:#666; white-space:nowrap; }
         .activity-section .notifications-box { flex:1; min-width:200px; background:rgba(20,20,20,0.9); border-radius:12px; padding:20px; box-shadow:0 4px 15px rgba(0,0,0,0.4); }
         .notifications-box h3 { font-size:1.1rem; color:#ddd; margin-bottom:15px; }
         .notif-item { padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:0.85rem; color:#bbb; }
@@ -279,13 +279,16 @@
         .preview-mini { display:grid; grid-template-columns:100px 1fr; gap:15px; margin-bottom:15px; align-items:start; }
         .preview-mini img { max-width:100px; border-radius:6px; border:1px solid #333; }
         @media (max-width: 768px) { .opcao-row { grid-template-columns:1fr; } .preview-mini { grid-template-columns:1fr; } }
+
+        /* ===== WELCOME HEADER ===== */
+        .welcome-h1 { font-size: 2rem; text-align: center; margin-bottom: 20px; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); }
+        .welcome-sub { display:block; font-size:.85rem; color:#888; font-weight:400; text-transform:capitalize; margin-top:4px; }
     </style>
 
     <base target="_blank">
 </head>
 <body>
 
-    <!-- ===== STYLE DUPLICADO PARA O IFRAME DO PREVIEW ===== -->
     <style id="dc-preview-style">
         .discord-preview-wrap { background:#313338; border-radius:8px; padding:16px; font-family:'gg sans','Noto Sans',Helvetica,Arial,sans-serif; }
         .dc-embed { background:#2b2d31; border-left:4px solid #ff0000; border-radius:4px; padding:8px 16px 16px 12px; max-width:520px; color:#dbdee1; font-size:14px; line-height:1.375; display:grid; grid-template-columns:auto 1fr; column-gap:12px; }
@@ -332,7 +335,7 @@
     <header>
         <button type="button" onclick="location.reload()" class="logo-link">Jordan Shop | Staff</button>
         <div class="refresh-container">
-            <button type="button" class="refresh-btn" onclick="atualizarPagina()" title="Atualizar página">
+            <button type="button" class="refresh-btn" onclick="atualizarPagina()" title="Atualizar secção atual">
                 <span id="refreshIcon">🔄</span> Atualizar
             </button>
             <div class="user-tag">
@@ -361,28 +364,28 @@
 
             <!-- ===== DASHBOARD ===== -->
             <div id="welcome-section" class="content-div active">
-                <h1 id="main-welcome" style="font-size:2rem; margin-bottom:20px; text-align:center;">Bem-Vindo</h1>
+                <h1 id="main-welcome" class="welcome-h1">Bem-Vindo</h1>
 
                 <div class="dashboard-grid">
                     <div class="kpi-card">
                         <div class="kpi-label">💶 Vendas Hoje</div>
-                        <div class="kpi-value" id="kpiVendasHoje">€0,00</div>
-                        <div class="kpi-sub" id="kpiVendasCount">0 vendas</div>
+                        <div class="kpi-value" id="kpiVendasHoje">—</div>
+                        <div class="kpi-sub" id="kpiVendasCount">a carregar…</div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-label">📄 Tickets Pendentes</div>
-                        <div class="kpi-value" id="kpiTickets">0</div>
+                        <div class="kpi-value" id="kpiTickets">—</div>
                         <div class="kpi-sub">para rever</div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-label">👥 Clientes Registados</div>
-                        <div class="kpi-value" id="kpiClientes">0</div>
+                        <div class="kpi-value" id="kpiClientes">—</div>
                         <div class="kpi-sub">total</div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-label">📡 Status do Bot</div>
-                        <div class="kpi-value" id="kpiStatusBot"><span class="status-dot online"></span> Online</div>
-                        <div class="kpi-sub">API funcionando</div>
+                        <div class="kpi-value" id="kpiStatusBot"><span class="status-dot online"></span> A verificar…</div>
+                        <div class="kpi-sub">API do bot</div>
                     </div>
                 </div>
 
@@ -396,17 +399,17 @@
                         <button type="button" class="quick-btn" onclick="showSection('embed-section')"><i>🎫</i> Criar Novo Embed</button>
                         <button type="button" class="quick-btn" onclick="abrirModalVenda()"><i>➕</i> Registrar Venda</button>
                         <button type="button" class="quick-btn" onclick="showSection('transcripts-section')"><i>📄</i> Ver Último Transcript</button>
-                        <button type="button" class="quick-btn" onclick="location.reload()"><i>🔄</i> Atualizar Dados</button>
+                        <button type="button" class="quick-btn" onclick="atualizarPagina()"><i>🔄</i> Atualizar Dados</button>
                     </div>
                 </div>
 
                 <div class="activity-section">
                     <div class="recent-activity">
                         <h3>🕒 Atividade Recente</h3>
-                        <div id="activityList"></div>
+                        <div id="activityList"><div style="color:#666;padding:15px;text-align:center;">A carregar…</div></div>
                     </div>
                     <div class="notifications-box">
-                        <h3>📢 Avisos da Staff</h3>
+                        <h3>📢 Info do Sistema</h3>
                         <div id="notificationsList"></div>
                     </div>
                 </div>
@@ -437,13 +440,6 @@
                             </div>
                             <span class="status-badge" style="background: #00ff00; color: #000;">LIFETIME</span>
                         </div>
-                        <div class="log-item">
-                            <div class="log-info">
-                                <strong>🛍️ Comprador: @Tonethegoat/tonezz1_ | 📅 Data: 27/09/2025</strong>
-                                <span>📦 Produto: 🦈・shark-menu<br>💰 Preço: €18.00<br>🛡️ Staff: @! Jordan @migueldodrip</span>
-                            </div>
-                            <span class="status-badge" style="background: #ffcc00; color: #000;">SEMANAL</span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -468,7 +464,7 @@
                             <strong>Formatação:</strong>
                             <code>**negrito**</code>, <code>*itálico*</code>, <code>__sublinhado__</code>, <code>~~riscado~~</code>,
                             <code># Título</code>, <code>## Subtítulo</code>, <code>### Sub-subtítulo</code>.<br>
-                            <strong>Emojis personalizados:</strong> usa o formato <code>&lt;:nome:id&gt;</code> (ex: <code>&lt;:shark:123456789&gt;</code>).
+                            <strong>Emojis personalizados:</strong> usa o formato <code>&lt;:nome:id&gt;</code>.
                         </small>
                     </div>
                     <div style="margin-bottom:15px;">
@@ -486,7 +482,6 @@
                         </div>
                     </div>
 
-                    <!-- Emoji Picker -->
                     <div style="position:relative; margin-bottom:15px;">
                         <label class="form-label">😀 Emojis do Servidor</label>
                         <button type="button" onclick="toggleEmojiPicker()" class="btn-preview" style="width:100%; margin-bottom:10px;">😀 Abrir Emojis do Servidor</button>
@@ -498,7 +493,6 @@
                         </div>
                     </div>
 
-                    <!-- Produtos -->
                     <div style="margin-bottom:20px;">
                         <label class="form-label">📦 Produtos / Opções do Menu</label>
                         <small style="color:#888; font-size:0.75rem; display:block; margin-bottom:8px;">
@@ -604,7 +598,26 @@
 
     <script>
         // =============================================================
-        // 1. SESSÃO + SAUDAÇÃO DINÂMICA
+        // 0. HELPERS
+        // =============================================================
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text == null ? '' : String(text);
+            return div.innerHTML;
+        }
+
+        function mostrarToast(mensagem, tipo) {
+            const toast = document.getElementById('toastVenda');
+            document.getElementById('toastMsg').textContent = mensagem;
+            document.getElementById('toastIcon').textContent = tipo === 'error' ? '❌' : '✅';
+            toast.className = 'toast ' + (tipo || 'success');
+            toast.classList.add('show');
+            clearTimeout(window._toastTimer);
+            window._toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // =============================================================
+        // 1. SESSÃO + SAUDAÇÃO
         // =============================================================
         (function verificarSessao() {
             const params = new URLSearchParams(window.location.search);
@@ -627,7 +640,6 @@
                 block.classList.remove('active');
                 document.querySelector('header').style.display = 'flex';
                 document.querySelector('.container').style.display = 'flex';
-                document.getElementById('main-welcome').innerText = "Bem-Vindo, " + sessao;
                 atualizarSaudacao();
             }
         })();
@@ -635,11 +647,21 @@
         function atualizarSaudacao() {
             const nome = localStorage.getItem('staff_sessao') || 'Staff';
             const hora = new Date().getHours();
-            let saudacao = 'Olá';
+            let saudacao = 'Boa noite';
             if (hora >= 6 && hora < 13) saudacao = 'Bom dia';
             else if (hora >= 13 && hora < 19) saudacao = 'Boa tarde';
-            else saudacao = 'Boa noite';
+
             document.getElementById('nav-username').innerText = `${saudacao}, ${nome}`;
+
+            const mainWelcome = document.getElementById('main-welcome');
+            if (mainWelcome) {
+                const dataStr = new Date().toLocaleDateString('pt-PT', {
+                    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+                });
+                mainWelcome.innerHTML =
+                    `${saudacao}, <span style="color:#ff5555;">${escapeHtml(nome)}</span> 👋` +
+                    `<span class="welcome-sub">${escapeHtml(dataStr)}</span>`;
+            }
         }
         setInterval(atualizarSaudacao, 60000);
 
@@ -663,15 +685,38 @@
                 }
             });
 
+            if (id === 'welcome-section') initDashboard();
             if (id === 'transcripts-section') fetchLogs();
             if (id === 'menus-section') carregarMenus();
         }
 
-        function atualizarPagina() {
+        // ✅ ATUALIZA APENAS A SECÇÃO ATIVA (não volta ao início)
+        async function atualizarPagina() {
             const btn = document.querySelector('.refresh-btn');
             btn.classList.add('spinning');
             btn.disabled = true;
-            setTimeout(() => window.location.reload(), 800);
+
+            const active = document.querySelector('.content-div.active');
+            const id = active?.id;
+            const nomeSeccao = active?.querySelector('h1')?.innerText?.split('\n')[0]?.trim() || 'Secção';
+
+            try {
+                if (id === 'welcome-section')      await initDashboard();
+                else if (id === 'transcripts-section') await fetchLogs();
+                else if (id === 'menus-section')       await carregarMenus();
+                else if (id === 'vendas-section')      carregarInfoSistema(); // nada pesado, só refresca avisos
+                else if (id === 'bot-status-section')  atualizarRelogio();
+                // embed-section não tem dados remotos
+                mostrarToast(`✅ ${nomeSeccao} atualizado!`, 'success');
+            } catch (err) {
+                console.error(err);
+                mostrarToast('❌ Erro ao atualizar', 'error');
+            } finally {
+                setTimeout(() => {
+                    btn.classList.remove('spinning');
+                    btn.disabled = false;
+                }, 500);
+            }
         }
 
         function filtrarMenu() {
@@ -694,73 +739,152 @@
         atualizarRelogio();
 
         // =============================================================
-        // 3. DASHBOARD (MOCK)
+        // 3. DASHBOARD — DADOS REAIS
         // =============================================================
-        function gerarDadosDashboard() {
-            const vendasHoje = Math.floor(Math.random() * 500) + 50;
-            const qtdVendas = Math.floor(Math.random() * 20) + 1;
-            document.getElementById('kpiVendasHoje').textContent = '€' + vendasHoje.toFixed(2).replace('.', ',');
-            document.getElementById('kpiVendasCount').textContent = qtdVendas + ' venda' + (qtdVendas > 1 ? 's' : '');
-            document.getElementById('kpiTickets').textContent = Math.floor(Math.random() * 15);
-            document.getElementById('kpiClientes').textContent = Math.floor(Math.random() * 200) + 50;
-            document.getElementById('kpiStatusBot').innerHTML = '<span class="status-dot online"></span> Online';
+        let chartInstance = null;
+
+        async function carregarDashboard() {
+            const kpiVendasHoje = document.getElementById('kpiVendasHoje');
+            const kpiVendasCount = document.getElementById('kpiVendasCount');
+            const kpiTickets     = document.getElementById('kpiTickets');
+            const kpiClientes    = document.getElementById('kpiClientes');
+            const kpiStatusBot   = document.getElementById('kpiStatusBot');
+
+            // --- Status do bot (latência real) ---
+            const t0 = performance.now();
+            let botOnline = false;
+            try {
+                const r = await fetch('/api/stats', { cache: 'no-store' });
+                botOnline = r.ok;
+            } catch {}
+            const latencia = Math.round(performance.now() - t0);
+            kpiStatusBot.innerHTML = botOnline
+                ? `<span class="status-dot online"></span> Online <small style="font-size:.6rem;color:#888;font-weight:400;">${latencia}ms</small>`
+                : `<span class="status-dot offline"></span> Offline`;
+
+            // --- KPIs reais ---
+            try {
+                const [stats, vendas] = await Promise.all([
+                    fetch('/api/stats',  { cache: 'no-store' }).then(r => r.json()).catch(() => ({})),
+                    fetch('/api/vendas', { cache: 'no-store' }).then(r => r.json()).catch(() => ({}))
+                ]);
+
+                const totalHoje = Number(vendas.totalHoje || 0);
+                const countHoje = Number(vendas.countHoje || 0);
+                kpiVendasHoje.textContent = '€' + totalHoje.toFixed(2).replace('.', ',');
+                kpiVendasCount.textContent = countHoje + ' venda' + (countHoje === 1 ? '' : 's');
+
+                kpiTickets.textContent  = Number(stats.tickets  || 0);
+                kpiClientes.textContent = Number(stats.clientes || 0);
+
+                desenharGraficoVendas(vendas.dias || [], vendas.valores || []);
+            } catch (err) {
+                console.error('Erro dashboard:', err);
+                kpiVendasHoje.textContent = '—';
+                kpiTickets.textContent    = '—';
+                kpiClientes.textContent   = '—';
+            }
         }
 
-        let chartInstance = null;
-        function gerarGraficoVendas() {
-            const ctx = document.getElementById('vendasChart').getContext('2d');
+        function desenharGraficoVendas(dias, valores) {
+            const canvas = document.getElementById('vendasChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
             if (chartInstance) chartInstance.destroy();
-            const labels = [], valores = [];
-            for (let i = 6; i >= 0; i--) {
-                const d = new Date();
-                d.setDate(d.getDate() - i);
-                labels.push(d.toLocaleDateString('pt-PT', { day: '2-digit', month: 'short' }));
-                valores.push(Math.floor(Math.random() * 180) + 20);
-            }
+
+            const labels = (dias || []).map(d => {
+                try {
+                    const dt = new Date(d + 'T00:00:00');
+                    return dt.toLocaleDateString('pt-PT', { day: '2-digit', month: 'short' });
+                } catch { return d; }
+            });
+
             chartInstance = new Chart(ctx, {
                 type: 'line',
-                data: { labels, datasets: [{ label: 'Vendas (€)', data: valores, borderColor: '#8b0000', backgroundColor: 'rgba(139,0,0,0.2)', tension: 0.3, pointBackgroundColor: '#ff0000', pointBorderColor: '#fff', borderWidth: 2, fill: true }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#ccc', font: { size: 11 } } } }, scales: { x: { ticks: { color: '#aaa', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } }, y: { ticks: { color: '#aaa', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true } } }
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Vendas (€)',
+                        data: valores || [],
+                        borderColor: '#8b0000',
+                        backgroundColor: 'rgba(139,0,0,0.2)',
+                        tension: 0.3,
+                        pointBackgroundColor: '#ff0000',
+                        pointBorderColor: '#fff',
+                        borderWidth: 2,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#ccc', font: { size: 11 } } } },
+                    scales: {
+                        x: { ticks: { color: '#aaa', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        y: { ticks: { color: '#aaa', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true }
+                    }
+                }
             });
         }
 
-        function gerarAtividades() {
-            const actividades = [
-                { icon: '🛒', text: 'Cliente @silvexxx comprou sp00fer-1click', time: 'há 5 min' },
-                { icon: '📄', text: 'Transcript #104 guardado por Jordan', time: 'há 18 min' },
-                { icon: '💰', text: 'Venda de shark-menu registada (€18,00)', time: 'há 1 hora' },
-            ];
+        async function carregarAtividadeRecente() {
             const container = document.getElementById('activityList');
-            container.innerHTML = '';
-            actividades.forEach(act => {
-                const div = document.createElement('div');
-                div.className = 'activity-item';
-                div.innerHTML = `<span class="act-icon">${act.icon}</span><span class="act-text">${act.text}</span><span class="act-time">${act.time}</span>`;
-                container.appendChild(div);
-            });
+            if (!container) return;
+            container.innerHTML = '<div style="color:#666;padding:15px;text-align:center;">A carregar…</div>';
+            try {
+                const logs = await fetch('/api/list-transcripts', { cache: 'no-store' }).then(r => r.json());
+                const recentes = (Array.isArray(logs) ? logs : []).slice(0, 5);
+                if (!recentes.length) {
+                    container.innerHTML = '<div style="color:#666;padding:20px;text-align:center;">Sem atividades recentes.</div>';
+                    return;
+                }
+                container.innerHTML = '';
+                recentes.forEach(log => {
+                    const nomeCompleto = String(log.name || '').replace('.html', '');
+                    const partes = nomeCompleto.split('-');
+                    const produto = partes.slice(1, -1).join(' ') || 'Produto';
+                    const cliente = (partes[partes.length - 1] || 'CLIENTE').toUpperCase();
+                    const data = log.created_at
+                        ? new Date(log.created_at).toLocaleString('pt-PT', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })
+                        : '';
+                    const div = document.createElement('div');
+                    div.className = 'activity-item';
+                    div.innerHTML = `
+                        <span class="act-icon">📄</span>
+                        <span class="act-text"><strong>${escapeHtml(cliente)}</strong> — ${escapeHtml(produto)}</span>
+                        <span class="act-time">${escapeHtml(data)}</span>
+                    `;
+                    container.appendChild(div);
+                });
+            } catch {
+                container.innerHTML = '<div style="color:#f88;padding:20px;text-align:center;">Erro ao carregar atividades.</div>';
+            }
         }
 
-        function gerarNotificacoes() {
-            const notifs = [
-                { tag: '⚠️', text: 'Manutenção no servidor agendada para as 22h' },
-                { tag: '📢', text: 'Novo produto: "Unban Tool" disponível!' },
-                { tag: '✅', text: 'Bot do Discord reiniciado com sucesso' },
-            ];
+        function carregarInfoSistema() {
             const container = document.getElementById('notificationsList');
-            container.innerHTML = '';
-            notifs.forEach(n => {
-                const div = document.createElement('div');
-                div.className = 'notif-item';
-                div.innerHTML = `<span class="notif-tag">${n.tag}</span> ${n.text}`;
-                container.appendChild(div);
-            });
+            if (!container) return;
+
+            const online = navigator.onLine;
+            const agora = new Date();
+            const staff = localStorage.getItem('staff_sessao') || 'Desconhecido';
+
+            const itens = [
+                { tag: online ? '🟢' : '🔴', text: online ? 'Ligação à internet ativa' : 'Sem ligação à internet' },
+                { tag: '🌐', text: 'Site: jordan-shop-bot-site.vercel.app' },
+                { tag: '🤖', text: 'Bot API: jordan-shop.onrender.com' },
+                { tag: '👤', text: `Staff: ${staff}` },
+                { tag: '🕒', text: 'Sessão: ' + agora.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' }) }
+            ];
+
+            container.innerHTML = itens.map(i =>
+                `<div class="notif-item"><span class="notif-tag">${i.tag}</span> ${escapeHtml(i.text)}</div>`
+            ).join('');
         }
 
-        function initDashboard() {
-            gerarDadosDashboard();
-            gerarGraficoVendas();
-            gerarAtividades();
-            gerarNotificacoes();
+        async function initDashboard() {
+            await Promise.all([carregarDashboard(), carregarAtividadeRecente()]);
+            carregarInfoSistema();
         }
 
         // =============================================================
@@ -773,7 +897,7 @@
             const subtitulo = document.getElementById('subtitulo');
             const container = document.getElementById('lista-transcripts');
             try {
-                const response = await fetch('/api/list-transcripts');
+                const response = await fetch('/api/list-transcripts', { cache: 'no-store' });
                 if (!response.ok) throw new Error('Erro na resposta');
                 const logs = await response.json();
                 todosTranscripts = logs;
@@ -806,11 +930,11 @@
                 item.innerHTML = `
                     <div class="transcript-header" onclick="togglePreview('${id}', '${file.name}')">
                         <div class="transcript-info">
-                            <div class="transcript-nome">👤 ${cliente} — ${produto}</div>
-                            <div class="transcript-meta">🕒 ${data}</div>
+                            <div class="transcript-nome">👤 ${escapeHtml(cliente)} — ${escapeHtml(produto)}</div>
+                            <div class="transcript-meta">🕒 ${escapeHtml(data)}</div>
                         </div>
                         <div class="transcript-btns">
-                            <a href="/transcripts/${nomeCompleto}" target="_blank" class="btn-html" onclick="event.stopPropagation()">🔗 ABRIR</a>
+                            <a href="/transcripts/${encodeURIComponent(nomeCompleto)}" target="_blank" class="btn-html" onclick="event.stopPropagation()">🔗 ABRIR</a>
                             <button type="button" class="btn-expandir" id="btn-exp-${id}">▼</button>
                         </div>
                     </div>
@@ -857,7 +981,7 @@
                 iframe.srcdoc = html;
             } catch (error) {
                 console.error('Erro ao carregar:', error);
-                preview.innerHTML = `<div class="preview-error">❌ Erro ao carregar transcript.<br><small>${error.message}</small></div>`;
+                preview.innerHTML = `<div class="preview-error">❌ Erro ao carregar transcript.<br><small>${escapeHtml(error.message)}</small></div>`;
             }
         }
 
@@ -874,12 +998,6 @@
                 <button type="button" onclick="this.parentElement.remove()" title="Remover">×</button>
             `;
             container.appendChild(div);
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
         }
 
         function formatarMarkdown(text) {
@@ -915,7 +1033,6 @@
             return html;
         }
 
-        // ===== PRÉ-VISUALIZAÇÃO (com Select Menu interativo) =====
         function previsualizarEmbed() {
             const titulo  = document.getElementById('emb-titulo').value.trim();
             const desc    = document.getElementById('emb-desc').value;
@@ -943,7 +1060,6 @@
             if (titulo) html += `<div class="dc-title">${formatarMarkdown(titulo)}</div>`;
             if (desc)   html += `<div class="dc-desc">${formatarMarkdown(desc)}</div>`;
 
-            // Select menu estilo Discord
             if (produtos.length) {
                 html += `<div class="dc-select">
                     <div class="dc-select-placeholder">
@@ -988,7 +1104,6 @@
             document.getElementById('preview-box').classList.add('show');
         }
 
-        // ===== ENVIAR EMBED =====
         async function enviarEmbed() {
             const canalId = document.getElementById('emb-canal').value.trim();
             const titulo = document.getElementById('emb-titulo').value.trim();
@@ -1072,23 +1187,7 @@
             }
         });
 
-        function mostrarToast(mensagem, tipo) {
-            const toast = document.getElementById('toastVenda');
-            document.getElementById('toastMsg').textContent = mensagem;
-            document.getElementById('toastIcon').textContent = tipo === 'success' ? '✅' : '❌';
-            toast.className = 'toast ' + (tipo || 'success');
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
         function formatarData(dataStr) { return new Date(dataStr).toLocaleDateString('pt-PT'); }
-
-        function escapeHtml2(texto) {
-            if (!texto) return '';
-            const div = document.createElement('div');
-            div.textContent = texto;
-            return div.innerHTML;
-        }
 
         async function registrarVenda(event) {
             event.preventDefault();
@@ -1166,7 +1265,7 @@
             const container = document.getElementById('vendas-lista');
             if (!container) return;
             let badgeStyle = 'background: #00ff00; color: #000;';
-            const duracaoUpper = venda.duracao.toUpperCase();
+            const duracaoUpper = (venda.duracao || '').toUpperCase();
             if (duracaoUpper.includes('SEMANAL')) badgeStyle = 'background: #ffcc00; color: #000;';
             else if (duracaoUpper.includes('MENSAL')) badgeStyle = 'background: #ff6600; color: #fff;';
 
@@ -1175,10 +1274,10 @@
             div.style.animation = 'fadeIn 0.5s ease';
             div.innerHTML = `
                 <div class="log-info">
-                    <strong>🛍️ Comprador: ${escapeHtml2(venda.comprador)} | 📅 Data: ${formatarData(venda.data)}</strong>
-                    <span>📦 Produto: ${escapeHtml2(venda.produto)}<br>💰 Preço: ${escapeHtml2(venda.preco)}<br>🛡️ Staff: ${escapeHtml2(venda.staff)}</span>
+                    <strong>🛍️ Comprador: ${escapeHtml(venda.comprador)} | 📅 Data: ${formatarData(venda.data)}</strong>
+                    <span>📦 Produto: ${escapeHtml(venda.produto)}<br>💰 Preço: ${escapeHtml(venda.preco)}<br>🛡️ Staff: ${escapeHtml(venda.staff)}</span>
                 </div>
-                <span class="status-badge" style="${badgeStyle}">${escapeHtml2(venda.duracao.toUpperCase())}</span>
+                <span class="status-badge" style="${badgeStyle}">${escapeHtml(duracaoUpper)}</span>
             `;
             container.insertBefore(div, container.firstChild);
         }
@@ -1208,7 +1307,7 @@
                     renderEmojis(emojisServidor);
                 } else throw new Error(data.error);
             } catch (err) {
-                grid.innerHTML = `<div style="grid-column:1/-1;color:#f88;text-align:center;padding:20px;">❌ ${err.message}<br><small style="color:#888;">O bot pode estar offline.</small></div>`;
+                grid.innerHTML = `<div style="grid-column:1/-1;color:#f88;text-align:center;padding:20px;">❌ ${escapeHtml(err.message)}<br><small style="color:#888;">O bot pode estar offline.</small></div>`;
             }
         }
 
@@ -1219,7 +1318,7 @@
                 return;
             }
             grid.innerHTML = lista.map(e =>
-                `<button type="button" class="emoji-btn" title=":${e.name}:" onclick='inserirEmoji(${JSON.stringify(e.tag)})'><img src="${e.url}" alt=":${e.name}:"></button>`
+                `<button type="button" class="emoji-btn" title=":${escapeHtml(e.name)}:" onclick='inserirEmoji(${JSON.stringify(e.tag)})'><img src="${e.url}" alt=":${escapeHtml(e.name)}:"></button>`
             ).join('');
         }
 
@@ -1259,13 +1358,13 @@
             const container = document.getElementById('menus-lista');
             container.innerHTML = '<div class="sem-resultados">⏳ A carregar menus...</div>';
             try {
-                const r = await fetch('/api/menus');
+                const r = await fetch('/api/menus', { cache: 'no-store' });
                 const data = await r.json();
                 if (!data.success) throw new Error(data.error);
                 menusCache = data.menus || [];
                 renderMenusEditor();
             } catch (err) {
-                container.innerHTML = `<div class="sem-resultados">❌ ${err.message}<br><small style="color:#888;">O bot pode estar offline.</small></div>`;
+                container.innerHTML = `<div class="sem-resultados">❌ ${escapeHtml(err.message)}<br><small style="color:#888;">O bot pode estar offline.</small></div>`;
             }
         }
 
@@ -1458,8 +1557,8 @@
         // =============================================================
         window.addEventListener('DOMContentLoaded', () => {
             if (document.getElementById('container-produtos').children.length === 0) addInputProduto();
-            initDashboard();
-            if (document.getElementById('transcripts-section').classList.contains('active')) fetchLogs();
+            // Se a sessão existe → carrega dashboard
+            if (localStorage.getItem('staff_sessao')) initDashboard();
             const active = document.querySelector('.content-div.active');
             if (!active) showSection('welcome-section');
         });
