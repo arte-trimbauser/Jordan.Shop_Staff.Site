@@ -101,7 +101,6 @@
         .preview-loading { padding:30px; text-align:center; color:#aaa; font-size:0.9rem; display:flex; flex-direction:column; align-items:center; gap:10px; }
         .preview-loading::before { content:"⏳"; font-size:2rem; animation: pulse 1.5s infinite; }
         .preview-error { padding:30px; text-align:center; color:#ff6666; font-size:0.9rem; }
-        .preview-error button { margin-top:10px; background:var(--primary-red); color:white; border:none; padding:8px 16px; border-radius:5px; cursor:pointer; }
         .sem-resultados { color:#666; text-align:center; padding:60px 20px; font-size:1rem; }
         .vendas-header-row { display:flex; justify-content:space-between; align-items:center; width:100%; max-width:900px; margin-bottom:25px; flex-wrap:wrap; gap:15px; }
         .vendas-titulo { font-size:1.8rem; font-weight:800; color:white; text-shadow:2px 2px 4px rgba(0,0,0,0.5); }
@@ -181,58 +180,34 @@
             .search-box { width:100%; margin-bottom:10px; padding:8px; font-size:0.8rem; }
             .nav-links { flex-direction:row; gap:5px; flex-grow:1; overflow-x:auto; flex-wrap:nowrap; }
             .nav-btn { padding:8px 12px; font-size:0.75rem; white-space:nowrap; min-width:fit-content; }
-            .nav-btn:hover { transform:translateY(-2px); }
             .logout-btn { padding:8px 12px; font-size:0.75rem; margin-top:0; margin-left:auto; width:auto; }
             main { padding:15px; }
             .vendas-header-row { flex-direction:column; align-items:center; text-align:center; }
             .log-item { flex-direction:column; align-items:flex-start; gap:10px; }
             .embed-creator-card { padding:20px; }
             .block-card { padding:30px 20px; }
-            .block-card h1 { font-size:1.8rem; }
-            .transcript-header { padding:12px 15px; }
-            .transcript-nome { font-size:0.85rem; }
-            .transcript-meta { font-size:0.7rem; }
-            .btn-html { padding:6px 10px; font-size:0.7rem; }
-            .btn-expandir { padding:6px 10px; font-size:0.75rem; }
             .transcript-preview iframe { height:300px; }
             .dashboard-grid { grid-template-columns:1fr 1fr; }
             .dashboard-row { flex-direction:column; }
             .activity-section { flex-direction:column; }
-            .row-image-options { flex-direction:column; }
         }
         @media (max-width: 480px) {
-            .logo-link { font-size:0.9rem; }
-            .user-tag { font-size:0.75rem; padding:4px 8px; }
-            .nav-links { gap:3px; }
             .nav-btn { padding:6px 8px; font-size:0.7rem; }
             .logout-btn { padding:6px 8px; font-size:0.7rem; }
             h1 { font-size:1.3rem; }
-            .transcript-header { flex-direction:column; align-items:flex-start; gap:8px; }
-            .transcript-btns { width:100%; justify-content:flex-end; }
             .transcript-preview iframe { height:250px; }
             .dashboard-grid { grid-template-columns:1fr; }
         }
-
-        /* ===== PREVIEW DISCORD ===== */
         .discord-preview-wrap { background:#313338; border-radius:8px; padding:16px; font-family:'gg sans','Noto Sans',Helvetica,Arial,sans-serif; }
         .dc-embed { background:#2b2d31; border-left:4px solid #ff0000; border-radius:4px; padding:8px 16px 16px 12px; max-width:520px; color:#dbdee1; font-size:14px; line-height:1.375; display:grid; grid-template-columns:auto 1fr; column-gap:12px; }
         .dc-embed-inner { grid-column:1 / -1; min-width:0; }
         .dc-embed-inner.has-thumb { grid-column:1 / 2; }
         .dc-title { color:#f2f3f5; font-size:16px; font-weight:600; margin-bottom:4px; }
         .dc-desc { color:#dbdee1; font-size:14px; white-space:pre-wrap; word-wrap:break-word; }
-        .dc-desc h1 { font-size:1.5em; margin:8px 0 4px; color:#f2f3f5; }
-        .dc-desc h2 { font-size:1.25em; margin:8px 0 4px; color:#f2f3f5; }
-        .dc-desc h3 { font-size:1.1em; margin:8px 0 4px; color:#f2f3f5; }
-        .dc-desc a { color:#00a8fc; text-decoration:none; }
-        .dc-desc code { background:#1e1f22; padding:1px 4px; border-radius:3px; font-family:'Consolas',monospace; font-size:.85em; }
-        .dc-desc pre { background:#1e1f22; padding:8px; border-radius:4px; border:1px solid #232428; overflow-x:auto; margin:6px 0; }
-        .dc-desc blockquote { border-left:4px solid #4f545c; padding-left:12px; margin:6px 0; color:#dbdee1; }
         .dc-image { max-width:100%; border-radius:4px; margin-top:8px; display:block; }
         .dc-thumb { width:80px; height:80px; border-radius:4px; grid-column:2 / 3; grid-row:1 / 2; object-fit:cover; }
         .dc-emoji { width:20px; height:20px; vertical-align:-4px; }
         .dc-mention { background:rgba(88,101,242,.3); color:#c9cdfb; padding:0 2px; border-radius:3px; font-weight:500; }
-
-        /* ===== SELECT MENU ESTILO DISCORD ===== */
         .dc-select { margin-top: 10px; background: #1e1f22; border-radius: 4px; cursor: pointer; position: relative; user-select: none; }
         .dc-select-placeholder { padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; color: #949ba4; font-size: 14px; gap: 8px; }
         .dc-select-arrow { transition: transform .2s; font-size: 10px; color: #b5bac1; }
@@ -242,15 +217,11 @@
         .dc-select-option { padding: 8px 10px; border-radius: 3px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 8px; color: #dbdee1; font-size: 14px; transition: background .1s; }
         .dc-select-option:hover { background: #35373c; }
         .dc-select-option-desc { color: #949ba4; font-size: 12px; white-space: nowrap; }
-
-        /* ===== EMOJI PICKER ===== */
         #emoji-picker-box { display:none; position:absolute; z-index:100; top:100%; left:0; right:0; background:#2b2d31; border:1px solid #444; border-radius:8px; padding:12px; max-height:280px; overflow-y:auto; box-shadow:0 10px 30px rgba(0,0,0,.6); }
         #emoji-grid { display:grid; grid-template-columns:repeat(8,1fr); gap:6px; }
         .emoji-btn { background:#1e1f22; border:1px solid #333; border-radius:6px; padding:6px; cursor:pointer; transition:.15s; }
         .emoji-btn:hover { background:#8b0000; }
         .emoji-btn img { width:100%; height:auto; display:block; }
-
-        /* ===== EDITOR DE MENUS ===== */
         .menu-editor-item { background:rgba(20,20,20,.95); border-radius:12px; margin-bottom:14px; border-left:5px solid var(--primary-red); overflow:hidden; transition:.3s; }
         .menu-editor-item:hover { box-shadow:0 4px 20px rgba(139,0,0,.3); }
         .menu-editor-header { display:flex; justify-content:space-between; align-items:center; padding:15px 20px; cursor:pointer; gap:15px; }
@@ -269,18 +240,18 @@
         .opcao-row { display:grid; grid-template-columns:1fr 1fr 1fr auto; gap:8px; align-items:center; }
         .opcao-row input { font-size:.85rem; padding:8px 10px; }
         .opcao-row .btn-remover { background:#cc0000; color:#fff; border:none; width:32px; height:32px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:1rem; }
-        .opcao-row .btn-remover:hover { background:#ff0000; transform:scale(1.1); }
         .btn-add-opcao { background:#333; color:#fff; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; font-weight:600; font-size:.85rem; margin-top:8px; }
-        .btn-add-opcao:hover { background:#444; }
         .menu-editor-actions { display:flex; gap:10px; margin-top:20px; padding-top:15px; border-top:1px solid rgba(255,255,255,.08); }
-        .btn-guardar-menu { flex:2; background:linear-gradient(135deg,#00aa00,#00cc00); color:#fff; border:none; padding:12px; border-radius:8px; font-weight:700; cursor:pointer; transition:.3s; }
+        .btn-guardar-menu { flex:1; background:linear-gradient(135deg,#00aa00,#00cc00); color:#fff; border:none; padding:12px; border-radius:8px; font-weight:700; cursor:pointer; transition:.3s; }
         .btn-guardar-menu:hover { transform:translateY(-2px); box-shadow:0 5px 20px rgba(0,200,0,.4); }
         .btn-guardar-menu:disabled { opacity:.6; cursor:not-allowed; }
+        .btn-reenviar-menu { flex:1; background:linear-gradient(135deg,#0066cc,#0088ff); color:#fff; border:none; padding:12px; border-radius:8px; font-weight:700; cursor:pointer; transition:.3s; }
+        .btn-reenviar-menu:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 5px 20px rgba(0,120,255,.4); }
+        .btn-reenviar-menu:disabled { opacity:.6; cursor:not-allowed; }
         .preview-mini { display:grid; grid-template-columns:100px 1fr; gap:15px; margin-bottom:15px; align-items:start; }
         .preview-mini img { max-width:100px; border-radius:6px; border:1px solid #333; }
         @media (max-width: 768px) { .opcao-row { grid-template-columns:1fr; } .preview-mini { grid-template-columns:1fr; } }
     </style>
-
     <base target="_blank">
 </head>
 <body>
@@ -292,18 +263,10 @@
         .dc-embed-inner.has-thumb { grid-column:1 / 2; }
         .dc-title { color:#f2f3f5; font-size:16px; font-weight:600; margin-bottom:4px; }
         .dc-desc { color:#dbdee1; font-size:14px; white-space:pre-wrap; word-wrap:break-word; }
-        .dc-desc h1 { font-size:1.5em; margin:8px 0 4px; color:#f2f3f5; }
-        .dc-desc h2 { font-size:1.25em; margin:8px 0 4px; color:#f2f3f5; }
-        .dc-desc h3 { font-size:1.1em; margin:8px 0 4px; color:#f2f3f5; }
-        .dc-desc a { color:#00a8fc; text-decoration:none; }
-        .dc-desc code { background:#1e1f22; padding:1px 4px; border-radius:3px; font-family:'Consolas',monospace; font-size:.85em; }
-        .dc-desc pre { background:#1e1f22; padding:8px; border-radius:4px; border:1px solid #232428; overflow-x:auto; margin:6px 0; }
-        .dc-desc blockquote { border-left:4px solid #4f545c; padding-left:12px; margin:6px 0; color:#dbdee1; }
         .dc-image { max-width:100%; border-radius:4px; margin-top:8px; display:block; }
         .dc-thumb { width:80px; height:80px; border-radius:4px; grid-column:2 / 3; grid-row:1 / 2; object-fit:cover; }
         .dc-emoji { width:20px; height:20px; vertical-align:-4px; }
         .dc-mention { background:rgba(88,101,242,.3); color:#c9cdfb; padding:0 2px; border-radius:3px; font-weight:500; }
-
         .dc-select { margin-top: 10px; background: #1e1f22; border-radius: 4px; cursor: pointer; position: relative; user-select: none; }
         .dc-select-placeholder { padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; color: #949ba4; font-size: 14px; gap: 8px; }
         .dc-select-arrow { transition: transform .2s; font-size: 10px; color: #b5bac1; }
@@ -328,9 +291,9 @@
     <div class="overlay"></div>
 
     <header>
-        <button type="button" onclick="location.reload()" class="logo-link">Jordan Shop | Staff</button>
+        <button type="button" onclick="location.href = 'loja.html?t=' + Date.now()" class="logo-link">Jordan Shop | Staff</button>
         <div class="refresh-container">
-            <button type="button" class="refresh-btn" onclick="atualizarPagina()" title="Atualizar página">
+            <button type="button" class="refresh-btn" onclick="atualizarPagina()" title="Recarregar página">
                 <span id="refreshIcon">🔄</span> Atualizar
             </button>
             <div class="user-tag">
@@ -358,7 +321,6 @@
             <!-- ===== DASHBOARD ===== -->
             <div id="welcome-section" class="content-div active">
                 <h1 id="main-welcome" style="font-size:2rem; margin-bottom:20px; text-align:center;">Bem-Vindo</h1>
-
                 <div class="dashboard-grid">
                     <div class="kpi-card">
                         <div class="kpi-label">💶 Vendas (Este Mês)</div>
@@ -381,7 +343,6 @@
                         <div class="kpi-sub">API do bot</div>
                     </div>
                 </div>
-
                 <div class="dashboard-row">
                     <div class="chart-box">
                         <h3>📈 Volume de Vendas (últimos 30 dias)</h3>
@@ -391,7 +352,6 @@
                         <h3>⚡ Atalhos Rápidos</h3>
                     </div>
                 </div>
-
                 <div class="activity-section">
                     <div class="recent-activity">
                         <h3>🕒 Atividade Recente</h3>
@@ -447,12 +407,6 @@
                     <div style="margin-bottom:15px;">
                         <label class="form-label">📝 Descrição / Mensagem</label>
                         <textarea id="emb-desc" class="form-textarea" placeholder="Ex: Bem-vindo à Jordan Shop!&#10;Clica no menu abaixo para abrir um ticket."></textarea>
-                        <small style="color:#888; font-size:0.75rem;">
-                            <strong>Formatação:</strong>
-                            <code>**negrito**</code>, <code>*itálico*</code>, <code>__sublinhado__</code>, <code>~~riscado~~</code>,
-                            <code># Título</code>, <code>## Subtítulo</code>, <code>### Sub-subtítulo</code>.<br>
-                            <strong>Emojis personalizados:</strong> usa o formato <code>&lt;:nome:id&gt;</code>.
-                        </small>
                     </div>
                     <div style="margin-bottom:15px;">
                         <label class="form-label">🖼️ Imagem (opcional)</label>
@@ -468,49 +422,38 @@
                             </div>
                         </div>
                     </div>
-
                     <div style="position:relative; margin-bottom:15px;">
                         <label class="form-label">😀 Emojis do Servidor</label>
                         <button type="button" onclick="toggleEmojiPicker()" class="btn-preview" style="width:100%; margin-bottom:10px;">😀 Abrir Emojis do Servidor</button>
                         <div id="emoji-picker-box">
                             <input type="text" class="form-input" placeholder="🔍 Pesquisar emoji..." oninput="filtrarEmojis(this.value)" style="margin-bottom:10px;">
-                            <div id="emoji-grid">
-                                <div style="grid-column:1/-1; text-align:center; color:#888; padding:20px;">A carregar emojis...</div>
-                            </div>
+                            <div id="emoji-grid"><div style="grid-column:1/-1;text-align:center;color:#888;padding:20px;">A carregar emojis...</div></div>
                         </div>
                     </div>
-
                     <div style="margin-bottom:20px;">
                         <label class="form-label">📦 Produtos / Opções do Menu</label>
-                        <small style="color:#888; font-size:0.75rem; display:block; margin-bottom:8px;">
-                            Estes produtos aparecem no preview como um <strong>Select Menu do Discord</strong> (clicável).
-                        </small>
                         <div id="container-produtos"></div>
                         <button type="button" onclick="addInputProduto()" class="btn-add">+ Adicionar Opção</button>
                     </div>
-
                     <div style="margin-bottom:20px;">
                         <label class="form-label">🌈 Cor do Embed (Hex)</label>
                         <input type="text" id="emb-cor" class="form-input" style="width:150px;" value="#FF0000">
                     </div>
-
                     <div style="display:flex; gap:10px; margin-top:10px;">
                         <button type="button" onclick="previsualizarEmbed()" class="btn-preview" style="flex:1;">👁️ Pré-visualizar</button>
                         <button type="button" id="btn-env-emb" onclick="enviarEmbed()" class="btn-enviar" style="flex:2;">🚀 ENVIAR VIA BOT</button>
                     </div>
-
                     <div id="preview-box" class="preview-box">
                         <h4 style="color:#ddd; margin-bottom:10px;">📋 Pré-visualização do Embed</h4>
                         <iframe id="preview-iframe" srcdoc="<html><body style='background:#313338;color:#fff;font-family:sans-serif;display:flex;justify-content:center;align-items:center;height:100%;margin:0;'><p style='color:#888;'>Preenche os campos e clica em 'Pré-visualizar'</p></body></html>"></iframe>
                     </div>
-                    <p class="info-text">ℹ️ O bot vai enviar o embed diretamente para o canal indicado.</p>
                 </div>
             </div>
 
             <!-- ===== EDITAR MENUS ===== -->
             <div id="menus-section" class="content-div">
                 <h1>📝 Editar Menus</h1>
-                <p class="subtitulo">Altera títulos, descrições, preços, imagens e opções. Aplica no bot em segundos.</p>
+                <p class="subtitulo">Altera títulos, descrições, preços, imagens e opções.</p>
                 <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
                     <button type="button" class="refresh-btn" onclick="carregarMenus()">🔄 Recarregar</button>
                     <button type="button" class="refresh-btn" onclick="expandirTodos()">⬇️ Expandir Todos</button>
@@ -626,20 +569,30 @@
                 block.classList.remove('active');
                 document.querySelector('header').style.display = 'flex';
                 document.querySelector('.container').style.display = 'flex';
-                document.getElementById('main-welcome').innerText = "Bem-Vindo, " + sessao;
                 atualizarSaudacao();
             }
         })();
 
-function atualizarSaudacao() {
-    const nome = localStorage.getItem('staff_sessao') || 'Staff';
-    const hora = new Date().getHours();
-    let saudacao = 'Olá';
-    if (hora >= 6 && hora < 13) saudacao = 'Bom dia';
-    else if (hora >= 13 && hora < 19) saudacao = 'Boa tarde';
-    else saudacao = 'Boa noite';
-    document.getElementById('nav-username').innerText = `${saudacao}, ${nome}`;
-}
+        function atualizarSaudacao() {
+            const nome = localStorage.getItem('staff_sessao') || 'Staff';
+            const hora = new Date().getHours();
+            let saudacao = 'Olá';
+            if (hora >= 6 && hora < 13) saudacao = 'Bom dia';
+            else if (hora >= 13 && hora < 19) saudacao = 'Boa tarde';
+            else saudacao = 'Boa noite';
+
+            document.getElementById('nav-username').innerText = `${saudacao}, ${nome}`;
+
+            const mainWelcome = document.getElementById('main-welcome');
+            if (mainWelcome) {
+                const dataStr = new Date().toLocaleDateString('pt-PT', {
+                    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+                });
+                mainWelcome.innerHTML =
+                    `${saudacao}, <span style="color:#ff5555;">${escapeHtml(nome)}</span> 👋` +
+                    `<br><small style="font-size:.85rem;color:#888;font-weight:400;text-transform:capitalize;">${escapeHtml(dataStr)}</small>`;
+            }
+        }
         setInterval(atualizarSaudacao, 60000);
 
         // =============================================================
@@ -668,11 +621,14 @@ function atualizarSaudacao() {
             if (id === 'vendas-section') carregarVendas();
         }
 
+        // ✅ REFRESH = reload completo com cache bust
         function atualizarPagina() {
             const btn = document.querySelector('.refresh-btn');
             btn.classList.add('spinning');
             btn.disabled = true;
-            setTimeout(() => window.location.reload(), 800);
+            setTimeout(() => {
+                window.location.href = window.location.pathname + '?t=' + Date.now();
+            }, 400);
         }
 
         function filtrarMenu() {
@@ -709,7 +665,7 @@ function atualizarSaudacao() {
 
             let botOnline = false;
             try {
-                const r = await fetch('/api/stats', { cache: 'no-store' });
+                const r = await fetch('/api/stats?t=' + Date.now(), { cache: 'no-store' });
                 botOnline = r.ok;
             } catch {}
             kpiStatusBot.innerHTML = botOnline
@@ -717,7 +673,7 @@ function atualizarSaudacao() {
                 : `<span class="status-dot offline"></span> Offline`;
 
             try {
-                const vendas = await fetch('/api/vendas?periodo=mensal', { cache: 'no-store' })
+                const vendas = await fetch('/api/vendas?periodo=mensal&t=' + Date.now(), { cache: 'no-store' })
                     .then(r => r.json()).catch(() => ({}));
 
                 const total = Number(vendas.totalPeriodo || 0);
@@ -733,7 +689,7 @@ function atualizarSaudacao() {
             }
 
             try {
-                const logs = await fetch('/api/list-transcripts', { cache: 'no-store' })
+                const logs = await fetch('/api/list-transcripts?t=' + Date.now(), { cache: 'no-store' })
                     .then(r => r.json());
 
                 const lista = Array.isArray(logs) ? logs : [];
@@ -809,7 +765,7 @@ function atualizarSaudacao() {
             if (!container) return;
             container.innerHTML = '<div style="color:#666;padding:15px;text-align:center;">A carregar…</div>';
             try {
-                const logs = await fetch('/api/list-transcripts', { cache: 'no-store' }).then(r => r.json());
+                const logs = await fetch('/api/list-transcripts?t=' + Date.now(), { cache: 'no-store' }).then(r => r.json());
                 const recentes = (Array.isArray(logs) ? logs : []).slice(0, 5);
                 if (!recentes.length) {
                     container.innerHTML = '<div style="color:#666;padding:20px;text-align:center;">Sem atividades recentes.</div>';
@@ -916,7 +872,7 @@ function atualizarSaudacao() {
             const subtitulo = document.getElementById('subtitulo');
             const container = document.getElementById('lista-transcripts');
             try {
-                const response = await fetch('/api/list-transcripts', { cache: 'no-store' });
+                const response = await fetch('/api/list-transcripts?t=' + Date.now(), { cache: 'no-store' });
                 if (!response.ok) throw new Error('Erro na resposta');
                 const logs = await response.json();
                 todosTranscripts = logs;
@@ -1022,7 +978,6 @@ function atualizarSaudacao() {
         function formatarMarkdown(text) {
             if (!text) return '';
             let html = escapeHtml(text);
-
             html = html.replace(/&lt;(a?):([a-zA-Z0-9_]+):(\d+)&gt;/g, (m, anim, nome, id) => {
                 const ext = anim ? 'gif' : 'png';
                 return `<img class="dc-emoji" src="https://cdn.discordapp.com/emojis/${id}.${ext}" alt=":${nome}:" title=":${nome}:">`;
@@ -1030,15 +985,12 @@ function atualizarSaudacao() {
             html = html.replace(/&lt;@!?(\d+)&gt;/g, '<span class="dc-mention">@user</span>');
             html = html.replace(/&lt;#(\d+)&gt;/g, '<span class="dc-mention">#canal</span>');
             html = html.replace(/&lt;@&(\d+)&gt;/g, '<span class="dc-mention">@cargo</span>');
-
             html = html.replace(/```([\s\S]*?)```/g, (m, code) => `<pre><code>${code.trim()}</code></pre>`);
             html = html.replace(/`([^`\n]+)`/g, '<code>$1</code>');
-
             html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
             html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
             html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
             html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
-
             html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
             html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
             html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
@@ -1046,7 +998,6 @@ function atualizarSaudacao() {
             html = html.replace(/_(.+?)_/g, '<em>$1</em>');
             html = html.replace(/~~(.+?)~~/g, '<s>$1</s>');
             html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
-
             const parts = html.split(/(<pre>[\s\S]*?<\/pre>|<blockquote>[\s\S]*?<\/blockquote>)/);
             html = parts.map(p => /^<(pre|blockquote)>/.test(p) ? p : p.replace(/\n/g, '<br>')).join('');
             return html;
@@ -1080,10 +1031,7 @@ function atualizarSaudacao() {
 
             if (produtos.length) {
                 html += `<div class="dc-select">
-                    <div class="dc-select-placeholder">
-                        <span>Selecione uma opção</span>
-                        <span class="dc-select-arrow">▼</span>
-                    </div>
+                    <div class="dc-select-placeholder"><span>Selecione uma opção</span><span class="dc-select-arrow">▼</span></div>
                     <div class="dc-select-menu">
                         ${produtos.map(p => `
                             <div class="dc-select-option">
@@ -1106,18 +1054,12 @@ function atualizarSaudacao() {
             <script>
                 document.addEventListener('click', function(e) {
                     var sel = e.target.closest('.dc-select');
-                    document.querySelectorAll('.dc-select.open').forEach(function(s) {
-                        if (s !== sel) s.classList.remove('open');
-                    });
+                    document.querySelectorAll('.dc-select.open').forEach(function(s) { if (s !== sel) s.classList.remove('open'); });
                     if (!sel) return;
-                    if (e.target.closest('.dc-select-option')) {
-                        sel.classList.remove('open');
-                        return;
-                    }
+                    if (e.target.closest('.dc-select-option')) { sel.classList.remove('open'); return; }
                     sel.classList.toggle('open');
                 });
-            <\/script>
-            </body></html>`;
+            <\/script></body></html>`;
             document.getElementById('preview-box').classList.add('show');
         }
 
@@ -1130,15 +1072,13 @@ function atualizarSaudacao() {
             const urlImagem = document.getElementById('emb-imagem').value.trim();
             const btn = document.getElementById('btn-env-emb');
 
-            if (!canalId) { alert("⚠️ Por favor, insere o ID do canal!"); return; }
-            if (!titulo || !desc) { alert("⚠️ Por favor, preenche o título e a descrição!"); return; }
+            if (!canalId) { alert("⚠️ Insere o ID do canal!"); return; }
+            if (!titulo || !desc) { alert("⚠️ Preenche título e descrição!"); return; }
 
             const nomes = document.querySelectorAll('.p-nome');
             const precos = document.querySelectorAll('.p-preco');
             let produtos = [];
-            nomes.forEach((n, i) => {
-                if (n.value.trim()) produtos.push({ nome: n.value.trim(), preco: precos[i].value.trim() || "N/A" });
-            });
+            nomes.forEach((n, i) => { if (n.value.trim()) produtos.push({ nome: n.value.trim(), preco: precos[i].value.trim() || "N/A" }); });
 
             btn.innerText = "⏳ A ENVIAR...";
             btn.disabled = true;
@@ -1147,11 +1087,7 @@ function atualizarSaudacao() {
                 const response = await fetch('/api/enviar-embed', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        titulo, desc, cor, canalId, produtos,
-                        imagem: urlImagem || '',
-                        tipoImagem: urlImagem ? tipoImagem : 'none'
-                    })
+                    body: JSON.stringify({ titulo, desc, cor, canalId, produtos, imagem: urlImagem || '', tipoImagem: urlImagem ? tipoImagem : 'none' })
                 });
                 const text = await response.text();
                 if (!response.ok) throw new Error(`HTTP ${response.status} — ${text.slice(0, 120)}`);
@@ -1164,8 +1100,7 @@ function atualizarSaudacao() {
                 addInputProduto();
                 document.getElementById('preview-box').classList.remove('show');
             } catch (e) {
-                console.error(e);
-                alert("❌ Erro ao enviar: " + e.message);
+                alert("❌ Erro: " + e.message);
             } finally {
                 btn.innerText = "🚀 ENVIAR VIA BOT";
                 btn.disabled = false;
@@ -1182,13 +1117,13 @@ function atualizarSaudacao() {
             const container = document.getElementById('vendas-lista');
             container.innerHTML = '<div class="sem-resultados">⏳ A carregar vendas...</div>';
             try {
-                const r = await fetch('/api/vendas');
+                const r = await fetch('/api/vendas?t=' + Date.now(), { cache: 'no-store' });
                 const data = await r.json();
                 if (!data.success) throw new Error(data.error || 'Erro ao carregar');
                 todasVendas = data.vendas || [];
                 renderVendas(todasVendas);
             } catch (err) {
-                container.innerHTML = `<div class="sem-resultados">❌ ${err.message}<br><small style="color:#888;">O bot pode estar offline.</small></div>`;
+                container.innerHTML = `<div class="sem-resultados">❌ ${err.message}</div>`;
             }
         }
 
@@ -1208,7 +1143,7 @@ function atualizarSaudacao() {
                             📦 Produto: ${escapeHtml(v.produto)}<br>
                             💰 Preço: ${escapeHtml(v.preco)}<br>
                             🛡️ Staff: ${escapeHtml(v.staff)}
-                            ${v.registrado_por || v.registradoPor ? `<br><small style="color:#666;">Registado por: ${escapeHtml(v.registrado_por || v.registradoPor)}</small>` : ''}
+                            ${v.registrado_por ? `<br><small style="color:#666;">Registado por: ${escapeHtml(v.registrado_por)}</small>` : ''}
                         </span>
                     </div>
                     <span class="status-badge" style="${badgeStyle}">${escapeHtml((v.duracao || 'N/A').toUpperCase())}</span>
@@ -1292,9 +1227,7 @@ function atualizarSaudacao() {
                     });
                     const data = await r.json();
                     if (!data.success) console.warn('Backend não guardou:', data.error);
-                } catch (err) {
-                    console.warn('Erro ao guardar no backend:', err);
-                }
+                } catch (err) { console.warn('Erro backend:', err); }
 
                 todasVendas.unshift(vendaData);
                 renderVendas(todasVendas);
@@ -1303,8 +1236,8 @@ function atualizarSaudacao() {
                     try {
                         await enviarVendaDiscord(vendaData);
                         mostrarToast('Venda registada e enviada ao Discord! ✅', 'success');
-                    } catch (discordError) {
-                        mostrarToast('Venda registada! ⚠️ Discord: ' + discordError.message, 'success');
+                    } catch (de) {
+                        mostrarToast('Venda registada! ⚠️ Discord: ' + de.message, 'success');
                     }
                 } else {
                     mostrarToast('Venda registada com sucesso! ✅', 'success');
@@ -1338,8 +1271,7 @@ function atualizarSaudacao() {
                 await fetch(DISCORD_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), mode: 'no-cors' });
                 await new Promise(resolve => setTimeout(resolve, 500));
                 return;
-            } catch (e) { console.warn('Fetch falhou, a tentar com XHR...', e); }
-
+            } catch (e) {}
             return new Promise((resolve, reject) => {
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', DISCORD_WEBHOOK_URL, true);
@@ -1366,7 +1298,7 @@ function atualizarSaudacao() {
                     renderEmojis(emojisServidor);
                     return;
                 }
-                const r = await fetch('/api/emojis');
+                const r = await fetch('/api/emojis?t=' + Date.now(), { cache: 'no-store' });
                 const data = await r.json();
                 if (data.success) {
                     emojisServidor = data.emojis;
@@ -1375,7 +1307,7 @@ function atualizarSaudacao() {
                     renderEmojis(emojisServidor);
                 } else throw new Error(data.error);
             } catch (err) {
-                grid.innerHTML = `<div style="grid-column:1/-1;color:#f88;text-align:center;padding:20px;">❌ ${escapeHtml(err.message)}<br><small style="color:#888;">O bot pode estar offline.</small></div>`;
+                grid.innerHTML = `<div style="grid-column:1/-1;color:#f88;text-align:center;padding:20px;">❌ ${escapeHtml(err.message)}</div>`;
             }
         }
 
@@ -1426,7 +1358,7 @@ function atualizarSaudacao() {
             const container = document.getElementById('menus-lista');
             container.innerHTML = '<div class="sem-resultados">⏳ A carregar menus...</div>';
             try {
-                const r = await fetch('/api/menus');
+                const r = await fetch('/api/menus?t=' + Date.now(), { cache: 'no-store' });
                 const data = await r.json();
                 if (!data.success) throw new Error(data.error);
                 menusCache = data.menus || [];
@@ -1506,6 +1438,7 @@ function atualizarSaudacao() {
                         </div>
                         <div class="menu-editor-actions">
                             <button type="button" class="btn-guardar-menu" onclick="guardarMenuCompleto('${m.id}', this)">💾 Guardar Alterações</button>
+                            <button type="button" class="btn-reenviar-menu" onclick="reenviarMenu('${m.id}', this)">📤 Reenviar no Discord</button>
                         </div>
                     </div>
                 </div>`;
@@ -1614,6 +1547,35 @@ function atualizarSaudacao() {
                 }
             } catch (err) {
                 mostrarToast('❌ Erro: ' + err.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = orig;
+            }
+        }
+
+        // ✅ Reenviar: guarda 1º e depois pede ao bot para apagar + reenviar
+        async function reenviarMenu(menuId, btn) {
+            const orig = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = '⏳ A reenviar...';
+
+            try {
+                // 1. Guarda alterações no Supabase
+                const guardarBtn = btn.parentElement.querySelector('.btn-guardar-menu');
+                await guardarMenuCompleto(menuId, guardarBtn);
+
+                // 2. Pede ao bot para apagar antigo + reenviar
+                const r = await fetch('/api/menus', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'reenviar', id: menuId })
+                });
+                const data = await r.json();
+                if (!data.success) throw new Error(data.error || 'Erro ao reenviar');
+
+                mostrarToast('✅ Menu reenviado no Discord!', 'success');
+            } catch (err) {
+                mostrarToast('❌ ' + err.message, 'error');
             } finally {
                 btn.disabled = false;
                 btn.textContent = orig;
