@@ -1656,7 +1656,7 @@
             renderTickets();
         }
 
-        function renderTickets() {
+                function renderTickets() {
             const container = document.getElementById('tickets-lista');
             let lista = todosTickets;
             if (filtroTickets !== 'todos') {
@@ -1699,6 +1699,7 @@
                         <strong>👤 ${escapeHtml(cliente)} — 📦 ${escapeHtml(produto)}</strong>
                         <span>
                             💳 Método: ${escapeHtml(metodo)}<br>
+                            📜 Termos: ${t.termos_aceitos ? '✅ Aceites' : '❌ Não aceites'}${t.termos_aceitos_em ? ` (${formatarData2(t.termos_aceitos_em)})` : ''}<br>
                             🕒 Criado: ${formatarData2(t.criado_em)}${extra}
                         </span>
                     </div>
