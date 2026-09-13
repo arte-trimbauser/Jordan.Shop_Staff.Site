@@ -1102,48 +1102,104 @@
         }
 
         async function enviarEmbed() {
-            const canalId = document.getElementById('emb-canal').value.trim();
-            const titulo = document.getElementById('emb-titulo').value.trim();
-            const desc = document.getElementById('emb-desc').value.trim();
-            const cor = document.getElementById('emb-cor').value;
-            const tipoImagem = document.getElementById('emb-tipo-imagem').value;
-            const urlImagem = document.getElementById('emb-imagem').value.trim();
-            const btn = document.getElementById('btn-env-emb');
+    const canalId    = document.getElementById('emb-canal').value.trim();
+    const titulo     = document.getElementById('emb-titulo').value.trim();
+    const desc       = document.getElementById('emb-desc').value.trim();
+    const cor        = document.getElementById('emb-cor').value;
+    const tipoImagem = document.getElementById('emb-tipo-imagem').value;
+    const urlImagem  = document.getElementById('emb-imagem').value.trim();
+    const btn        = document.getElementById('btn-env-emb');
 
-            if (!canalId) { alert("⚠️ Insere o ID do canal!"); return; }
-            if (!titulo || !desc) { alert("⚠️ Preenche título e descrição!"); return; }
+    if (!canalId)      { alert("⚠️ Insere o ID do canal!"); return; }
+    if (!titulo || !desc) { alert("⚠️ Preenche título e descrição!"); return; }
 
-            const nomes = document.querySelectorAll('.p-nome');
-            const precos = document.querySelectorAll('.p-preco');
-            let produtos = [];
-            nomes.forEach((n, i) => { if (n.value.trim()) produtos.push({ nome: n.value.trim(), preco: precos[i].value.trim() || "N/A" }); });
+    const nomes  = document.querySelectorAll('.p-nome');
+    const precos = document.querySelectorAll('.p-preco');
 
-            btn.innerText = "⏳ A ENVIAR...";
-            btn.disabled = true;
+    // ---- Recolher + normalizar + detetar duplicados ----
+    const produtos    = [];
+    const vistos      = new Map();     // chave normalizada -> nome original
+    const duplicados  = [];
 
-            try {
-                const response = await fetch('/api/enviar-embed', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ titulo, desc, cor, canalId, produtos, imagem: urlImagem || '', tipoImagem: urlImagem ? tipoImagem : 'none' })
-                });
-                const text = await response.text();
-                if (!response.ok) throw new Error(`HTTP ${response.status} — ${text.slice(0, 120)}`);
-                alert("✅ " + text);
-                document.getElementById('emb-canal').value = '';
-                document.getElementById('emb-titulo').value = '';
-                document.getElementById('emb-desc').value = '';
-                document.getElementById('emb-imagem').value = '';
-                document.getElementById('container-produtos').innerHTML = '';
-                addInputProduto();
-                document.getElementById('preview-box').classList.remove('show');
-            } catch (e) {
-                alert("❌ Erro: " + e.message);
-            } finally {
-                btn.innerText = "🚀 ENVIAR VIA BOT";
-                btn.disabled = false;
-            }
+    nomes.forEach((n, i) => {
+        const nome = (n.value || '').trim();
+        if (!nome) return;
+
+        // Mesma normalização que o bot costuma aplicar ao gerar o `value`
+        const chave = nome
+            .toLowerCase()
+            .replace(/\s+/g, ' ')      // colapsa espaços
+            .replace(/[^\w\s-]/g, '')  // remove símbolos (emoji, acentos, etc.)
+            .trim();
+
+        if (vistos.has(chave)) {
+            duplicados.push(`"${nome}" (igual a "${vistos.get(chave)}")`);
+            return;
         }
+        vistos.set(chave, nome);
+
+        produtos.push({
+            nome,
+            preco: (precos[i]?.value || '').trim() || 'N/A'
+        });
+    });
+
+    if (duplicados.length) {
+        alert(
+            "⚠️ Opções duplicadas detetadas — o Discord rejeita `value` repetidos.\n\n" +
+            duplicados.map(d => '• ' + d).join('\n') +
+            "\n\n💡 Dica: se quiseres o mesmo produto duas vezes (ex: preços diferentes), " +
+            "acrescenta um sufixo único, como `Shark (1 mês)` e `Shark (lifetime)`."
+        );
+        return;
+    }
+
+    if (!produtos.length) { alert("⚠️ Adiciona pelo menos uma opção ao menu!"); return; }
+
+    // Limites do Discord
+    const MAX_OPTIONS = 25;
+    if (produtos.length > MAX_OPTIONS) {
+        alert(`⚠️ O Discord só permite ${MAX_OPTIONS} opções por select menu. Tens ${produtos.length}.`);
+        return;
+    }
+    const longos = produtos.filter(p => p.nome.length > 100);
+    if (longos.length) {
+        alert("⚠️ Estes nomes excedem 100 caracteres (limite do Discord):\n\n" +
+              longos.map(p => '• ' + p.nome.slice(0, 60) + '…').join('\n'));
+        return;
+    }
+
+    btn.innerText = "⏳ A ENVIAR...";
+    btn.disabled  = true;
+
+    try {
+        const response = await fetch('/api/enviar-embed', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                titulo, desc, cor, canalId, produtos,
+                imagem: urlImagem || '',
+                tipoImagem: urlImagem ? tipoImagem : 'none'
+            })
+        });
+        const text = await response.text();
+        if (!response.ok) throw new Error(`HTTP ${response.status} — ${text.slice(0, 200)}`);
+
+        alert("✅ " + text);
+        document.getElementById('emb-canal').value = '';
+        document.getElementById('emb-titulo').value = '';
+        document.getElementById('emb-desc').value = '';
+        document.getElementById('emb-imagem').value = '';
+        document.getElementById('container-produtos').innerHTML = '';
+        addInputProduto();
+        document.getElementById('preview-box').classList.remove('show');
+    } catch (e) {
+        alert("❌ Erro: " + e.message);
+    } finally {
+        btn.innerText = "🚀 ENVIAR VIA BOT";
+        btn.disabled  = false;
+    }
+}
 
         // =============================================================
         // 6. VENDAS
